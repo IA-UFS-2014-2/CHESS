@@ -20,18 +20,18 @@ import model.Position;
  *
  * @author newen
  */
-public class Rook extends Piece {
+public class Torre extends Piece {
     
     /* rook attributes */
     boolean notMovedYet;
     
     /** Creates a new instance of Pawn */
-    public Rook(Color cor) {
+    public Torre(Color cor) {
         super("Rook",cor);
     }
     
     /** Creates a new instance of Pawn */
-    public Rook(Color cor, Position pos) {
+    public Torre(Color cor, Position pos) {
         super("Rook",cor,pos);
         this.setNotMovedYet(true);
     }
@@ -46,8 +46,8 @@ public class Rook extends Piece {
     
     
     /**
-     *  Retorna a relacão de posições(caminho) a
-     * serem percorridas para alcançar o destino
+     *  Retorna a relacï¿½o de posiï¿½ï¿½es(caminho) a
+     * serem percorridas para alcanï¿½ar o destino
      */
     public ArrayList <Position> getPath(Position destino){
         ArrayList <Position> path = null;

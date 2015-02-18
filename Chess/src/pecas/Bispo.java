@@ -20,15 +20,15 @@ import model.Position;
  *
  * @author newen
  */
-public class Bishop extends Piece {
+public class Bispo extends Piece {
     
     /** Creates a new instance of Pawn */
-    public Bishop(Color cor) {
+    public Bispo(Color cor) {
         super("Bishop",cor);
     }
     
     /** Creates a new instance of Pawn */
-    public Bishop(Color cor, Position pos) {
+    public Bispo(Color cor, Position pos) {
         super("Bishop",cor,pos);
     }
     
@@ -47,8 +47,8 @@ public class Bishop extends Piece {
     
     
     /**
-     *  Retorna a relacão de posições(caminho) a
-     * serem percorridas para alcançar o destino
+     *  Retorna a relacï¿½o de posiï¿½ï¿½es(caminho) a
+     * serem percorridas para alcanï¿½ar o destino
      */
     public ArrayList <Position> getPath(Position destino) {
         
@@ -65,7 +65,7 @@ public class Bishop extends Piece {
             if (c1 == c2) {
                 int l = Math.abs(destino.getX()-posicaoAtual.getX());
                 int m = Math.abs(destino.getY()-posicaoAtual.getY());
-                /* verifica se é um deslocamento em diagonal */
+                /* verifica se ï¿½ um deslocamento em diagonal */
                 if (l == m) {
                     /* - a cada casa q o bispo anda em X, deve andar uma  em Y, seguindo um offset */
                     int offsetX = 1;

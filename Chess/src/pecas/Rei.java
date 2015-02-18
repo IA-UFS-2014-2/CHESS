@@ -20,18 +20,18 @@ import model.Position;
  *
  * @author newen
  */
-public class King extends Piece {
+public class Rei extends Piece {
     
     /* king attributes */
     boolean notMovedYet;
     
     /** Creates a new instance of King */
-    public King(Color cor) {
+    public Rei(Color cor) {
         super("King",cor);
     }
     
     /** Creates a new instance of King */
-    public King(Color cor, Position pos) {
+    public Rei(Color cor, Position pos) {
         super("King",cor,pos);
         this.setNotMovedYet(true);
     }
@@ -45,8 +45,8 @@ public class King extends Piece {
     }
     
     /**
-     *  Retorna a relacão de posições(caminho) a
-     * serem percorridas para alcançar o destino
+     *  Retorna a relacï¿½o de posiï¿½ï¿½es(caminho) a
+     * serem percorridas para alcanï¿½ar o destino
      */
     public ArrayList <Position> getPath(Position destino,Chess chess){
         ArrayList <Position> path = null;
@@ -56,8 +56,8 @@ public class King extends Piece {
             Board board = chess.getBoard();
             Position roque2;
             Position roque1;
-            Rook torre1 = null;
-            Rook torre2 = null;
+            Torre torre1 = null;
+            Torre torre2 = null;
             Color corRei = this.getColor();
             int offset;
             Piece pi;
@@ -65,21 +65,21 @@ public class King extends Piece {
             /* verifica os pontos de roque, para pecas pretas e brancas */
             if (corRei == Color.WHITE) {
                 /* rei branco */
-                if ( (pi = board.getPieceAtPosition(new Position(7,7))) != null && pi instanceof Rook) {
-                    torre1 = (Rook) board.getPieceAtPosition(new Position(7,7));
+                if ( (pi = board.getPieceAtPosition(new Position(7,7))) != null && pi instanceof Torre) {
+                    torre1 = (Torre) board.getPieceAtPosition(new Position(7,7));
                 }
                 roque1 = new Position(7,6);
-                if ( (pi = board.getPieceAtPosition(new Position(7,0))) != null && pi instanceof Rook) {
-                    torre2 = (Rook) pi;
+                if ( (pi = board.getPieceAtPosition(new Position(7,0))) != null && pi instanceof Torre) {
+                    torre2 = (Torre) pi;
                 }
                 roque2 = new Position(7,2);
             } else { /* rei preto  */
-                if ( (pi = board.getPieceAtPosition(new Position(0,7))) != null && pi instanceof Rook) {
-                    torre1 = (Rook) pi;
+                if ( (pi = board.getPieceAtPosition(new Position(0,7))) != null && pi instanceof Torre) {
+                    torre1 = (Torre) pi;
                 }
                 roque1 = new Position(0,6);
-                if ( (pi = board.getPieceAtPosition(new Position(0,0))) != null && pi instanceof Rook) {
-                    torre2 = (Rook) pi;
+                if ( (pi = board.getPieceAtPosition(new Position(0,0))) != null && pi instanceof Torre) {
+                    torre2 = (Torre) pi;
                 }
                 roque2 = new Position(0,2);
             }
@@ -93,7 +93,7 @@ public class King extends Piece {
                 Board cloneBoard = board.getBoardClone();
                 
                 if ((destino.equals(roque1) && corRei == Color.WHITE)) {
-                    offset = 1; // vai mover p/ direita, pois é roque 1
+                    offset = 1; // vai mover p/ direita, pois ï¿½ roque 1
                     /* rei branco que fazer roque1 */
                     /* verifica se a torre1 n foi movida ainda */
                     if (torre1 != null && torre1.isNotMovedYet()) {

@@ -20,25 +20,25 @@ import model.Position;
  *
  * @author newen
  */
-public class Knight extends Piece {
+public class Cavalo extends Piece {
     
     /**
      * Creates a new instance of Knight
      */
-    public Knight(Color cor) {
+    public Cavalo(Color cor) {
         super("Knight",cor);
     }
     
     /**
      * Creates a new instance of Knight
      */
-    public Knight(Color cor, Position pos) {
+    public Cavalo(Color cor, Position pos) {
         super("Knight",cor,pos);
     }
     
     /**
-     *  Retorna a relacão de posições(caminho) a
-     * serem percorridas para alcançar o destino
+     *  Retorna a relacï¿½o de posiï¿½ï¿½es(caminho) a
+     * serem percorridas para alcanï¿½ar o destino
      */
     public ArrayList <Position> getPath(Position destino){
         

@@ -1,5 +1,5 @@
 /*
- * Pawn.java
+ * Peao.java
  *
  * Created on October 4, 2006, 8:49 PM
  *
@@ -20,19 +20,19 @@ import model.Board;
  *
  * @author newen
  */
-public class Pawn extends Piece {
+public class Peao extends Piece {
     
-    /* Pawn attributes */
+    /* Peao attributes */
     Position posicaoInicial; // atributo que guarda o local de criacao do peao
     // pois nesta posicao, ele pode pular 2 casas
     
     /** Creates a new instance of Pawn */
-    public Pawn(Color cor) {
+    public Peao(Color cor) {
         super("Pawn",cor);
     }
     
     /** Creates a new instance of Pawn */
-    public Pawn(Color cor, Position pos) {
+    public Peao(Color cor, Position pos) {
         super("Pawn",cor,pos);
         this.setPosicaoInicial(pos);
     }
@@ -43,8 +43,8 @@ public class Pawn extends Piece {
     }
     
     /**
-     *  Retorna a relacão de posições(caminho) a
-     * serem percorridas para alcançar o destino
+     *  Retorna a relacï¿½o de posiï¿½ï¿½es(caminho) a
+     * serem percorridas para alcanï¿½ar o destino
      */
     public ArrayList <Position> getPath(Position destino,Board board){
         
@@ -70,7 +70,7 @@ public class Pawn extends Piece {
                 /* movimento vertical, nao vai comer nenhuma peca */
                 if (posicaoAtual.equals(this.getPosicaoInicial())) {
                 /* ainda nao se moveu, pode entao pular 2 casas (se quiser), basta verificar se
-                 * a posicao destino é valida e adicionar no caminho */
+                 * a posicao destino ï¿½ valida e adicionar no caminho */
                     if (destino.getX() == posicaoAtual.getX()+(offset*2)) {
                         /* o jogador deseja pular 2 casas */
                         path = new ArrayList <Position>();
@@ -98,7 +98,7 @@ public class Pawn extends Piece {
                         
                     /* a posicao clicada (destino) esta 1 casa de offset em Y, entao
                      * tem q verificar se existe 1 peca de outra cor na posicao destino
-                     * caso contrario, n é possivel fazer o movimento, e path = null
+                     * caso contrario, n ï¿½ possivel fazer o movimento, e path = null
                      */
                         Piece adv;
                         if (((adv = board.getPieceAtPosition(destino)) != null)&&(adv.getColor() != this.getColor())) {
