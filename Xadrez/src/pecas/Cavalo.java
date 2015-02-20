@@ -10,6 +10,7 @@ package pecas;
  *
  * @author Anne
  */
-public class Cavalo {
+public class Cavalo
+{
     
 }
