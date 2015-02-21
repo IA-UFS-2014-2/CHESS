@@ -44,13 +44,17 @@ public class AIEngine {
 			moves = Chess.getAllMoves(board,color,true);
 		}
 		baseScore = new ScoringGenome(0);
+                
+                //Percorre toda a matriz do tabuleiro
 		for(int row=0;row<8;row++)
 			for(int col=0;col<8;col++) {
 				// Scans the entire board and computes scores for each pawn
+                                // Verifica para cada Square se este é nulo
 				if(board.isEmpty(row,col))continue;
 				Piece thisPiece = board.getPiece(row,col);
 				if(thisPiece.color==color) {
-					// Scores for your own pieces are positive
+                                     //Se a peça atual é da mesma cor que a do Agente
+					// As pontuações são positivas
 					if(thisPiece.type==Piece.PAWN) {
 						if(color)baseScore.pawnAdvancement+=(6-row);
 						else baseScore.pawnAdvancement+=(row-1);
@@ -58,7 +62,8 @@ public class AIEngine {
 					baseScore.pieceOwn[thisPiece.type]++;
 				}
 				else {
-					// Scores for enemy pieces are negative
+                                    //Se a peça pertence ao oponente
+					// A pontuação para peças inimigas são negativas
 					if(thisPiece.type==Piece.PAWN) {
 						if(!color)baseScore.pawnAdvancement-=(6-row);
 						else baseScore.pawnAdvancement-=(row-1);
