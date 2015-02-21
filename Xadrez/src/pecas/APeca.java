@@ -6,7 +6,7 @@ package pecas;
 */
 public abstract class APeca 
 {
-	private String nome;
+	private char nome;
 	private String cor;
 	private Posicao posicao_atual;
 	private boolean capturada;
@@ -16,19 +16,28 @@ public abstract class APeca
 	private int qtd_pecas_defesa;
 	private boolean vazia;
 
-	public APeca(String nome, String cor, Posicao posicaoAtual) 
+	public APeca(int valor, char nome, String cor, Posicao posicaoAtual) 
     {
         this.qtd_movimentos = 0;
         this.capturada = false;
         this.setNome(nome);
         this.setCor(cor);
         this.setPosicao_atual(posicao_atual);
+        this.setValor(valor);
+        this.setVazia(false);
     }	
+        
+       //Usando a sobreCarga do construtor do APeca, para facilitar a instanciaçao da Peça Vazia
+        public APeca(Posicao posicaoAtual, boolean vazia){
+            this.setPosicao_atual(posicaoAtual);
+            this.setVazia(vazia);
+        }
+        
     
-	public String getNome() {
+	public char getNome() {
 		return nome;
 	}
-	public void setNome(String nome) {
+	public void setNome(char nome) {
 		this.nome = nome;
 	}
 	public String getCor() {
