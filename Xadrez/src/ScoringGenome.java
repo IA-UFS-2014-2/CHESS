@@ -6,15 +6,21 @@ public class ScoringGenome {
 	int[] pieceOwn = new int[7];
 	
 	// Piece mobility scores
+        // Quantos espaços foram necessário para peca se mover
 	int[] pieceMobility = new int[7];
 	
+        // Quantas pecas dos seus opnentes podem ser atacadas, incluindo o rei 
 	// Piece threats scores
 	int[] pieceThreats = new int[7];
 	
+        // Quantas de suas pecas estao protegendo uma dada peca para previni-la que ela seja 
+        // capturada sem lutar.
 	// Piece protects scores
 	int[] pieceProtects = new int[7];
 	
-	// Pawn advancement score
+	// Pawn advancement score  Avanco do peao
+        // Usado pra verificar até ponto no tabuleiro o peao já andou, a fim de,  promovê-lo
+        // quando ele atingir uma determinada posição 
 	int pawnAdvancement;
 	
 	// Creates a blank ScoringGenome

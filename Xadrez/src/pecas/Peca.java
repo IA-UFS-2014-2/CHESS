@@ -6,10 +6,13 @@
 
 package pecas;
 
+import jogadores.Jogador;
+import tabuleiro.Praca;
+
 /**
  *
  * @author Anne
  */
-public class Peca {
+public class Peca { 
     
 }
