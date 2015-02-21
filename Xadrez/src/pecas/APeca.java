@@ -2,11 +2,19 @@ package pecas;
 
 public abstract class APeca 
 {
-	String nome;
-	String cor;
-	Posicao posicao_atual;
-	boolean capturada;
-	int qtd_movimentos;
+	private String nome;
+	private String cor;
+	private Posicao posicao_atual;
+	private boolean capturada;
+	private int qtd_movimentos;
+        
+        public APeca(String nome, String cor, Posicao posicaoAtual) {
+            this.qtd_movimentos = 0;
+            this.capturada = false;
+            this.setNome(nome);
+            this.setCor(cor);
+            this.setPosicao_atual(posicao_atual);
+        }
 	
 	public String getNome() {
 		return nome;

@@ -44,6 +44,8 @@ public class Piece {
 	
 	// Associates graphical images with the pieces (from files)
 	public static void loadImages(String[] imageFiles) {
+            System.out.println(imageFiles[5]);
+            
 		for(int i=0;i<7;i++) {
 			whitePieces[i] = Toolkit.getDefaultToolkit().createImage(imageFiles[i]);
 			blackPieces[i] = Toolkit.getDefaultToolkit().createImage(imageFiles[i+7]);
