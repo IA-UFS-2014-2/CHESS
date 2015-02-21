@@ -5,6 +5,7 @@ import java.util.*;
 
 public class AIEngine {
 	// Null constructor; a new instance is made and destroyed at each computer move
+        // Construor nulo; um novo construtor será construído e destruído a cada movimento do computador
 	public AIEngine() {}
 	
 	ScoringGenome baseScore;
@@ -35,6 +36,20 @@ public class AIEngine {
 	// moves is the pre-computed set of moves that are possible; can be null
 	// color is the player for whom the board is being scored
 	// sg is the ScoringGenome to use as weights
+        /**
+         * Computa pontuações genéricas baseado em uma dada configuração do tabuleiro, e os pesos são baseados 
+         * na função de avaliação?
+         * Board é o estado corrente do tabuleiro de xadrez 
+         * Moves é o vetor de movimentos possíveis; pode ser nulo
+         * color define qual é o jogador da vez
+         * sg função de avaliação que será usada como peso
+         * @param board
+         * @param moves
+         * @param color
+         * @param sg
+         * @return 
+         */
+       //Cálculo da heurística para uma dada configuração do tabuleiro de xadrez
 	public long scoreBoard(ChessBoard board, ArrayList moves, boolean color, ScoringGenome sg) {
 		counter++;
 		boolean finalMove = false;

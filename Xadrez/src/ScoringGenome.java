@@ -1,5 +1,7 @@
 // Implements a representation of the static board evaluation function
-
+/*
+Implementa a representação da função de avaliação do tabuleiro estático, 
+*/
 import java.io.*;
 public class ScoringGenome {
 	// Piece possession scores
@@ -9,7 +11,7 @@ public class ScoringGenome {
         // Quantos espaços foram necessário para peca se mover
 	int[] pieceMobility = new int[7];
 	
-        // Quantas pecas dos seus opnentes podem ser atacadas, incluindo o rei 
+        // Quantas pecas do seus opnente podem ser atacadas, por cada uma das suas pecas.
 	// Piece threats scores
 	int[] pieceThreats = new int[7];
 	
@@ -19,7 +21,7 @@ public class ScoringGenome {
 	int[] pieceProtects = new int[7];
 	
 	// Pawn advancement score  Avanco do peao
-        // Usado pra verificar até ponto no tabuleiro o peao já andou, a fim de,  promovê-lo
+        // Usado pra verificar até que ponto no tabuleiro o peao já andou, a fim de,promovê-lo
         // quando ele atingir uma determinada posição 
 	int pawnAdvancement;
 	
@@ -32,6 +34,7 @@ public class ScoringGenome {
 		pieceMobility = pm;
 		pieceThreats = pt;
 		pieceProtects = pp;
+                // Esse metodo inicializa os pesos das pecas
 		initOwn();		
 	}
 	

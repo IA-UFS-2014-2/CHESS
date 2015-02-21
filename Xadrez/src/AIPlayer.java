@@ -5,7 +5,7 @@
 public class AIPlayer {
 	// The static board evaluation function used by this player
 	ScoringGenome sg;
-	
+	 
 	// The regular ply depth to be searched
 	int ply;
 	
