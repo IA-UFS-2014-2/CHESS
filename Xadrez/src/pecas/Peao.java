@@ -10,7 +10,11 @@ package pecas;
  *
  * @author Anne
  */
-public class Peao
+public class Peao extends APeca
 {
+    //O peao Possui valor absoluto = 1
+    public Peao(String nome, String cor, Posicao posicaoAtual) {
+        super(1,nome, cor, posicaoAtual);
+    }
 	
 }

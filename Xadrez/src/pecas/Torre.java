@@ -10,6 +10,11 @@ package pecas;
  *
  * @author Anne
  */
-public class Torre {
+public class Torre extends APeca{
+    
+       //A torre Possui valor absoluto = 5 * valor do Peao = 5
+    public Torre(String nome, String cor, Posicao posicaoAtual) {
+        super(5,nome, cor, posicaoAtual);
+    }
     
 }

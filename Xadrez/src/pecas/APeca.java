@@ -12,14 +12,23 @@ public abstract class APeca
 	private int qtd_pecas_defesa;
 	private boolean vazia;
 
-	public APeca(String nome, String cor, Posicao posicaoAtual) 
+	public APeca(int valor, String nome, String cor, Posicao posicaoAtual) 
     {
         this.qtd_movimentos = 0;
         this.capturada = false;
         this.setNome(nome);
         this.setCor(cor);
         this.setPosicao_atual(posicao_atual);
+        this.setValor(valor);
+        this.setVazia(false);
     }	
+        
+        public APeca(Posicao posicaoAtual, boolean vazia){
+            this.setPosicao_atual(posicaoAtual);
+            this.setVazia(vazia);
+        }
+        
+        
     
 	public String getNome() {
 		return nome;
