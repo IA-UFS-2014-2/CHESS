@@ -15,8 +15,8 @@ public class Cavalo extends APeca
     //public movimento
     
     //O Cavalo Possui valor absoluto = 3 * valor do Peao = 3
-    public Cavalo(String nome, String cor, Posicao posicaoAtual) {
-        super(3,nome, cor, posicaoAtual);
+    public Cavalo(String cor, Posicao posicaoAtual) {
+        super(3,'C', cor, posicaoAtual);
     }
     
 }
