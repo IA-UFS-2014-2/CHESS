@@ -12,5 +12,5 @@ package pecas;
  */
 public class Cavalo
 {
-    
+    //public movimento
 }
