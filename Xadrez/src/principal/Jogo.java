@@ -15,17 +15,27 @@ import java.util.Map;
  */
 public class Jogo 
 {
-	boolean vez;
-	
+	int vez;
+	Tabuleiro tabuleiro;
+		
 	private Map<Integer,String> Mensagem = new HashMap<Integer,String>();
 	
-	public boolean isVez() {
+	public int getVez() {
 		return vez;
 	}
 
-	public void setVez(boolean vez) {
+	public void setVez(int vez) {
 		this.vez = vez;
 	}
+	
+	public Tabuleiro getTabuleiro() {
+		return tabuleiro;
+	}
+
+	public void setTabuleiro(Tabuleiro tabuleiro) {
+		this.tabuleiro = tabuleiro;
+	}
+
 
 	public Jogo()
 	{
@@ -59,6 +69,4 @@ public class Jogo
 		Mensagem.put(312,"Ops! Não é Possível Capturar o EnPassant!");
 		Mensagem.put(314,"Movimento Inválido! A Torre do Roque não foi encontrada");
 	}	
-	
-	
 }

@@ -1,5 +1,9 @@
 package pecas;
 
+/**
+*
+* @author Paulo Henrique
+*/
 public abstract class APeca 
 {
 	private String nome;
