@@ -22,8 +22,6 @@ public class Movimento
 	//Peça capturada no movimento.
 	private APeca pecaCapturada;
 	
-	
-	
 	/// <summary>
     /// Tipos de Movimentos.
     /// </summary>
