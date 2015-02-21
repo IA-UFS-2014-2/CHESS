@@ -3,70 +3,136 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package principal;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+import sun.net.www.http.HttpClient;
 
 /**
  *
  * @author Anne
  */
-public class Jogo 
-{
-	int vez;
-	Tabuleiro tabuleiro;
-		
-	private Map<Integer,String> Mensagem = new HashMap<Integer,String>();
-	
-	public int getVez() {
-		return vez;
-	}
+public class Jogo {
 
-	public void setVez(int vez) {
-		this.vez = vez;
-	}
-	
-	public Tabuleiro getTabuleiro() {
-		return tabuleiro;
-	}
+    private int vez;
+    private Tabuleiro tabuleiro;
+    private Map<Integer, String> Mensagem = new HashMap<Integer, String>();
+    private final String urlServidor;
+    private int idJogador;
+    
+    public Jogo() {
+        this.urlServidor = "http://xadrez.tigersoft.com.br:8109/datasnap/rest/"
+                + "TXadrez/";
+        
+        Mensagem.put(100, "Nï¿½o Inicializado");
+        Mensagem.put(101, "Esperando o Jogador 1");
+        Mensagem.put(102, "Esperando o Jogador 2");
+        Mensagem.put(103, "Esperando Sua Jogada");
+        Mensagem.put(104, "Esperando Jogador 1 Realizar a Jogada!");
+        Mensagem.put(105, "Esperando Jogador 2 Realizar a Jogada!");
+        Mensagem.put(106, "Esperando Sua Jogada! Seu Rei Estï¿½ Em Xeque!");
+        Mensagem.put(107, "Esperando Jogador 1 Realizar a Jogada!");
+        Mensagem.put(108, "Esperando Jogador 2 Realizar a Jogada!");
+        Mensagem.put(200, "Jogo Encerrado ï¿½ Xequeï¿½mate! Jogador 1 venceu a partida!");
+        Mensagem.put(201, "Jogo Encerrado ï¿½ Xequeï¿½mate! Jogador 2 venceu a partida!");
+        Mensagem.put(202, "Jogo Encerrado ï¿½ Empate: Insuficiï¿½ncia Material!");
+        Mensagem.put(203, "Jogo Encerrado ï¿½ Empate: Rei Afogado");
+        Mensagem.put(204, "Jogo Encerrado ï¿½ Acabou o Tempo do Jogador 1! Jogador 2 venceu a partida!");
+        Mensagem.put(205, "Jogo Encerrado ï¿½ Acabou o Tempo do Jogador 2! Jogador 1 venceu a partida!");
+        Mensagem.put(300, "Movimento Invï¿½lido!");
+        Mensagem.put(301, "Espere sua vez. ï¿½ a vez do Jogador 1!");
+        Mensagem.put(302, "Espere sua vez. ï¿½ a vez do Jogador 2!");
+        Mensagem.put(303, "Movimento nï¿½o permitido. Rei em Xeque, protejaï¿½o!");
+        Mensagem.put(304, "Movimento nï¿½o permitido. Seu Rei iria ficar em Xeque!");
+        Mensagem.put(305, "A posiï¿½ï¿½o escolhida do tabuleiro estï¿½ vazia!");
+        Mensagem.put(306, "Jogador desconhecido!");
+        Mensagem.put(307, "A Peï¿½a de Promoï¿½ï¿½o Nï¿½o Foi Informada ou ï¿½ Invï¿½lida!");
+        Mensagem.put(308, "Sala cheia! Nï¿½o hï¿½ slots disponï¿½veis Sala cheia! Nï¿½o hï¿½ slots disponï¿½veis");
+        Mensagem.put(309, "A Jogada Informada Estï¿½ com Formato Invï¿½lido!");
+        Mensagem.put(310, "Ops! A Peï¿½a informada nï¿½o ï¿½ sua!");
+        Mensagem.put(311, "Ops! Jogo Finalizado!");
+        Mensagem.put(312, "Ops! Nï¿½o ï¿½ Possï¿½vel Capturar o EnPassant!");
+        Mensagem.put(314, "Movimento Invï¿½lido! A Torre do Roque nï¿½o foi encontrada");
+    }
 
-	public void setTabuleiro(Tabuleiro tabuleiro) {
-		this.tabuleiro = tabuleiro;
-	}
+    public String getJsonServidor(String url) {
+        CloseableHttpClient client = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet(url);
+        String conteudo = "";
+        HttpResponse responde = null;
+        try {
+            HttpResponse response = client.execute(request);
+            HttpEntity entity = response.getEntity();
+            conteudo = EntityUtils.toString(entity);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        return conteudo;
+    }
+    
+    
+    public String solicitarIdJogador(String nomeJogador,boolean usarLetras){
+        String url = this.getUrlServidor()+"SolicitarIdJogador/"+ nomeJogador +"/" + usarLetras;
+        //dÃ¡ um set no id do jogador
+        
+        return this.getJsonServidor(url);
+    }
+    
+    public String jogar(byte x_atual, byte y_atual, byte x_novo, byte y_novo){
+        String url = this.getUrlServidor()+"Jogar/{\"id_jogador\":\""+this.getIdJogador()+"\",\"posicao_atual\":{\"+x+\":\""+x_atual+"\",\"y\":\""+y_atual+"\"},\"nova_posicao\":{\"x\":\""+x_novo+"\",\"y\":\""+y_novo+"\"}}";  
+        return this.getJsonServidor(url);
+    }
 
-	public Jogo()
-	{
-		Mensagem.put(100,"Não Inicializado");
-		Mensagem.put(101,"Esperando o Jogador 1");
-		Mensagem.put(102,"Esperando o Jogador 2");
-		Mensagem.put(103,"Esperando Sua Jogada");
-		Mensagem.put(104,"Esperando Jogador 1 Realizar a Jogada!");
-		Mensagem.put(105,"Esperando Jogador 2 Realizar a Jogada!");
-		Mensagem.put(106,"Esperando Sua Jogada! Seu Rei Está Em Xeque!");
-		Mensagem.put(107,"Esperando Jogador 1 Realizar a Jogada!");
-		Mensagem.put(108,"Esperando Jogador 2 Realizar a Jogada!");
-		Mensagem.put(200,"Jogo Encerrado ­ Xeque­mate! Jogador 1 venceu a partida!");
-		Mensagem.put(201,"Jogo Encerrado ­ Xeque­mate! Jogador 2 venceu a partida!");
-		Mensagem.put(202,"Jogo Encerrado ­ Empate: Insuficiência Material!");
-		Mensagem.put(203,"Jogo Encerrado ­ Empate: Rei Afogado");
-		Mensagem.put(204,"Jogo Encerrado ­ Acabou o Tempo do Jogador 1! Jogador 2 venceu a partida!");
-		Mensagem.put(205,"Jogo Encerrado ­ Acabou o Tempo do Jogador 2! Jogador 1 venceu a partida!");
-		Mensagem.put(300,"Movimento Inválido!");
-		Mensagem.put(301,"Espere sua vez. É a vez do Jogador 1!");
-		Mensagem.put(302,"Espere sua vez. É a vez do Jogador 2!");
-		Mensagem.put(303,"Movimento não permitido. Rei em Xeque, proteja­o!");
-		Mensagem.put(304,"Movimento não permitido. Seu Rei iria ficar em Xeque!");
-		Mensagem.put(305,"A posição escolhida do tabuleiro está vazia!");
-		Mensagem.put(306,"Jogador desconhecido!");
-		Mensagem.put(307,"A Peça de Promoção Não Foi Informada ou é Inválida!");
-		Mensagem.put(308,"Sala cheia! Não há slots disponíveis Sala cheia! Não há slots disponíveis");
-		Mensagem.put(309,"A Jogada Informada Está com Formato Inválido!");
-		Mensagem.put(310,"Ops! A Peça informada não é sua!");
-		Mensagem.put(311,"Ops! Jogo Finalizado!");
-		Mensagem.put(312,"Ops! Não é Possível Capturar o EnPassant!");
-		Mensagem.put(314,"Movimento Inválido! A Torre do Roque não foi encontrada");
-	}	
+    
+    
+    //Getts e Setts   
+    public int getIdJogador() {
+        return idJogador;
+    }
+
+    public void setIdJogador(int idJogador) {
+        this.idJogador = idJogador;
+    }
+    
+
+    public int getVez() {
+        return vez;
+    }
+
+    public void setVez(int vez) {
+        this.vez = vez;
+    }
+
+    public Tabuleiro getTabuleiro() {
+        return tabuleiro;
+    }
+
+    public void setTabuleiro(Tabuleiro tabuleiro) {
+        this.tabuleiro = tabuleiro;
+    }
+
+    public Map<Integer, String> getMensagem() {
+        return Mensagem;
+    }
+    
+    public void setMensagem(Map<Integer, String> Mensagem) {
+        this.Mensagem = Mensagem;
+    }
+
+    public String getUrlServidor() {
+        return urlServidor;
+    }
+
+    
+    
 }

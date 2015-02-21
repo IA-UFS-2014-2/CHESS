@@ -2,18 +2,25 @@ package pecas;
 
 public class Posicao
 {
-	int x;
-	int y;
-	public int getX() {
+	private byte x;
+	private byte y;
+        
+        
+        public Posicao(byte x, byte y){
+            this.setX(x);
+            this.setY(y);
+        }
+        
+	public byte getX() {
 		return x;
 	}
-	public void setX(int x) {
+	public void setX(byte x) {
 		this.x = x;
 	}
-	public int getY() {
+	public byte getY() {
 		return y;
 	}
-	public void setY(int y) {
+	public void setY(byte y) {
 		this.y = y;
 	}	
 }
