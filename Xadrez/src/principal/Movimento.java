@@ -1,6 +1,7 @@
 package principal;
 
 import pecas.APeca;
+import pecas.Peao;
 import pecas.Posicao;
 
 /**
@@ -19,6 +20,13 @@ public class Movimento
 	//Peça capturada no movimento.
 	private APeca pecaCapturada;
 	
+	//Indica se o movimento gera uma promoção do peão.
+	private boolean promocaoPeao = false;
+
+	public void setPromocaoPeao(boolean promocaoPeao) {
+		this.promocaoPeao = promocaoPeao;
+	}
+
 	//Identifica qual lado o jogador está, se for branco é 1, se for preto é 2. 
 	private int numeroJogador;
 
@@ -60,6 +68,10 @@ public class Movimento
 
 	public void setNumeroJogador(int numeroJogador) {
 		this.numeroJogador = numeroJogador;
+	}
+	
+	public boolean isPromocaoPeao() {
+		return promocaoPeao;
 	}
 	
 	public Movimento(int numeroJogador, APeca posicao_atual, APeca nova_posicao)
@@ -211,6 +223,11 @@ public class Movimento
 					{
 						if (pecaOrigem.getPosicao_atual().getX() + 1 == pecaDestino.getPosicao_atual().getX()) //Avançou um casa para cima
 						{
+							if (pecaDestino.getPosicao_atual().getY() == 8) //Está na última linha, ou seja pode ser promovido.
+							{
+								promocaoPeao = true;
+							}
+							
 							return true;
 						}
 					}
@@ -231,6 +248,11 @@ public class Movimento
 					{
 						if (pecaOrigem.getPosicao_atual().getX() - 1 == pecaDestino.getPosicao_atual().getX()) //Avançou um casa para cima
 						{
+							if (pecaDestino.getPosicao_atual().getY() == 1) //Está na primeira linha, ou seja pode ser promovido.
+							{
+								promocaoPeao = true;
+							}
+							
 							return true;
 						}
 					}
@@ -276,7 +298,7 @@ public class Movimento
 		// Verificando se a peça destino está vazia.
 		if (isPecaDestinoVazia())
 		{
-			//Verificanda se a peça destino está na coluna a esquerda ou a direita da peça origem.
+			// Verificanda se a peça destino está na coluna a esquerda ou a direita da peça origem.
 			if (	pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY()//Coluna esquerda
 				|| 	pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY())//Coluna direita
 			{
@@ -290,24 +312,32 @@ public class Movimento
 						// Obtendo a peça da determinado posição no tabuleiro.
 						Tabuleiro tabuleiro = Tabuleiro.getInstance();
 						APeca pecaParalela = tabuleiro.getPecaByPosicao(pecaDestino.getPosicao_atual());
-						if ()
+						if (!pecaParalela.isVazia() && pecaParalela instanceof Peao && pecaParalela.getQtd_movimentos() == 1)
 						{
+							//Armazenando a peça capturada.
+							pecaCapturada = pecaDestino;
 							
+							return true;
 						}
-						
-						//Armazenando a peça capturada.
-						pecaCapturada = pecaDestino;
-						
 					}
 				}
 				else //Preto
 				{
 					if (pecaOrigem.getPosicao_atual().getX()-1 == pecaDestino.getPosicao_atual().getX())//Avançou um casa para baixo
 					{
-						//Armazenando a peça capturada.
-						pecaCapturada = pecaDestino;
+						// Verifica se a posicao paralea a peça origem é preenchida por um Peão
+						// e esse Peão realizou o primeiro movimento.
 						
-						return true;
+						// Obtendo a peça da determinado posição no tabuleiro.
+						Tabuleiro tabuleiro = Tabuleiro.getInstance();
+						APeca pecaParalela = tabuleiro.getPecaByPosicao(pecaDestino.getPosicao_atual());
+						if (!pecaParalela.isVazia() && pecaParalela instanceof Peao && pecaParalela.getQtd_movimentos() == 1)
+						{
+							//Armazenando a peça capturada.
+							pecaCapturada = pecaDestino;
+							
+							return true;
+						}
 					}
 				}
 			}

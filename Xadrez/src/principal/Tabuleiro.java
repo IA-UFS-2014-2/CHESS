@@ -1,6 +1,7 @@
 package principal;
 
 import pecas.APeca;
+import pecas.Posicao;
 
 /**
 *
@@ -47,5 +48,11 @@ public class Tabuleiro
 	}
 	public void setUltima_jogada(Jogada ultima_jogada) {
 		this.ultima_jogada = ultima_jogada;
+	}
+
+	//Obtendo a peça a partir da posição informada
+	public APeca getPecaByPosicao(Posicao posicao)
+	{
+		return posicoes[posicao.getX()][posicao.getY()];
 	}
 }
