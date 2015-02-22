@@ -12,4 +12,7 @@ package principal;
  */
 public class Jogador {
     
+    
+    
+    
 }
