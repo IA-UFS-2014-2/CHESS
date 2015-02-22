@@ -18,7 +18,7 @@ public class Jogar {
         System.out.println(jogo.solicitarIdJogador("Jogador3"));
         jogo.solicitarSituacaoAtualTabuleiro();
         
-        jogo.simularJogadaAdversario(1972,(byte)2, (byte)4, (byte)3, (byte)4);
+        jogo.simularJogadaAdversario(3279,(byte)2, (byte)4, (byte)3, (byte)4);
         
         jogo.solicitarSituacaoAtualTabuleiro();
         
