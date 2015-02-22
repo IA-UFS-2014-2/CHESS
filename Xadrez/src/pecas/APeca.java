@@ -27,7 +27,7 @@ public abstract class APeca
         this.setVazia(false);
     }	
         
-    //Usando a sobreCarga do construtor do APeca, para facilitar a instanciação da Peão Vazia
+    //Usando a sobreCarga do construtor do APeca, para facilitar a instanciacao da Peco Vazia
     public APeca(Posicao posicaoAtual, boolean vazia){
         this.setPosicao_atual(posicaoAtual);
         this.setVazia(vazia);
