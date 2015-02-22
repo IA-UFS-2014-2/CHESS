@@ -1,7 +1,6 @@
 package principal;
 
 import pecas.APeca;
-import pecas.Posicao;
 
 /**
 *
@@ -12,13 +11,13 @@ public class Tabuleiro
 	private int turno;
 	private String ultima_jogada_notacao;
 	private Jogada ultima_jogada;
-	private APeca[] posicoes = new APeca[64];
-		
+	private final APeca[][] posicoes ;
+	
 	private static Tabuleiro instance = null;
 	
 	protected Tabuleiro()
 	{
-      //Exists only to defeat instantiation.
+		this.posicoes = new APeca[8][8];
 	}
 	
 	public static Tabuleiro getInstance() 
@@ -30,7 +29,7 @@ public class Tabuleiro
 		
 		return instance;
 	}
-	
+			
 	public int getTurno() {
 		return turno;
 	}
@@ -48,11 +47,5 @@ public class Tabuleiro
 	}
 	public void setUltima_jogada(Jogada ultima_jogada) {
 		this.ultima_jogada = ultima_jogada;
-	}
-	
-	//Obtendo a peça a partir da posição informada
-	private APeca getPecaByPosicao(Posicao posicao)
-	{
-		return posicoes[posicao.getX()*posicao.getY()];
 	}
 }

@@ -12,10 +12,11 @@ public class AIPlayer {
 	// The ply depth to be searched during quiescence
 	int deepPly;
 	
-	// The quiescence search trigger score
+	// Pontuacao da pesquisa quiescence 
 	double deepScore;
 	
-	// The maximum number of quiescence extensions allowed
+        // Numero de posições não estáveis que devem ser expandidas até um nó estável
+        // ser atingido
 	int deepLimit;
 	
 	// Constructor creates a new instance of the AIPlayer, with the given parameters

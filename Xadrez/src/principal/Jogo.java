@@ -8,6 +8,7 @@ package principal;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,14 +36,27 @@ public class Jogo {
     private int idJogador;
     private byte numeroJogador;
     private int ultimoCodigoMensagem;
-    
-     //Opções do Json
-       private final String opError = "error";
-       
-       private final String opResult = "result";
-       private final String opCodigo = "codigo";
-       private final String opMensagem = "mensagem";
 
+    //Opções do Json
+    private final String opError = "error";
+
+    private final String opResult = "result";
+    
+    private final String opCodigo = "codigo";
+    private final String opMensagem = "mensagem";
+    
+    private final String opVez = "vez";
+    
+    private final String opTabuleiro = "Tabuleiro";
+    private final String opTurno = "turno";
+    private final String opPosicoes = "posicoes";
+    
+//    private final String opMensagem = "mensagem";
+//    private final String opMensagem = "mensagem";
+//    private final String opMensagem = "mensagem";
+//    private final String opMensagem = "mensagem";
+    
+    
     public Jogo() {
         this.urlServidor = "http://xadrez.tigersoft.com.br:8109/datasnap/rest/"
                 + "TXadrez/";
@@ -80,9 +94,9 @@ public class Jogo {
 
     public String getJsonServidor(String url) {
         CloseableHttpClient cliente = HttpClientBuilder.create().build();
-        HttpGet requisicao = new HttpGet(this.getUrlServidor()+url);
+        HttpGet requisicao = new HttpGet(this.getUrlServidor() + url);
         String conteudo = "";
-        
+
         HttpResponse reposta = null;
         try {
             reposta = cliente.execute(requisicao);
@@ -98,22 +112,22 @@ public class Jogo {
     public int solicitarIdJogador(String nomeJogador) {
         //Será NÚMEROS da coordenada Y
         String url = "SolicitarIdJogador/" + nomeJogador;
-        String conteudoJson =  this.getJsonServidor(url);
-         
+        String conteudoJson = this.getJsonServidor(url);
+
         try {
             JSONObject respostaJson = new JSONObject(conteudoJson);
-            if(respostaJson.has(opResult)){
+            if (respostaJson.has(opResult)) {
                 //Retornou o id do Jogador obs: E um JsonArray com 1 posicao
                 JSONArray jsonArrayResult = new JSONArray(respostaJson.get(opResult).toString());
                 JSONObject jsonObjResult = new JSONObject(jsonArrayResult.get(0).toString());
                 this.setIdJogador(Integer.parseInt(jsonObjResult.get("id_jogador").toString()));
                 this.setNumeroJogador(Byte.parseByte(jsonObjResult.get("numero_jogador").toString()));
-           
-            }else if(respostaJson.has(opError)){
+
+            } else if (respostaJson.has(opError)) {
                 //Tratar Error
                 String strJsonError = respostaJson.get(this.opError).toString();
                 JSONObject jsonError = new JSONObject(strJsonError);
-                
+
                 this.setUltimoCodigoMensagem(Integer.parseInt(jsonError.get(this.opCodigo).toString()));
                 System.out.println(jsonError.get(this.opMensagem));
             }
@@ -121,28 +135,54 @@ public class Jogo {
         } catch (JSONException ex) {
             Logger.getLogger(Jogo.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return this.getIdJogador();
     }
-    
-    public void reiniciarPartida(){
+
+    public void reiniciarPartida() {
         this.getJsonServidor("ReiniciarJogo");
     }
 
     public String jogar(byte x_atual, byte y_atual, byte x_novo, byte y_novo) {
-        String url = "Jogar/{\"id_jogador\":\"" + this.getIdJogador() 
-                + "\",\"posicao_atual\":{\"+x+\":\"" + x_atual + "\",\"y\":\"" 
+        String url = "Jogar/{\"id_jogador\":\"" + this.getIdJogador()
+                + "\",\"posicao_atual\":{\"+x+\":\"" + x_atual + "\",\"y\":\""
                 + y_atual + "\"},\"nova_posicao\":{\"x\":\"" + x_novo + "\",\"y\":\""
                 + y_novo + "\"}}";
         return this.getJsonServidor(url);
     }
-    
-     public String jogar(byte x_atual, byte y_atual, byte x_novo, byte y_novo, char nomePecaPromocao) {
-        String url = "Jogar/{\"id_jogador\":\"" + this.getIdJogador() 
-                + "\",\"posicao_atual\":{\"+x+\":\"" + x_atual + "\",\"y\":\"" 
-                + y_atual + "\"},\"nova_posicao\":{\"x\":\"" + x_novo + "\",\"y\":\"" 
+
+    public String jogar(byte x_atual, byte y_atual, byte x_novo, byte y_novo, char nomePecaPromocao) {
+        String url = "Jogar/{\"id_jogador\":\"" + this.getIdJogador()
+                + "\",\"posicao_atual\":{\"+x+\":\"" + x_atual + "\",\"y\":\""
+                + y_atual + "\"},\"nova_posicao\":{\"x\":\"" + x_novo + "\",\"y\":\""
                 + y_novo + "\"},\"peca_promocao\":\"" + nomePecaPromocao + "\"}";
         return this.getJsonServidor(url);
+    }
+
+    public void solicitarSituacaoAtualTabuleiro() {
+        String url = "SituacaoAtual/" + this.getIdJogador();
+
+        try {
+             JSONObject jsonResposta = new JSONObject(this.getJsonServidor(url));
+             JSONArray jsonArrayResposta = new JSONArray(jsonResposta.get(this.opResult).toString());
+             JSONObject jsonObjResposta = new JSONObject(jsonArrayResposta.get(0).toString());
+             
+            Iterator<?> keys = jsonObjResposta.keys();
+            while (keys.hasNext()) {
+                String key = (String) keys.next();
+                if (jsonObjResposta.get(key) instanceof JSONObject) {
+                    // entra na MEssagem e TAbuleiro
+                   System.out.println(key);
+                }
+
+                 System.out.println(key);
+                 
+            }
+
+        } catch (JSONException ex) {
+            Logger.getLogger(Jogo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     //Getts e Setts   
@@ -197,7 +237,5 @@ public class Jogo {
     public void setNumeroJogador(byte numeroJogador) {
         this.numeroJogador = numeroJogador;
     }
-    
-    
 
 }

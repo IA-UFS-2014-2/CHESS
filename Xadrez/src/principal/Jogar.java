@@ -14,10 +14,10 @@ public class Jogar {
     public static void main(String args[]){
         
         Jogo jogo = new Jogo();
-        jogo.reiniciarPartida();
+        //jogo.reiniciarPartida();
         System.out.println(jogo.solicitarIdJogador("Jogador123"));
         
-        
+        jogo.solicitarSituacaoAtualTabuleiro();
     }
     
 }
