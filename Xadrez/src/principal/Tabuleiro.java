@@ -5,7 +5,7 @@ import pecas.Posicao;
 
 /**
  *
- * @author Paulo Henrique
+ * @author Fábio Nascimento
  */
 public class Tabuleiro {
 
