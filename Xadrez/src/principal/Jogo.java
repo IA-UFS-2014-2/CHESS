@@ -33,7 +33,7 @@ public class Jogo {
         this.urlServidor = "http://xadrez.tigersoft.com.br:8109/datasnap/rest/"
                 + "TXadrez/";
         
-        Mensagem.put(100, "N�o Inicializado");
+        Mensagem.put(100, "Nao Inicializado");
         Mensagem.put(101, "Esperando o Jogador 1");
         Mensagem.put(102, "Esperando o Jogador 2");
         Mensagem.put(103, "Esperando Sua Jogada");

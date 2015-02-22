@@ -27,11 +27,11 @@ public abstract class APeca
         this.setVazia(false);
     }	
         
-       //Usando a sobreCarga do construtor do APeca, para facilitar a instancia√ßao da Pe√ßa Vazia
-        public APeca(Posicao posicaoAtual, boolean vazia){
-            this.setPosicao_atual(posicaoAtual);
-            this.setVazia(vazia);
-        }
+    //Usando a sobreCarga do construtor do APeca, para facilitar a instanciaÁ„o da Pe„o Vazia
+    public APeca(Posicao posicaoAtual, boolean vazia){
+        this.setPosicao_atual(posicaoAtual);
+        this.setVazia(vazia);
+    }
         
     
 	public char getNome() {
