@@ -97,7 +97,7 @@ public class Tabuleiro {
 	//Obtendo a peça a partir da posição informada
 	public APeca getPecaByPosicao(Posicao posicao)
 	{
-		return posicoes[posicao.getX()][posicao.getY()];
+		return posicoes[posicao.getX()-1][posicao.getY()-1];
 	}
     
 }
