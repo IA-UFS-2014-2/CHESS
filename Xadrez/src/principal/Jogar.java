@@ -15,9 +15,15 @@ public class Jogar {
         
         Jogo jogo = new Jogo();
         //jogo.reiniciarPartida();
-        System.out.println(jogo.solicitarIdJogador("Jogador123"));
+        System.out.println(jogo.solicitarIdJogador("Jogador3"));
+        jogo.solicitarSituacaoAtualTabuleiro();
+        
+        jogo.simularJogadaAdversario(1972,(byte)2, (byte)4, (byte)3, (byte)4);
         
         jogo.solicitarSituacaoAtualTabuleiro();
+        
+        System.out.println(jogo.getTabuleiro());
+        
     }
     
 }

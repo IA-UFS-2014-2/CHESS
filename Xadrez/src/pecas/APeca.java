@@ -22,7 +22,7 @@ public abstract class APeca
         this.capturada = false;
         this.setNome(nome);
         this.setCor(cor);
-        this.setPosicao_atual(posicao_atual);
+        this.setPosicao_atual(posicaoAtual);
         this.setValor(valor);
         this.setVazia(false);
     }	
@@ -48,7 +48,7 @@ public abstract class APeca
 	public Posicao getPosicao_atual() {
 		return posicao_atual;
 	}
-	public void setPosicao_atual(Posicao posicao) {
+	public void setPosicao_atual(Posicao posicao_atual) {
 		this.posicao_atual = posicao_atual;
 	}
 	public boolean isCapturada() {
