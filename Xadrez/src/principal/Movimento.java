@@ -19,6 +19,9 @@ public class Movimento
 	//Peça capturada no movimento.
 	private APeca pecaCapturada;
 	
+	//Identifica qual lado o jogador está, se for branco é 1, se for preto é 2. 
+	private int numeroJogador;
+
 	public int getPontuacao() {
 		return pontuacao;
 	}
@@ -51,8 +54,17 @@ public class Movimento
 		this.pecaCapturada = pecaCapturada;
 	}
 	
-	public Movimento(APeca posicao_atual, APeca nova_posicao)
+	public int getNumeroJogador() {
+		return numeroJogador;
+	}
+
+	public void setNumeroJogador(int numeroJogador) {
+		this.numeroJogador = numeroJogador;
+	}
+	
+	public Movimento(int numeroJogador, APeca posicao_atual, APeca nova_posicao)
 	{
+		this.numeroJogador = numeroJogador;
 		this.pecaOrigem = posicao_atual;
 		this.pecaDestino = nova_posicao;
 	}
@@ -141,10 +153,32 @@ public class Movimento
 	/*
 	 * Função que verifica se a peça destino está vazia.
 	 */
-	public boolean isNovaPosicaoVazia()
+	public boolean isPecaDestinoVazia()
 	{
 		return this.pecaDestino.isVazia();		
 	}
+	
+	/*
+	 * Função que verifica se a peça destino pode ser capturada.
+	 */
+	private boolean isPecaDestinoCapturavel() 
+	{
+		//Verificando se a peça destipo está vazia, sem sim não pode ser capturada.
+		if(pecaDestino.isVazia())
+		{
+			return false;
+		}
+		//Verificando se a cor da peça destina é diferente da peça origem 
+		else if( pecaOrigem.getCor() != pecaDestino.getCor())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	
 	/*
 	 * Função que verifica se o movimento do Peão é válido.
@@ -154,23 +188,132 @@ public class Movimento
 		// O peão pode avançar para a casa vazia, imediatamente à frente,
 		// ou em seu primeiro lance ele pode avançar duas casas.
 		// Desde que ambas estejam desocupadas.
-		if (isNovaPosicaoVazia())
+		
+		// Verificando se a peça destino está vazia.
+		if (isPecaDestinoVazia())
 		{
 			//Verificando se a coluna da peça origem é a mesma da peça destino.
 			if(pecaOrigem.getPosicao_atual().getY() == pecaDestino.getPosicao_atual().getY())
 			{
-				
+				if (numeroJogador == 1) //Branco 
+				{
+					//O Peão não fez nemhum movimento
+					if (pecaOrigem.getQtd_movimentos() == 0)
+					{
+						if (	pecaOrigem.getPosicao_atual().getX() + 1 == pecaDestino.getPosicao_atual().getX() //Avançou um casa para cima
+							||	pecaOrigem.getPosicao_atual().getX() + 2 == pecaDestino.getPosicao_atual().getX())//Avançou duas casas para cima
+						{
+							return true;
+						}
+					}
+					//O Peão já se movimentou
+					else
+					{
+						if (pecaOrigem.getPosicao_atual().getX() + 1 == pecaDestino.getPosicao_atual().getX()) //Avançou um casa para cima
+						{
+							return true;
+						}
+					}
+				}
+				else // Preto
+				{
+					//O Peão não fez nemhum movimento
+					if (pecaOrigem.getQtd_movimentos() == 0)
+					{
+						if (	pecaOrigem.getPosicao_atual().getX() - 1 == pecaDestino.getPosicao_atual().getX() //Avançou um casa para baixo
+							||	pecaOrigem.getPosicao_atual().getX() - 2 == pecaDestino.getPosicao_atual().getX())//Avançou duas casas para baixo
+						{
+							return true;
+						}
+					}
+					//O Peão já se movimentou
+					else
+					{
+						if (pecaOrigem.getPosicao_atual().getX() - 1 == pecaDestino.getPosicao_atual().getX()) //Avançou um casa para cima
+						{
+							return true;
+						}
+					}
+				}
 			}
 		}
 		// Ou pode mover para uma casa ocupada por uma peça do oponente,
 		// ,que esteja diagonalmente na frente dDele numa coluna adjacente, 
 		// capturando aquela peça.
-		else
+
+		//Verificando se a peça destino é capturável
+		else if (isPecaDestinoCapturavel())
 		{
-			
+			//Verificanda se a peça destino está na coluna a esquerda ou a direita da peça origem.
+			if (	pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY()//Coluna esquerda
+				|| 	pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY())//Coluna direita
+			{
+				if (numeroJogador == 1) //Branco 
+				{
+					if (pecaOrigem.getPosicao_atual().getX()+1 == pecaDestino.getPosicao_atual().getX())//Avançou um casa para cima
+					{
+						//Armazenando a peça capturada.
+						pecaCapturada = pecaDestino;
+						
+						return true;
+					}
+				}
+				else //Preto
+				{
+					if (pecaOrigem.getPosicao_atual().getX()-1 == pecaDestino.getPosicao_atual().getX())//Avançou um casa para baixo
+					{
+						//Armazenando a peça capturada.
+						pecaCapturada = pecaDestino;
+						
+						return true;
+					}
+				}
+			}
 		}
 		
-		return true;
+		// Movimento En Passant (Em passagem)
+		
+		// Verificando se a peça destino está vazia.
+		if (isPecaDestinoVazia())
+		{
+			//Verificanda se a peça destino está na coluna a esquerda ou a direita da peça origem.
+			if (	pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY()//Coluna esquerda
+				|| 	pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY())//Coluna direita
+			{
+				if (numeroJogador == 1) //Branco 
+				{
+					if (pecaOrigem.getPosicao_atual().getX()+1 == pecaDestino.getPosicao_atual().getX())//Avançou um casa para cima
+					{
+						// Verifica se a posicao paralea a peça origem é preenchida por um Peão
+						// e esse Peão realizou o primeiro movimento.
+						
+						// Obtendo a peça da determinado posição no tabuleiro.
+						Tabuleiro tabuleiro = Tabuleiro.getInstance();
+						APeca pecaParalela = tabuleiro.getPecaByPosicao(pecaDestino.getPosicao_atual());
+						if ()
+						{
+							
+						}
+						
+						//Armazenando a peça capturada.
+						pecaCapturada = pecaDestino;
+						
+					}
+				}
+				else //Preto
+				{
+					if (pecaOrigem.getPosicao_atual().getX()-1 == pecaDestino.getPosicao_atual().getX())//Avançou um casa para baixo
+					{
+						//Armazenando a peça capturada.
+						pecaCapturada = pecaDestino;
+						
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	/*
