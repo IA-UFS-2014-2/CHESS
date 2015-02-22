@@ -14,7 +14,7 @@ public class Jogar {
     public static void main(String args[]){
         
         Jogo jogo = new Jogo();
-   
+        jogo.reiniciarPartida();
         System.out.println(jogo.solicitarIdJogador("Jogador123"));
         
         

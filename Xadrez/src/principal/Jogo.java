@@ -78,9 +78,8 @@ public class Jogo {
     }
 
     public String getJsonServidor(String url) {
-        ArrayList<String> retorno = new ArrayList<String>();
         CloseableHttpClient cliente = HttpClientBuilder.create().build();
-        HttpGet requisicao = new HttpGet(url);
+        HttpGet requisicao = new HttpGet(this.getUrlServidor()+url);
         String conteudo = "";
         
         HttpResponse reposta = null;
@@ -97,7 +96,7 @@ public class Jogo {
 
     public int solicitarIdJogador(String nomeJogador) {
         //Será NÚMEROS da coordenada Y
-        String url = this.getUrlServidor() + "SolicitarIdJogador/" + nomeJogador;
+        String url = "SolicitarIdJogador/" + nomeJogador;
         String conteudoJson =  this.getJsonServidor(url);
          
         try {
@@ -122,9 +121,13 @@ public class Jogo {
         
         return this.getIdJogador();
     }
+    
+    public void reiniciarPartida(){
+        this.getJsonServidor("ReiniciarJogo");
+    }
 
     public String jogar(byte x_atual, byte y_atual, byte x_novo, byte y_novo) {
-        String url = this.getUrlServidor() + "Jogar/{\"id_jogador\":\"" + this.getIdJogador() + "\",\"posicao_atual\":{\"+x+\":\"" + x_atual + "\",\"y\":\"" + y_atual + "\"},\"nova_posicao\":{\"x\":\"" + x_novo + "\",\"y\":\"" + y_novo + "\"}}";
+        String url = "Jogar/{\"id_jogador\":\"" + this.getIdJogador() + "\",\"posicao_atual\":{\"+x+\":\"" + x_atual + "\",\"y\":\"" + y_atual + "\"},\"nova_posicao\":{\"x\":\"" + x_novo + "\",\"y\":\"" + y_novo + "\"}}";
         return this.getJsonServidor(url);
     }
 
