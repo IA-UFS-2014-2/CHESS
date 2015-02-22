@@ -130,7 +130,18 @@ public class Jogo {
     }
 
     public String jogar(byte x_atual, byte y_atual, byte x_novo, byte y_novo) {
-        String url = "Jogar/{\"id_jogador\":\"" + this.getIdJogador() + "\",\"posicao_atual\":{\"+x+\":\"" + x_atual + "\",\"y\":\"" + y_atual + "\"},\"nova_posicao\":{\"x\":\"" + x_novo + "\",\"y\":\"" + y_novo + "\"}}";
+        String url = "Jogar/{\"id_jogador\":\"" + this.getIdJogador() 
+                + "\",\"posicao_atual\":{\"+x+\":\"" + x_atual + "\",\"y\":\"" 
+                + y_atual + "\"},\"nova_posicao\":{\"x\":\"" + x_novo + "\",\"y\":\""
+                + y_novo + "\"}}";
+        return this.getJsonServidor(url);
+    }
+    
+     public String jogar(byte x_atual, byte y_atual, byte x_novo, byte y_novo, char nomePecaPromocao) {
+        String url = "Jogar/{\"id_jogador\":\"" + this.getIdJogador() 
+                + "\",\"posicao_atual\":{\"+x+\":\"" + x_atual + "\",\"y\":\"" 
+                + y_atual + "\"},\"nova_posicao\":{\"x\":\"" + x_novo + "\",\"y\":\"" 
+                + y_novo + "\"},\"peca_promocao\":\"" + nomePecaPromocao + "\"}";
         return this.getJsonServidor(url);
     }
 
