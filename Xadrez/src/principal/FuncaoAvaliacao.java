@@ -6,12 +6,15 @@
 
 package principal;
 
+import pecas.Peao;
+
 /**Essa classe implementa a funcao de avaliacao do tabuleiro estático, ela será utilizada
  * para calcular a heurística de cada um dos nós da árvore.
  * @author Anne
  */
 public class FuncaoAvaliacao
 {
+    Peao peao = new Peao();
     // Valor de cada tipo de peca
     int[] valorPeca = new int[6];
     
@@ -72,36 +75,38 @@ public class FuncaoAvaliacao
             qtd_pecas_ataques[i] = 0;
             qtd_pecas_defesa[i] = 0;
 	}
-        
+       
         progressoPeao = 1;
 	qtd_movimentos[1] = 0;
 	qtd_pecas_ataques[1] = 0;
 	qtd_pecas_defesa[1] = 0;
-		pieceMobility[2] = 0;
-		pieceThreats[2] = 1;
-		pieceProtects[2] = 1;
-		pieceMobility[3] = 0;
-		pieceThreats[3] = 1;
-		pieceProtects[3] = 1;
-		pieceMobility[4] = 0;
-		pieceThreats[4] = 2;
-		pieceProtects[4] = 0;
-		pieceMobility[5] = 1;
-		pieceThreats[5] = 5;
-		pieceProtects[5] = 0;
-		pieceMobility[6] = 0;
-		pieceThreats[6] = 4;
-		pieceProtects[6] = 0;
-		initOwn();
+	qtd_movimentos[2] = 0;
+	qtd_pecas_ataques[2] = 1;
+	qtd_pecas_defesa[2] = 1;
+	qtd_movimentos[3] = 0;
+	qtd_pecas_ataques[3] = 1;
+	qtd_pecas_defesa[3] = 1;
+	qtd_movimentos[4] = 0;
+	qtd_pecas_ataques[4] = 2;
+	qtd_pecas_defesa[4] = 0;
+	qtd_movimentos[5] = 1;
+	qtd_pecas_ataques[5] = 5;
+	qtd_pecas_defesa[5] = 0;
+	qtd_movimentos[6] = 0;
+	qtd_pecas_ataques[6] = 4;
+	qtd_pecas_defesa[6] = 0;
+	
+        atribuirPeso();
 	}
 	
-
-
-    
-    
     
     private void atribuirPeso() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      valorPeca[0] = 100;
+      valorPeca[1] = 300;
+      valorPeca[2] = 300;
+      valorPeca[3] = 500;
+      valorPeca[4] = 900;
+      valorPeca[5] = 9999999;  
     }
 	
     
