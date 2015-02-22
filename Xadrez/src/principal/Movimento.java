@@ -629,6 +629,8 @@ public class Movimento
 				|| 	pecaOrigem.getPosicao_atual().getX()  == pecaDestino.getPosicao_atual().getX() && pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY() //left
 				|| pecaOrigem.getPosicao_atual().getX() + 1 == pecaDestino.getPosicao_atual().getX() && pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY())//up left
 			{
+				//Verifica se o rei não vai entrar em XEQUE.
+				
 				//Armazenando a peça capturada.
 				if (isPecaDestinoCapturavel())
 				{

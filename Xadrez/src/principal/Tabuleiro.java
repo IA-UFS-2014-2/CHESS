@@ -14,9 +14,22 @@ public class Tabuleiro {
     private Jogada ultima_jogada;
     private final APeca[][] posicoes;
 
-    public Tabuleiro() {
-        this.posicoes = new APeca[8][8];
-    }
+	private static Tabuleiro instance = null;
+	
+	protected Tabuleiro()
+	{
+		this.posicoes = new APeca[8][8];
+	}
+	
+	public static Tabuleiro getInstance() 
+	{
+		if(instance == null) 
+		{
+			instance = new Tabuleiro();
+		}
+		
+		return instance;
+	}
     
     public void incluirPeca(APeca peca){
         //Subtrai 1 do x e y
@@ -80,5 +93,11 @@ public class Tabuleiro {
         
         return strTabuleiro; 
     }
+    
+	//Obtendo a peça a partir da posição informada
+	public APeca getPecaByPosicao(Posicao posicao)
+	{
+		return posicoes[posicao.getX()][posicao.getY()];
+	}
     
 }
