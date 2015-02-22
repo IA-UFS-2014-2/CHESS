@@ -11,12 +11,12 @@ public class Tabuleiro
 	private int turno;
 	private String ultima_jogada_notacao;
 	private Jogada ultima_jogada;
-	private APeca[][] posicoes = new APeca[8][8];
+	private final APeca[][] posicoes ;
                 
 	public Tabuleiro()
 	{
-		
-    }
+	  this.posicoes = new APeca[8][8];
+        }
 		
 	public int getTurno() {
 		return turno;

@@ -144,6 +144,12 @@ public class Jogo {
                 + y_novo + "\"},\"peca_promocao\":\"" + nomePecaPromocao + "\"}";
         return this.getJsonServidor(url);
     }
+     
+   public void solicitarSituacaoAtualTabuleiro(){
+       String url = "SituacaoAtual/"+this.getIdJogador() ;
+       System.out.println(this.getJsonServidor(url));
+       
+   }  
 
     //Getts e Setts   
     public int getIdJogador() {

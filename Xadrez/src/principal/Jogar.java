@@ -17,7 +17,7 @@ public class Jogar {
         jogo.reiniciarPartida();
         System.out.println(jogo.solicitarIdJogador("Jogador123"));
         
-        
+        jogo.solicitarSituacaoAtualTabuleiro();
     }
     
 }
