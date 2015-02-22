@@ -8,13 +8,13 @@ package principal;
 
 import pecas.Peao;
 
-/**Essa classe implementa a funcao de avaliacao do tabuleiro estático, ela será utilizada
- * para calcular a heurística de cada um dos nós da árvore.
+/**Essa classe implementa a funcao de avaliacao do tabuleiro estático, ela sera utilizada
+ * para calcular a heurística de cada um dos nos da árvore.
  * @author Anne
  */
 public class FuncaoAvaliacao
 {
-    Peao peao = new Peao();
+    
     // Valor de cada tipo de peca
     int[] valorPeca = new int[6];
     
@@ -24,13 +24,13 @@ public class FuncaoAvaliacao
     // Quantidade de pecas do adversario que um tipo de peca pode capturar em um dado momento do jogo
     int[] qtd_pecas_ataques = new int[6];
     
-    // Quantidade de pecas que estão protegendo uma dada peca em um dado momento do jogo para evitar que esta 
+    // Quantidade de pecas que estao protegendo uma dada peca em um dado momento do jogo para evitar que esta 
     // peca seja capturada 
     int[] qtd_pecas_defesa = new int[7];
 	
     // Progresso do peao no tabuleiro; usado para verificar até que ponto no tabuleiro o peao já andou
     int progressoPeao;
-	  
+    
    
     public FuncaoAvaliacao(int id) {}
 	
@@ -98,8 +98,8 @@ public class FuncaoAvaliacao
 	
         atribuirPeso();
 	}
-	
     
+    // Atribui pesos aos tipos de pecas
     private void atribuirPeso() {
       valorPeca[0] = 100;
       valorPeca[1] = 300;
