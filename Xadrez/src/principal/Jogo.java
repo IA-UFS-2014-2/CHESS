@@ -33,6 +33,7 @@ public class Jogo {
     private Map<Integer, String> Mensagem = new HashMap<Integer, String>();
     private final String urlServidor;
     private int idJogador;
+    private byte numeroJogador;
     private int ultimoCodigoMensagem;
     
      //Opções do Json
@@ -102,10 +103,12 @@ public class Jogo {
         try {
             JSONObject respostaJson = new JSONObject(conteudoJson);
             if(respostaJson.has(opResult)){
-                //Retornou o id do Jogador
-                 System.out.println(respostaJson.get(opResult));
-                  // this.setIdJogador();
-                 
+                //Retornou o id do Jogador obs: E um JsonArray com 1 posicao
+                JSONArray jsonArrayResult = new JSONArray(respostaJson.get(opResult).toString());
+                JSONObject jsonObjResult = new JSONObject(jsonArrayResult.get(0).toString());
+                this.setIdJogador(Integer.parseInt(jsonObjResult.get("id_jogador").toString()));
+                this.setNumeroJogador(Byte.parseByte(jsonObjResult.get("numero_jogador").toString()));
+           
             }else if(respostaJson.has(opError)){
                 //Tratar Error
                 String strJsonError = respostaJson.get(this.opError).toString();
@@ -174,6 +177,14 @@ public class Jogo {
 
     public void setUltimoCodigoMensagem(int ultimoCodigoMensagem) {
         this.ultimoCodigoMensagem = ultimoCodigoMensagem;
+    }
+
+    public byte getNumeroJogador() {
+        return numeroJogador;
+    }
+
+    public void setNumeroJogador(byte numeroJogador) {
+        this.numeroJogador = numeroJogador;
     }
     
     
