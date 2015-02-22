@@ -6,15 +6,20 @@
 package principal;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import sun.net.www.http.HttpClient;
 
 /**
@@ -28,12 +33,20 @@ public class Jogo {
     private Map<Integer, String> Mensagem = new HashMap<Integer, String>();
     private final String urlServidor;
     private int idJogador;
+    private int ultimoCodigoMensagem;
     
+     //Opções do Json
+       private final String opError = "error";
+       
+       private final String opResult = "result";
+       private final String opCodigo = "codigo";
+       private final String opMensagem = "mensagem";
+
     public Jogo() {
         this.urlServidor = "http://xadrez.tigersoft.com.br:8109/datasnap/rest/"
                 + "TXadrez/";
-        
-        Mensagem.put(100, "Nao Inicializado");
+
+        Mensagem.put(100, "N�o Inicializado");
         Mensagem.put(101, "Esperando o Jogador 1");
         Mensagem.put(102, "Esperando o Jogador 2");
         Mensagem.put(103, "Esperando Sua Jogada");
@@ -65,13 +78,15 @@ public class Jogo {
     }
 
     public String getJsonServidor(String url) {
-        CloseableHttpClient client = HttpClientBuilder.create().build();
-        HttpGet request = new HttpGet(url);
+        ArrayList<String> retorno = new ArrayList<String>();
+        CloseableHttpClient cliente = HttpClientBuilder.create().build();
+        HttpGet requisicao = new HttpGet(url);
         String conteudo = "";
-        HttpResponse responde = null;
+        
+        HttpResponse reposta = null;
         try {
-            HttpResponse response = client.execute(request);
-            HttpEntity entity = response.getEntity();
+            reposta = cliente.execute(requisicao);
+            HttpEntity entity = reposta.getEntity();
             conteudo = EntityUtils.toString(entity);
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,22 +94,40 @@ public class Jogo {
 
         return conteudo;
     }
-    
-    
-    public String solicitarIdJogador(String nomeJogador,boolean usarLetras){
-        String url = this.getUrlServidor()+"SolicitarIdJogador/"+ nomeJogador +"/" + usarLetras;
-        //dá um set no id do jogador
+
+    public int solicitarIdJogador(String nomeJogador) {
+        //Será NÚMEROS da coordenada Y
+        String url = this.getUrlServidor() + "SolicitarIdJogador/" + nomeJogador;
+        String conteudoJson =  this.getJsonServidor(url);
+         
+        try {
+            JSONObject respostaJson = new JSONObject(conteudoJson);
+            if(respostaJson.has(opResult)){
+                //Retornou o id do Jogador
+                 System.out.println(respostaJson.get(opResult));
+                  // this.setIdJogador();
+                 
+            }else if(respostaJson.has(opError)){
+                //Tratar Error
+                String strJsonError = respostaJson.get(this.opError).toString();
+                JSONObject jsonError = new JSONObject(strJsonError);
+                
+                this.setUltimoCodigoMensagem(Integer.parseInt(jsonError.get(this.opCodigo).toString()));
+                System.out.println(jsonError.get(this.opMensagem));
+            }
+
+        } catch (JSONException ex) {
+            Logger.getLogger(Jogo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        return this.getJsonServidor(url);
+        return this.getIdJogador();
     }
-    
-    public String jogar(byte x_atual, byte y_atual, byte x_novo, byte y_novo){
-        String url = this.getUrlServidor()+"Jogar/{\"id_jogador\":\""+this.getIdJogador()+"\",\"posicao_atual\":{\"+x+\":\""+x_atual+"\",\"y\":\""+y_atual+"\"},\"nova_posicao\":{\"x\":\""+x_novo+"\",\"y\":\""+y_novo+"\"}}";  
+
+    public String jogar(byte x_atual, byte y_atual, byte x_novo, byte y_novo) {
+        String url = this.getUrlServidor() + "Jogar/{\"id_jogador\":\"" + this.getIdJogador() + "\",\"posicao_atual\":{\"+x+\":\"" + x_atual + "\",\"y\":\"" + y_atual + "\"},\"nova_posicao\":{\"x\":\"" + x_novo + "\",\"y\":\"" + y_novo + "\"}}";
         return this.getJsonServidor(url);
     }
 
-    
-    
     //Getts e Setts   
     public int getIdJogador() {
         return idJogador;
@@ -103,7 +136,6 @@ public class Jogo {
     public void setIdJogador(int idJogador) {
         this.idJogador = idJogador;
     }
-    
 
     public int getVez() {
         return vez;
@@ -124,7 +156,7 @@ public class Jogo {
     public Map<Integer, String> getMensagem() {
         return Mensagem;
     }
-    
+
     public void setMensagem(Map<Integer, String> Mensagem) {
         this.Mensagem = Mensagem;
     }
@@ -133,6 +165,14 @@ public class Jogo {
         return urlServidor;
     }
 
+    public int getUltimoCodigoMensagem() {
+        return ultimoCodigoMensagem;
+    }
+
+    public void setUltimoCodigoMensagem(int ultimoCodigoMensagem) {
+        this.ultimoCodigoMensagem = ultimoCodigoMensagem;
+    }
     
     
+
 }

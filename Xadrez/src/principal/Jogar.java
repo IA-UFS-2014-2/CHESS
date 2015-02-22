@@ -15,7 +15,7 @@ public class Jogar {
         
         Jogo jogo = new Jogo();
    
-        System.out.println(jogo.solicitarIdJogador("Jogador123", false));
+        System.out.println(jogo.solicitarIdJogador("Jogador123"));
         
         
     }
