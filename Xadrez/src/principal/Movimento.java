@@ -93,7 +93,7 @@ public class Movimento
 	private static boolean isPecaDestinoCapturavel(Tabuleiro tabuleiro, Movimento mov) 
 	{
 		//Verificando se a peça destino está dentro do tabuleiro
-		if (mov.pecaDestino.getPosicao_atual().getX() < 0 || mov.pecaDestino.getPosicao_atual().getX() > 7 || mov.pecaDestino.getPosicao_atual().getY() < 0 || mov.pecaDestino.getPosicao_atual().getY() > 7)
+		if (isPecaNoTabuleiro(mov.pecaDestino.getPosicao_atual().getX(),mov.pecaDestino.getPosicao_atual().getY()))
 		{
 			//Obtendo a peça localizada nas coordenadas da peça destino
 			//mov.pecaDestino = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual()); //TODO
@@ -141,7 +141,7 @@ public class Movimento
 				break;
 			}
 			// Verificando se a linha atual e coluna atual estão dentro do tabuleiro
-			if(linhaAtual < 0 || linhaAtual > 7 || colunaAtual < 0 || colunaAtual > 7)
+			if(!isPecaNoTabuleiro(linhaAtual,colunaAtual))
 			{
 				break;
 			}
@@ -289,7 +289,7 @@ public class Movimento
 			}
 		}
 		// Ou pode mover para uma casa ocupada por uma peça do oponente,
-		// ,que esteja diagonalmente na frente dDele numa coluna adjacente, 
+		// ,que esteja diagonalmente na frente dele numa coluna adjacente, 
 		// capturando aquela peça.
 
 		//Verificando se a peça destino é capturável
@@ -790,8 +790,7 @@ public class Movimento
 		}
 		
 		//Verifica se o movimento está dentro do tabuleiro
-		if(		mov.pecaDestino.getPosicao_atual().getX() < 0 || mov.pecaDestino.getPosicao_atual().getX() > 7
-		   ||	mov.pecaDestino.getPosicao_atual().getY() < 0 || mov.pecaDestino.getPosicao_atual().getY() > 7)
+		if(!isPecaNoTabuleiro(mov.pecaDestino.getPosicao_atual().getX(),mov.pecaDestino.getPosicao_atual().getX()))
 		{
 			return false;
 		}
@@ -981,5 +980,27 @@ public class Movimento
 		}
 		
 		return movimentos;
+	}
+	
+	/*
+	 * Função que verifica se a peça está dentro do tabuleiro
+	 */
+	public static boolean isPecaNoTabuleiro(int x, int y)
+	{
+		return isPecaNoTabuleiro(x, y);
+	}
+	
+	/*
+	 * Função que verifica se a peça está dentro do tabuleiro
+	 */
+	public static boolean isPecaNoTabuleiro(byte x, byte y)
+	{
+		// O tabuleiro começa nas posições x=y=1 
+		if (x < 1 || x > 8 || y < 1 || y > 8)
+		{
+			return false;
+		}
+		
+		return true;
 	}
 }
