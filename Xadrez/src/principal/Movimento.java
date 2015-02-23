@@ -103,10 +103,15 @@ public class Movimento
 			{
 				return true;
 			}
-			//Verificando se a cor da peça destina é diferente da peça origem 
+			//Verificando se a cor da peça destino é diferente da peça origem 
 			else if( mov.pecaOrigem.getCor() != mov.pecaDestino.getCor())
 			{
 				return true;
+			}
+			//Verificando se a peça destino é o Rei, que não pode ser capturado
+			else if (mov.pecaDestino instanceof Rei)
+			{
+				return false;
 			}
 			else
 			{
@@ -240,6 +245,48 @@ public class Movimento
 					}
 				}
 			}
+			// Movimento En Passant (Em passagem)
+			// Verificanda se a peça destino está na coluna a esquerda ou a direita da peça origem.
+			else if (	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY()//Coluna esquerda
+					|| 	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY())//Coluna direita
+			{
+				if (Jogo.numeroJogador == 1) //Branco 
+				{
+					if (mov.pecaOrigem.getPosicao_atual().getX()+1 == mov.pecaDestino.getPosicao_atual().getX())//Avançou um casa para cima
+					{
+						// Verifica se a posicao paralea a peça origem é preenchida por um Peão
+						// e esse Peão realizou o primeiro movimento.
+						
+						// Obtendo a peça da determinado posição no tabuleiro.
+						APeca pecaParalela = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual());
+						if (!pecaParalela.isVazia() && pecaParalela instanceof Peao && pecaParalela.getQtd_movimentos() == 1)
+						{
+							//Armazenando a peça capturada.
+							mov.pecaCapturada = mov.pecaDestino;
+							
+							return true;
+						}
+					}
+				}
+				else //Preto
+				{
+					if (mov.pecaOrigem.getPosicao_atual().getX()-1 == mov.pecaDestino.getPosicao_atual().getX())//Avançou um casa para baixo
+					{
+						// Verifica se a posicao paralea a peça origem é preenchida por um Peão
+						// e esse Peão realizou o primeiro movimento.
+						
+						// Obtendo a peça da determinado posição no tabuleiro.
+						APeca pecaParalela = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual());
+						if (!pecaParalela.isVazia() && pecaParalela instanceof Peao && pecaParalela.getQtd_movimentos() == 1)
+						{
+							//Armazenando a peça capturada.
+							mov.pecaCapturada = mov.pecaDestino;
+							
+							return true;
+						}
+					}
+				}
+			}
 		}
 		// Ou pode mover para uma casa ocupada por uma peça do oponente,
 		// ,que esteja diagonalmente na frente dDele numa coluna adjacente, 
@@ -275,53 +322,6 @@ public class Movimento
 			}
 		}
 		
-		// Movimento En Passant (Em passagem)
-		
-		// Verificando se a peça destino está vazia.
-		if (isPecaDestinoVazia(mov))
-		{
-			// Verificanda se a peça destino está na coluna a esquerda ou a direita da peça origem.
-			if (	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY()//Coluna esquerda
-				|| 	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY())//Coluna direita
-			{
-				if (Jogo.numeroJogador == 1) //Branco 
-				{
-					if (mov.pecaOrigem.getPosicao_atual().getX()+1 == mov.pecaDestino.getPosicao_atual().getX())//Avançou um casa para cima
-					{
-						// Verifica se a posicao paralea a peça origem é preenchida por um Peão
-						// e esse Peão realizou o primeiro movimento.
-						
-						// Obtendo a peça da determinado posição no tabuleiro.
-						APeca pecaParalela = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual());
-						if (!pecaParalela.isVazia() && pecaParalela instanceof Peao && pecaParalela.getQtd_movimentos() == 1)
-						{
-							//Armazenando a peça capturada.
-							mov.pecaCapturada = mov.pecaDestino;
-							
-							return true;
-						}
-					}
-				}
-				else //Preto
-				{
-					if (mov.pecaOrigem.getPosicao_atual().getX()-1 == mov.pecaDestino.getPosicao_atual().getX())//Avançou um casa para baixo
-					{
-						// Verifica se a posicao paralea a peça origem é preenchida por um Peão
-						// e esse Peão realizou o primeiro movimento.
-						
-						// Obtendo a peça da determinado posição no tabuleiro.
-						APeca pecaParalela = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual());
-						if (!pecaParalela.isVazia() && pecaParalela instanceof Peao && pecaParalela.getQtd_movimentos() == 1)
-						{
-							//Armazenando a peça capturada.
-							mov.pecaCapturada = mov.pecaDestino;
-							
-							return true;
-						}
-					}
-				}
-			}
-		}
 		
 		return false;
 	}
