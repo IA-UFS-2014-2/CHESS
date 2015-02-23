@@ -13,24 +13,17 @@ package Brain;
  */
 public class Jogador 
 {    
-    // Funcao de avaliacao usada pelo jogador
-    int idJogador;
-    
+
     // Profundidade da arvore
-    int ply;
-    
-    //Define o jogador
-    String cor;
-    
+    private int limiteProfundidade;
+
     // A avaliacao para o jogador
-    Avaliacao aval;
+    private Avaliacao aval;
 
     public Jogador(){}
     
-    public Jogador(int idJogador, String cor, int ply, Avaliacao av) {
-        this.idJogador=idJogador;
-        this.cor=cor;
-        this.ply=ply;
+    public Jogador(int limiteProfundidade, Avaliacao av) {
+        this.limiteProfundidade=limiteProfundidade;
         this.aval = av;
     }    
     
@@ -46,28 +39,14 @@ public class Jogador
     public void setAval(Avaliacao aval) {
         this.aval = aval;
     }
-    
-    public int getIdJogador() {
-        return idJogador;
+
+    public int getLimiteProfundidade() {
+        return limiteProfundidade;
     }
 
-    public void setIdJogador(int idJogador) {
-        this.idJogador = idJogador;
+    public void setLimiteProfundidade(int limiteProfundidade) {
+        this.limiteProfundidade = limiteProfundidade;
     }
 
-    public int getPly() {
-        return ply;
-    }
-
-    public void setPly(int ply) {
-        this.ply = ply;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
+   
 }
