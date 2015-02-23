@@ -47,12 +47,18 @@ public class Jogar {
                // int utilidadeTabuleiro = superBrain.calcularUtilidade(jogo.getTabuleiro());
                 //System.out.println(utilidadeTabuleiro); 
                 
-                Jogada melhorJogada = superBrain.melhorJogada();
+               /*Jogada melhorJogada = superBrain.melhorJogada();
                
                Posicao posicao_inicial =  melhorJogada.getPosicao_atual();
-               Posicao nova_posicao = melhorJogada.getNova_posicao();
+               Posicao nova_posicao = melhorJogada.getNova_posicao(); 
                 
                 jogo.jogar(posicao_inicial.getX(), posicao_inicial.getY(), nova_posicao.getX(), nova_posicao.getY());
+                */
+                byte x1=7;
+                byte y1=2;
+                byte x2=6;
+                byte y2=2;
+               jogo.jogar(x1, y1, x2, y2);
                 
                 jogo.solicitarSituacaoAtualTabuleiro();
                 //Situacao Depois de Jogar
