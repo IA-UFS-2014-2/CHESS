@@ -142,7 +142,6 @@ public class Jogo {
                 JSONObject jsonError = new JSONObject(strJsonError);
 
                 this.setUltimoCodigoMensagem(Integer.parseInt(jsonError.get(this.opCodigo).toString()));
-                System.out.println(jsonError.get(this.opMensagem));
             }
 
         } catch (JSONException ex) {
@@ -300,7 +299,6 @@ public class Jogo {
                 JSONObject jsonError = new JSONObject(strJsonError);
 
                 this.setUltimoCodigoMensagem(Integer.parseInt(jsonError.get(this.opCodigo).toString()));
-                System.out.println(jsonError.get(this.opMensagem));
                 
             }
         } catch (JSONException ex) {
@@ -352,6 +350,8 @@ public class Jogo {
 
     public void setUltimoCodigoMensagem(int ultimoCodigoMensagem) {
         this.ultimoCodigoMensagem = ultimoCodigoMensagem;
+        System.out.println("Cod: "+this.ultimoCodigoMensagem 
+                +" "+ this.Mensagem.get(this.ultimoCodigoMensagem));
     }
 
     public byte getNumeroJogador() {
