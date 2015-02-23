@@ -29,6 +29,7 @@ public class Jogador
     
     public long calcularHeuristica(Jogador jogador){
         long pontuacao=0;
+        pontuacao=jogador.aval.Avaliacao();
         return pontuacao; 
     }
     

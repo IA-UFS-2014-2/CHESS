@@ -32,9 +32,6 @@ public class Movimento
 	//Indica se o movimento gera uma promoção do peão.
 	private boolean promocaoPeao = false;
 
-	//Identifica qual lado o jogador está, se for branco é 1, se for preto é 2. 
-	private int numeroJogador;
-
 	public int getPontuacao() {
 		return pontuacao;
 	}
@@ -67,13 +64,6 @@ public class Movimento
 		this.pecaCapturada = pecaCapturada;
 	}
 	
-	public int getNumeroJogador() {
-		return numeroJogador;
-	}
-
-	public void setNumeroJogador(int numeroJogador) {
-		this.numeroJogador = numeroJogador;
-	}
 	
 	public boolean isPromocaoPeao() {
 		return promocaoPeao;
@@ -83,65 +73,12 @@ public class Movimento
 		this.promocaoPeao = promocaoPeao;
 	}
 	
-	public Movimento(int numeroJogador, APeca pecaOrigem, APeca pecaDestino)
+	public Movimento(APeca pecaOrigem, APeca pecaDestino)
 	{
-		this.numeroJogador = numeroJogador;
 		this.pecaOrigem = pecaOrigem;
 		this.pecaDestino = pecaDestino;
 	}
-	
-	/// <summary>
-    /// Tipos de Movimentos.
-    /// </summary>
-    public enum TiposDeMovimento
-    {
-        /// <summary>
-        /// Movimento Padrão
-        /// </summary>
-        Padrao, 
-
-        /// <summary>
-        /// Roque longo.
-        /// </summary>
-        RoqueLongo, 
-
-        /// <summary>
-        /// Roque curto.
-        /// </summary>
-        RoqueCurto, 
-
-        /// <summary>
-        /// Peãopromovido a Rainha.
-        /// </summary>
-        PeaoParaRainha, 
-
-        /// <summary>
-        /// Peão promovido a Torre.
-        /// </summary>
-        PeaoParaTorre, 
-
-        /// <summary>
-        /// Peão promovido a Cavalo.
-        /// </summary>
-        PeaoParaCavalo, 
-
-        /// <summary>
-        /// Peão promovido a Bispo.
-        /// </summary>
-        PeaoParaBispo, 
-
-        /// <summary>
-        /// Movimento En passent.
-        /// </summary>
-        EnPassent, 
-
-        /// <summary>
-        /// Movimento Nulo.
-        /// </summary>
-        MovimentoNulo
-    }
-
-		
+			
 	/*
 	 * Função que verifica se a peça destino está vazia.
 	 */
@@ -252,7 +189,7 @@ public class Movimento
 			//Verificando se a coluna da peça origem é a mesma da peça destino.
 			if(mov.pecaOrigem.getPosicao_atual().getY() == mov.pecaDestino.getPosicao_atual().getY())
 			{
-				if (mov.numeroJogador == 1) //Branco 
+				if (Jogo.numeroJogador == 1) //Branco 
 				{
 					//O Peão não fez nemhum movimento
 					if (mov.pecaOrigem.getQtd_movimentos() == 0)
@@ -315,7 +252,7 @@ public class Movimento
 			if (	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY()//Coluna esquerda
 				|| 	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY())//Coluna direita
 			{
-				if (mov.numeroJogador == 1) //Branco 
+				if (Jogo.numeroJogador == 1) //Branco 
 				{
 					if (mov.pecaOrigem.getPosicao_atual().getX()+1 == mov.pecaDestino.getPosicao_atual().getX())//Avançou um casa para cima
 					{
@@ -347,7 +284,7 @@ public class Movimento
 			if (	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY()//Coluna esquerda
 				|| 	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY())//Coluna direita
 			{
-				if (mov.numeroJogador == 1) //Branco 
+				if (Jogo.numeroJogador == 1) //Branco 
 				{
 					if (mov.pecaOrigem.getPosicao_atual().getX()+1 == mov.pecaDestino.getPosicao_atual().getX())//Avançou um casa para cima
 					{
@@ -709,7 +646,7 @@ public class Movimento
 		int coluna = rei.getPosicao_atual().getY();
 		
 		// Verificando se tem algum Peão ameçando o Rei
-		if(mov.numeroJogador == 1) // Branca 
+		if(Jogo.numeroJogador == 1) // Branca 
 		{
 			if (	(	tabuleiro.getPecaByPosicao(linha-1, coluna-1).getCor() != cor
 				     &&	tabuleiro.getPecaByPosicao(linha-1, coluna-1) instanceof Peao)
@@ -900,29 +837,29 @@ public class Movimento
 				case 'P': //Peão
 					if(numeroJogador == 1) 
 					{ // Branca
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-1,coluna));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha-1,coluna));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-1,coluna+1));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha-1,coluna+1));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-1,coluna-1));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha-1,coluna-1));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						if(linha==6) 
 						{
-							mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-2,coluna));
+							mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha-2,coluna));
 							if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						}
 					} 
 					else // Preta
 					{ 
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+1,coluna));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha+1,coluna));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+1,coluna+1));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha+1,coluna+1));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+1,coluna-1));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha+1,coluna-1));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						if(linha==1) 
 						{
-							mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+2,coluna));
+							mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha+2,coluna));
 							if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						}
 					}
@@ -930,25 +867,25 @@ public class Movimento
 				case 'B':
 					for(int i=1;i<8;i++) 
 					{
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+i,coluna+i));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha+i,coluna+i));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						else break;
 					}
 					for(int i=1;i<8;i++) 
 					{
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-i,coluna+i));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha-i,coluna+i));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						else break;
 					}
 					for(int i=1;i<8;i++) 
 					{
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+i,coluna-i));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha+i,coluna-i));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						else break;
 					}
 					for(int i=1;i<8;i++) 
 					{
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-i,coluna-i));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha-i,coluna-i));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						else break;
 					}
@@ -958,32 +895,32 @@ public class Movimento
 					int[] colunaOffsets = {-1,1,-1,1,-2,2,2,-2};
 					for(int i=0;i<8;i++)
 					{
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+linhaOffsets[i],coluna+colunaOffsets[i]));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha+linhaOffsets[i],coluna+colunaOffsets[i]));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 					}
 					break;
 				case 'T':
 					for(int i=1;i<8;i++)
 					{
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+i,coluna));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha+i,coluna));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						else break;
 					}
 					for(int i=1;i<8;i++)
 					{
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-i,coluna));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha-i,coluna));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						else break;
 					}
 					for(int i=1;i<8;i++) 
 					{
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha,coluna+i));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha,coluna+i));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						else break;
 					}
 					for(int i=1;i<8;i++) 
 					{
-						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha,coluna-i));
+						mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha,coluna-i));
 						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						else break;
 					}
@@ -995,7 +932,7 @@ public class Movimento
 						{
 							for(int i=1;i<8;i++)
 							{
-								mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+i*ri,coluna+i*ci));
+								mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha+i*ri,coluna+i*ci));
 								if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 								else break;
 							}
@@ -1007,16 +944,16 @@ public class Movimento
 					{
 						for(int c=-1;c<2;c++) 
 						{
-							mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+r,coluna+c));
+							mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha+r,coluna+c));
 							if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 						}
 					}
 					// Roque Maior ou esquerda
-					mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha,coluna-2));
+					mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha,coluna-2));
 					if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 					
 					//Roque Menor ou direita
-					mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha,coluna+2));
+					mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha,coluna+2));
 					if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
 					break;
 			}

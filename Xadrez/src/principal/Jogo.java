@@ -46,8 +46,8 @@ public class Jogo {
     private Tabuleiro tabuleiro;
     private Map<Integer, String> Mensagem = new HashMap<Integer, String>();
     private final String urlServidor;
-    private static int idJogador;
-    private static byte numeroJogador;
+    public static int idJogador;
+    public static byte numeroJogador;
     private int ultimoCodigoMensagem;
 
     //Opções do Json mais utilizadas
