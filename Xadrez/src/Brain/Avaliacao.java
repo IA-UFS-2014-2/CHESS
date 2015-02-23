@@ -4,34 +4,37 @@
  * and open the template in the editor.
  */
 
-package principal;
+package Brain;
 
 import pecas.APeca;
 import pecas.Posicao;
+import principal.Jogo;
+import principal.Tabuleiro;
 
 /**
- *
+ * Nessa classe definimos os aspectos que farao parte da funcao de avaliacao e a funcao de avaliacao
  * @author Anne
  */
 public class Avaliacao {
     
     Jogo jogo = new Jogo();
     
-
     public int Avaliacao() {
         
         Tabuleiro tabuleiro = jogo.getTabuleiro();
+        Jogador jogador = new Jogador();
         int counter=0;
-        counter+=rateAttack();
-        counter+=rateMaterial(tabuleiro);
-        counter-=rateAttack();
-        counter-=rateMaterial(tabuleiro);
+        // Verifica qual é o jogador e atribui uma pontuacao a ele
+        if (jogador.getCor()=="Branco"){
+             counter+=rateMaterial(tabuleiro);
+        }
+        else{
+            counter-=rateMaterial(tabuleiro);
+        }
+       
         return counter;
     }
     
-    public static int rateAttack() {
-        return 0;
-    }
     public static int rateMaterial(Tabuleiro tabuleiro) {
         int counter=0;
         for(byte row=0;row<8;row++)
