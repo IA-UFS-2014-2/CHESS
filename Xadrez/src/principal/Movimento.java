@@ -966,9 +966,9 @@ public class Movimento
 		ArrayList<Movimento> movimentos = new ArrayList<Movimento>();
 		
 		// Pecorre todo o tabuleiro [8][8]
-		for(int linha = 0; linha < 8; linha++)
+		for(int linha = 1; linha <= 8; linha++)
 		{
-			for(int coluna = 0; coluna < 8; coluna++)
+			for(int coluna = 1; coluna <= 8; coluna++)
 			{
 				ArrayList<Movimento> movimentosPeca = getTodosMovimentosPeca(tabuleiro, numeroJogador, linha, coluna);	
 				
