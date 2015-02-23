@@ -14,7 +14,9 @@ public class NoJogada {
     
     private Tabuleiro tabuleiro;
     private int utilidade;
+    //alpha : Melhor utilidade para Max ao longo do caminho até a raiz
     private int alpha;
+    //beta : Melhor utilidade para Min ao longo do caminho até a raiz
     private int beta;
     private int profundidade;
     private static int profundidadeLimite;
@@ -39,6 +41,10 @@ public class NoJogada {
         this.utilidade = utilidade;
         this.profundidade = profundidade;
         this.proximosNoJogadas = proximosNoJogadas;
+        
+        //Alfa e Beta Iniciam com valores nos piores casos para cada um
+        this.alpha = -9999999;
+        this.beta = 9999999;
     }
       
       
