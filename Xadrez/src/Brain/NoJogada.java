@@ -1,4 +1,4 @@
-package buscaCompetitiva;
+package Brain;
 
 import java.util.ArrayList;
 import principal.Tabuleiro;
