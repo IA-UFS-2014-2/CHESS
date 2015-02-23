@@ -5,6 +5,7 @@
  */
 package principal;
 
+import Brain.Jogador;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,9 +16,11 @@ import java.util.logging.Logger;
 public class Jogar {
 
     public static void main(String args[]) {
-
+        int profundidadePensamento = 3;
         Jogo jogo = new Jogo();
         //jogo.reiniciarPartida();
+        //E o jogador
+        Jogador superBrain = new Jogador(profundidadePensamento);
 
         int idJogador = jogo.solicitarIdJogador("SuperBrain");
         int numeroJogador = jogo.getNumeroJogador();
@@ -39,7 +42,9 @@ public class Jogar {
                 //Minha vez de Jogar
                 //Situacao antes de Jogar
                 System.out.println(jogo.getTabuleiro());
-                //DEFINIR A JOGADA REAL AQUI
+                //DEFINIR A JOGADA AQUI
+               // int utilidadeTabuleiro = superBrain.calcularUtilidade(jogo.getTabuleiro());
+                
                 jogo.jogar((byte) 7, (byte) 2, (byte) 6, (byte) 2);
                 
                 jogo.solicitarSituacaoAtualTabuleiro();

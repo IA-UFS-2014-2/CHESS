@@ -15,23 +15,22 @@ import principal.Tabuleiro;
  */
 public class Jogador 
 {    
-
     // Profundidade da arvore
-    private int limiteProfundidade;
+    private static int limiteProfundidade;
 
-
-    public Jogador(){}
     
     public Jogador(int limiteProfundidade) {
         this.limiteProfundidade=limiteProfundidade;
     }    
     
-    public int calcularHeuristica(Tabuleiro tabuleiro){
+    public int calcularUtilidade(Tabuleiro tabuleiro){
         int pontuacao=0;
         pontuacao=Avaliacao.avaliarTabuleiro(tabuleiro);
         return pontuacao; 
     }
   
+    
+    
 
     public int getLimiteProfundidade() {
         return limiteProfundidade;
