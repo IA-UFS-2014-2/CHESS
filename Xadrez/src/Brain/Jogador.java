@@ -6,6 +6,9 @@
 
 package Brain;
 
+import pecas.Posicao;
+import principal.Jogada;
+import principal.Jogo;
 import principal.Tabuleiro;
 
 
@@ -29,7 +32,11 @@ public class Jogador
         return pontuacao; 
     }
   
-    
+    public Jogada melhorJogada() {
+        int alpha = -9999999;
+        int beta = 9999999;
+       return AlphaBeta.alphaBeta(Jogo.tabuleiro, Jogador.limiteProfundidade, alpha, beta);
+    }
     
 
     public int getLimiteProfundidade() {

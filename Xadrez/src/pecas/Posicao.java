@@ -10,6 +10,10 @@ public class Posicao
             this.setX(x);
             this.setY(y);
         }
+
+    public Posicao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
         
 	public byte getX() {
 		return x;

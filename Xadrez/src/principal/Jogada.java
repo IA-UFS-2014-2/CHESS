@@ -7,6 +7,11 @@ public class Jogada
 	private Posicao posicao_atual;
 	private Posicao nova_posicao;
 	
+        public Jogada(Posicao posicao_atual, Posicao nova_posicao){
+            this.posicao_atual=posicao_atual;
+            this.nova_posicao=nova_posicao;
+        }
+        
 	public Posicao getPosicao_atual() {
 		return posicao_atual;
 	}

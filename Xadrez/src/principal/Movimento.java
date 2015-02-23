@@ -40,23 +40,24 @@ public class Movimento {
     //proximosNoJogadas = todos as configurações dos tabuleiros
     //para todas jogadas possíveis        
     private ArrayList<Movimento> proximosMovimentos;
-
+    private byte jogador;
+    
     //O No Pai, que é a jogada anterior
     private Movimento movimentoAnterior;
 
     public Movimento(Movimento movimentoAnterior, Tabuleiro tabuleiro,
             ArrayList<Movimento> proximosMovimentos,
             int utilidade, int profundidade, int profundidadeLimite) {
-        this(movimentoAnterior, tabuleiro, proximosMovimentos, utilidade, profundidade);
+        this(movimentoAnterior, tabuleiro, utilidade, profundidade);
         Movimento.profundidadeLimite = profundidadeLimite;
     }
 
     public Movimento(Movimento movimentoAnterior, Tabuleiro tabuleiro,
-            ArrayList<Movimento> proximosMovimentos,
-            int utilidade, int profundidade) {
+       int utilidade, int profundidade) {
         this.tabuleiro = tabuleiro;
         this.utilidade = utilidade;
         this.profundidade = profundidade;
+        this.getTodosMovimentos(utilidade);
         this.proximosMovimentos = proximosMovimentos;
 
         //Alfa e Beta Iniciam com valores nos piores casos para cada um

@@ -8,6 +8,7 @@ package principal;
 import Brain.Jogador;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import pecas.Posicao;
 
 /**
  *
@@ -41,15 +42,21 @@ public class Jogar {
                 
                 //Minha vez de Jogar
                 //Situacao antes de Jogar
-                System.out.println(jogo.getTabuleiro());
+               // System.out.println(jogo.getTabuleiro());
                 //DEFINIR A JOGADA AQUI
                // int utilidadeTabuleiro = superBrain.calcularUtilidade(jogo.getTabuleiro());
+                //System.out.println(utilidadeTabuleiro); 
                 
-                jogo.jogar((byte) 7, (byte) 2, (byte) 6, (byte) 2);
+                Jogada melhorJogada = superBrain.melhorJogada();
+               
+               Posicao posicao_inicial =  melhorJogada.getPosicao_atual();
+               Posicao nova_posicao = melhorJogada.getNova_posicao();
+                
+                jogo.jogar(posicao_inicial.getX(), posicao_inicial.getY(), nova_posicao.getX(), nova_posicao.getY());
                 
                 jogo.solicitarSituacaoAtualTabuleiro();
                 //Situacao Depois de Jogar
-                System.out.println(jogo.getTabuleiro());
+               // System.out.println(jogo.getTabuleiro());
                 
             } else if ((jogo.getUltimoCodigoMensagem() >= 200
                     && jogo.getUltimoCodigoMensagem() <= 205) 
