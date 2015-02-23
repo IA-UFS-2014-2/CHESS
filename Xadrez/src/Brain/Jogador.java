@@ -22,14 +22,13 @@ public class Jogador
 
     public Jogador(){}
     
-    public Jogador(int limiteProfundidade, Avaliacao av) {
+    public Jogador(int limiteProfundidade) {
         this.limiteProfundidade=limiteProfundidade;
-        this.aval = av;
     }    
     
     public int calcularHeuristica(Tabuleiro tabuleiro){
         int pontuacao=0;
-        pontuacao=jogador.aval.Avaliacao();
+        pontuacao=Avaliacao.avaliarTabuleiro(tabuleiro);
         return pontuacao; 
     }
   
