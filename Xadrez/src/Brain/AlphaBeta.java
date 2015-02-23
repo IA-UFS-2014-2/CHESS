@@ -13,9 +13,9 @@ import principal.Tabuleiro;
  */
 public class AlphaBeta {
     
-      public Movimento melhorJogada(byte jogador, Tabuleiro tabuleiro, int alpha, int beta, int profundidade, int limiteProfundidade)
+      public static Movimento melhorJogada(byte jogador, Tabuleiro tabuleiro, int alpha, int beta, int profundidade, int limiteProfundidade)
       {
-    	Movimento melhorMovimento = new Movimento(null, tabuleiro,0,0);
+    	Movimento melhorMovimento = new Movimento(null, tabuleiro, 0, 0);
 		Movimento movResposta;
 	
 	    if (/*Tabuleiro.isGameOver(tabuleiro) || */profundidade == limiteProfundidade) 

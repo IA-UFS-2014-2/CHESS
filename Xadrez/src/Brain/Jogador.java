@@ -9,6 +9,7 @@ package Brain;
 import pecas.Posicao;
 import principal.Jogada;
 import principal.Jogo;
+import principal.Movimento;
 import principal.Tabuleiro;
 
 
@@ -32,10 +33,10 @@ public class Jogador
         return pontuacao; 
     }
   
-    public Jogada melhorJogada() {
+    public Movimento melhorJogada() {
         int alpha = -9999999;
         int beta = 9999999;
-       return AlphaBeta.alphaBeta(Jogo.tabuleiro, Jogador.limiteProfundidade, alpha, beta);
+        return AlphaBeta.melhorJogada(Jogo.numeroJogador , Jogo.tabuleiro, alpha, beta, 0 , Jogador.limiteProfundidade);
     }
     
 
