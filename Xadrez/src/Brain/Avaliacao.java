@@ -17,41 +17,36 @@ import principal.Tabuleiro;
  */
 public class Avaliacao {
     
-    public int Avaliacao(Tabuleiro tabuleiro) {
-        
-        Jogador jogador = new Jogador();
-        int counter=0;
-        // Verifica qual é o jogador e atribui uma pontuacao a ele
-        if (Jogo.numeroJogador == 1){
-             counter+=rateMaterial(tabuleiro);
-        }
-        else{
-            counter-=rateMaterial(tabuleiro);
-        }
-       
-        return counter;
+    
+    
+    public int avaliarTabuleiro(Tabuleiro tabuleiro) {
+        int avaliacao=0;
+        // 1 Heurística
+        avaliacao = rateMaterial(tabuleiro);
+        return avaliacao;
     }
     
     public int rateMaterial(Tabuleiro tabuleiro) {
         int counter=0;
         int countBispo=0;
         
-        for(byte row=0;row<8;row++)
-            for(byte col=0;col<8;col++) {
-                Posicao posicao = new Posicao(row, col);
+        for(byte x=1;x<=8;x++)
+            for(byte y=1;y<=8;y++) {
+                Posicao posicao = new Posicao(x, y);
                 APeca peca = tabuleiro.getPecaByPosicao(posicao);
+                int valorMedio = peca.getValor() * 100;
                 switch (peca.getNome()){
-                    case 'P': counter+=100;
+                    case 'P': counter+=valorMedio;
                     break;
                     case 'B': counter+=1;
                     break;
-                    case 'C': counter+=300;
+                    case 'C': counter+=valorMedio;
                     break;
-                    case 'T': counter+=500;
+                    case 'T': counter+=valorMedio;
                     break;
-                    case 'D': counter+=900;
+                    case 'D': counter+=valorMedio;
                     break;
-                    case 'R': counter+=9999999;
+                    case 'R': counter+= valorMedio;
                     break;
                 }
             }

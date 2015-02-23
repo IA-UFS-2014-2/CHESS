@@ -180,10 +180,10 @@ public class Tabuleiro {
 	public APeca getPecaByPosicao(Posicao posicao)
 	{
 		//Verificando se está dentro do tabuleiro
-		if (posicao.getX() < 0 || posicao.getX() > 7 || posicao.getY() < 0 || posicao.getY() > 7)
+		if (posicao.getX() < 1 || posicao.getX() > 8 || posicao.getY() < 1 || posicao.getY() > 8)
 		{
 			// Devolvendo uma peça nula
-			return new APeca(){};
+			return null;
 		}
 		else
 		{
