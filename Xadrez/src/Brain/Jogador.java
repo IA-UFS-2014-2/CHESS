@@ -29,6 +29,12 @@ public class Jogador
         this.cor=cor;
         this.ply=ply;
     }    
+    
+    public int calcularHeuristica(){
+        long pontuacao=0;
+        
+        return pontuacao; 
+    }
 
     public int getIdJogador() {
         return idJogador;
