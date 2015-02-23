@@ -49,7 +49,6 @@ public class Avaliacao {
         }
         
         int counter = 0;
-        int countBispo = 0;
         int capacidadeBatalhaPeca = 0;
         int capacidadeBatalhaRei = 0;
         for (byte x = 1; x <= 8; x++) {
@@ -64,9 +63,9 @@ public class Avaliacao {
 
                     if (peca instanceof Rei) {
                         Rei pecaRei = (Rei) peca;
-                        capacidadeBatalhaRei = (pecaRei.getCapacidadeDeBatalha() * 100)*numMovimentosPeca;
+                        capacidadeBatalhaRei = (pecaRei.getCapacidadeDeBatalha() * 10)*numMovimentosPeca;
                     } else {
-                        capacidadeBatalhaPeca = (peca.getValor() * 100)*numMovimentosPeca;
+                        capacidadeBatalhaPeca = (peca.getValor() * 10)*numMovimentosPeca;
                     }
 
                     switch (peca.getNome()) {
