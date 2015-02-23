@@ -43,7 +43,7 @@ import sun.net.www.http.HttpClient;
 public class Jogo {
 
     private int vez;
-    private Tabuleiro tabuleiro;
+    public static Tabuleiro tabuleiro;
     private Map<Integer, String> Mensagem = new HashMap<Integer, String>();
     private final String urlServidor;
     public static int idJogador;

@@ -17,15 +17,13 @@ import principal.Tabuleiro;
  */
 public class Avaliacao {
     
-    Jogo jogo = new Jogo();
-    
     public int Avaliacao() {
         
-        Tabuleiro tabuleiro = jogo.getTabuleiro();
+        Tabuleiro tabuleiro = Jogo.tabuleiro;
         Jogador jogador = new Jogador();
         int counter=0;
         // Verifica qual é o jogador e atribui uma pontuacao a ele
-        if (jogador.getCor()=="Branco"){
+        if (Jogo.numeroJogador == 1){
              counter+=rateMaterial(tabuleiro);
         }
         else{
@@ -35,7 +33,7 @@ public class Avaliacao {
         return counter;
     }
     
-    public static int rateMaterial(Tabuleiro tabuleiro) {
+    public int rateMaterial(Tabuleiro tabuleiro) {
         int counter=0;
         int countBispo=0;
         
