@@ -17,9 +17,8 @@ import principal.Tabuleiro;
  */
 public class Avaliacao {
     
-    public int Avaliacao() {
+    public int Avaliacao(Tabuleiro tabuleiro) {
         
-        Tabuleiro tabuleiro = Jogo.tabuleiro;
         Jogador jogador = new Jogador();
         int counter=0;
         // Verifica qual é o jogador e atribui uma pontuacao a ele
