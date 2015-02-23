@@ -6,6 +6,10 @@
 
 package principal;
 
+import java.util.HashMap;
+import java.util.Map;
+import pecas.APeca;
+
 
 /**Essa classe implementa a funcao de avaliacao do tabuleiro estático, ela sera utilizada
  * para calcular a heurística de cada um dos nos da árvore.
@@ -25,7 +29,9 @@ public class FuncaoAvaliacao
     
     // Quantidade de pecas que estao protegendo uma dada peca em um dado momento do jogo para evitar que esta 
     // peca seja capturada 
-    int[] qtd_pecas_defesa = new int[6];
+    //int[] qtd_pecas_defesa = new int[6];
+    
+    private Map<Character, Byte> qtd_pecas_defesa;
 	
     // Progresso do peao no tabuleiro; usado para verificar até que ponto no tabuleiro o peao já andou
     int progressoPeao;
@@ -36,11 +42,13 @@ public class FuncaoAvaliacao
     // Cria uma função de avaliação com a passagem de parâmetros e atribui os pesos aos tipos de peca
     public FuncaoAvaliacao(int progPeao, int[] qtd_mov, int[] qtd_pecas_ataq, int[] qtd_pecas_def)
     {
-		
+	this.qtd_pecas_defesa = new HashMap<Character, Byte>();
+                
         progressoPeao = progPeao;
 	qtd_movimentos = qtd_pecas_ataq;
 	qtd_pecas_ataques = qtd_pecas_def;
-	qtd_pecas_defesa = qtd_pecas_def;
+        
+	//qtd_pecas_defesa = qtd_pecas_def;
         
         // Atribuindo pesos aos tipos de pecas
 	atribuirPeso();		
