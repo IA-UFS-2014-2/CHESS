@@ -49,21 +49,16 @@ public class Tabuleiro {
         //Subtrai 1 do x e y
         Posicao posicaoAtual = peca.getPosicao_atual();
         this.posicoes[posicaoAtual.getX()-1][posicaoAtual.getY()-1] = peca;
-    }
-    
-    public void incluirPeca(APeca peca, int numeroJogador)
-    {
-    	this.incluirPeca(peca);
         
         // Se a peça é o Rei, armazena-o
         if (peca instanceof Rei)
         {
         	//Se o rei for do jogador
-        	if (numeroJogador == 1 && peca.getCor() == "branca") // numeroJogador = 1 => branca
+        	if (Jogo.numeroJogador == 1 && peca.getCor() == "branca") // numeroJogador = 1 => branca
         	{
         		reiProprio = peca;
         	}
-        	else if (numeroJogador == 2 && peca.getCor() == "preta") // numeroJogador = 2 => preto
+        	else if (Jogo.numeroJogador == 2 && peca.getCor() == "preta") // numeroJogador = 2 => preto
         	{
         		reiProprio = peca;
         	}
@@ -78,13 +73,13 @@ public class Tabuleiro {
         if (peca instanceof Torre)
         {
         	//Se a torre for do jogador
-        	if (numeroJogador == 1 && peca.getCor() == "branca") // numeroJogador = 1 => branca
+        	if (Jogo.numeroJogador == 1 && peca.getCor() == "branca") // numeroJogador = 1 => branca
         	{
         		//Só armazena a torre se for possível utilizá-la para o movimento Roque
         		if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 1) torreEsquerda = peca;
         		else if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 8) torreDireita = peca;
         	}
-        	else if (numeroJogador == 2 && peca.getCor() == "preta") // numeroJogador = 2 => preto
+        	else if (Jogo.numeroJogador == 2 && peca.getCor() == "preta") // numeroJogador = 2 => preto
         	{
         		//Só armazena a torre se for possível utilizá-la para o movimento Roque
         		if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 8) torreEsquerda = peca;
