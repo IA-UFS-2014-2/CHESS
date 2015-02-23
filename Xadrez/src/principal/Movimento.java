@@ -1,8 +1,17 @@
 package principal;
 
+import java.util.ArrayList;
+
+import com.sun.org.apache.bcel.internal.generic.TABLESWITCH;
+
 import pecas.APeca;
+import pecas.Bispo;
+import pecas.Cavalo;
 import pecas.Peao;
 import pecas.Posicao;
+import pecas.Rainha;
+import pecas.Rei;
+import pecas.Torre;
 
 /**
 *
@@ -22,10 +31,6 @@ public class Movimento
 	
 	//Indica se o movimento gera uma promoção do peão.
 	private boolean promocaoPeao = false;
-
-	public void setPromocaoPeao(boolean promocaoPeao) {
-		this.promocaoPeao = promocaoPeao;
-	}
 
 	//Identifica qual lado o jogador está, se for branco é 1, se for preto é 2. 
 	private int numeroJogador;
@@ -74,11 +79,15 @@ public class Movimento
 		return promocaoPeao;
 	}
 	
-	public Movimento(int numeroJogador, APeca posicao_atual, APeca nova_posicao)
+	public void setPromocaoPeao(boolean promocaoPeao) {
+		this.promocaoPeao = promocaoPeao;
+	}
+	
+	public Movimento(int numeroJogador, APeca pecaOrigem, APeca pecaDestino)
 	{
 		this.numeroJogador = numeroJogador;
-		this.pecaOrigem = posicao_atual;
-		this.pecaDestino = nova_posicao;
+		this.pecaOrigem = pecaOrigem;
+		this.pecaDestino = pecaDestino;
 	}
 	
 	/// <summary>
@@ -132,63 +141,43 @@ public class Movimento
         MovimentoNulo
     }
 
-    /*
-     * Função que verifica se o movimento da peça é válido.
-     */
-	public boolean isMovimentoValido()
-	{
-		// Variável que armazena o status do movimento, válido ou inválido.
-		boolean isValido = false;
-		
-		// Verificando o tipo da peça para analisar seu movimento.
-		switch (pecaOrigem.getNome())
-		{
-			case 'P': //Peão
-				isValido = isValidoMovimentoPeao(); break;
-			case 'B': //Bispo
-				isValido = isValidoMovimentoBispo(); break;
-			case 'C': //Cavalo:
-				isValido = isValidoMovimentoCavalo(); break;
-			case 'T': //Torre:
-				isValido = isValidoMovimentoTorre(); break;
-			case 'D': //Rainha:
-				isValido = isValidoMovimentoRainha(); break;
-			case 'R': //Rei:
-				isValido = isValidoMovimentoRei(); break;
-				
-			default: break;
-		}
-		
-		return isValido;
-	}
 		
 	/*
 	 * Função que verifica se a peça destino está vazia.
 	 */
-	public boolean isPecaDestinoVazia()
+	public static boolean isPecaDestinoVazia(Movimento mov)
 	{
-		return this.pecaDestino.isVazia();		
+		return mov.pecaDestino.isVazia();		
 	}
 	
 	/*
 	 * Função que verifica se a peça destino pode ser capturada.
 	 */
-	private boolean isPecaDestinoCapturavel() 
+	private static boolean isPecaDestinoCapturavel(Tabuleiro tabuleiro, Movimento mov) 
 	{
-		//Verificando se a peça destipo está vazia, sem sim não pode ser capturada.
-		if(pecaDestino.isVazia())
+		//Verificando se a peça destino está dentro do tabuleiro
+		if (mov.pecaDestino.getPosicao_atual().getX() < 0 || mov.pecaDestino.getPosicao_atual().getX() > 7 || mov.pecaDestino.getPosicao_atual().getY() < 0 || mov.pecaDestino.getPosicao_atual().getY() > 7)
 		{
-			return false;
+			//Obtendo a peça localizada nas coordenadas da peça destino
+			//mov.pecaDestino = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual()); //TODO
+			
+			//Verificando se a peça destino está vazia, sem sim não pode ser capturada.
+			if(mov.pecaDestino.isVazia())
+			{
+				return true;
+			}
+			//Verificando se a cor da peça destina é diferente da peça origem 
+			else if( mov.pecaOrigem.getCor() != mov.pecaDestino.getCor())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
-		//Verificando se a cor da peça destina é diferente da peça origem 
-		else if( pecaOrigem.getCor() != pecaDestino.getCor())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		
+		return false;
 	}
 	
 	/**
@@ -197,15 +186,15 @@ public class Movimento
 	 * @param incrementoPorColuna
 	 * @return True se existir alguma peça e False se o caminho estiver limpo.
 	 */
-	private boolean isPecaEntreOrigemDestino(int incrementoPorLinha, int incrementoPorColuna) 
+	private static boolean isPecaEntreOrigemDestino(Tabuleiro tabuleiro, Movimento mov, int incrementoPorLinha, int incrementoPorColuna) 
 	{
 		
-		int linhaAtual = pecaOrigem.getPosicao_atual().getX() + incrementoPorLinha;
-		int colunaAtual = pecaOrigem.getPosicao_atual().getY() + incrementoPorColuna;
+		int linhaAtual = mov.pecaOrigem.getPosicao_atual().getX() + incrementoPorLinha;
+		int colunaAtual = mov.pecaOrigem.getPosicao_atual().getY() + incrementoPorColuna;
 		while(true)
 		{
 			// Se chegou ao destino
-			if(linhaAtual == pecaDestino.getPosicao_atual().getX() && colunaAtual == pecaDestino.getPosicao_atual().getY())
+			if(linhaAtual == mov.pecaDestino.getPosicao_atual().getX() && colunaAtual == mov.pecaDestino.getPosicao_atual().getY())
 			{
 				break;
 			}
@@ -216,7 +205,7 @@ public class Movimento
 			}
 
 			//Verifica se as coordenadas levam a uma peça válida.
-			if(isPecaValida(linhaAtual, colunaAtual))
+			if(isPecaValida(tabuleiro, linhaAtual, colunaAtual))
 			{
 				return true;
 			}
@@ -234,10 +223,10 @@ public class Movimento
 	 * @param coluna
 	 * @return Verdadeiro, se contém uma localiação válida.
 	 */
-	boolean isPecaValida (int x, int y) 
+	public static boolean isPecaValida (Tabuleiro tabuleiro, int x, int y) 
 	{
 		//Obtendo a peça de acordo com as coordenadas.
-		APeca peca = Tabuleiro.getInstance().getPecaByPosicao(new Posicao((byte)x, (byte)y));
+		APeca peca = tabuleiro.getPecaByPosicao(new Posicao((byte)x, (byte)y));
 		
 		// Se não estiver vazia é uma peça válida.
 		if (!peca.isVazia())
@@ -251,25 +240,25 @@ public class Movimento
 	/*
 	 * Função que verifica se o movimento do Peão é válido.
 	 */
-	public boolean isValidoMovimentoPeao()
+	public static boolean isValidoMovimentoPeao(Tabuleiro tabuleiro, Movimento mov)
 	{
 		// O peão pode avançar para a casa vazia, imediatamente à frente,
 		// ou em seu primeiro lance ele pode avançar duas casas.
 		// Desde que ambas estejam desocupadas.
 		
 		// Verificando se a peça destino está vazia.
-		if (isPecaDestinoVazia())
+		if (isPecaDestinoVazia(mov))
 		{
 			//Verificando se a coluna da peça origem é a mesma da peça destino.
-			if(pecaOrigem.getPosicao_atual().getY() == pecaDestino.getPosicao_atual().getY())
+			if(mov.pecaOrigem.getPosicao_atual().getY() == mov.pecaDestino.getPosicao_atual().getY())
 			{
-				if (numeroJogador == 1) //Branco 
+				if (mov.numeroJogador == 1) //Branco 
 				{
 					//O Peão não fez nemhum movimento
-					if (pecaOrigem.getQtd_movimentos() == 0)
+					if (mov.pecaOrigem.getQtd_movimentos() == 0)
 					{
-						if (	pecaOrigem.getPosicao_atual().getX() + 1 == pecaDestino.getPosicao_atual().getX() //Avançou um casa para cima
-							||	pecaOrigem.getPosicao_atual().getX() + 2 == pecaDestino.getPosicao_atual().getX())//Avançou duas casas para cima
+						if (	mov.pecaOrigem.getPosicao_atual().getX() + 1 == mov.pecaDestino.getPosicao_atual().getX() //Avançou um casa para cima
+							||	mov.pecaOrigem.getPosicao_atual().getX() + 2 == mov.pecaDestino.getPosicao_atual().getX())//Avançou duas casas para cima
 						{
 							return true;
 						}
@@ -277,11 +266,11 @@ public class Movimento
 					//O Peão já se movimentou
 					else
 					{
-						if (pecaOrigem.getPosicao_atual().getX() + 1 == pecaDestino.getPosicao_atual().getX()) //Avançou um casa para cima
+						if (mov.pecaOrigem.getPosicao_atual().getX() + 1 == mov.pecaDestino.getPosicao_atual().getX()) //Avançou um casa para cima
 						{
-							if (pecaDestino.getPosicao_atual().getY() == 8) //Está na última linha, ou seja pode ser promovido.
+							if (mov.pecaDestino.getPosicao_atual().getY() == 8) //Está na última linha, ou seja pode ser promovido.
 							{
-								promocaoPeao = true;
+								mov.promocaoPeao = true;
 							}
 							
 							return true;
@@ -291,10 +280,10 @@ public class Movimento
 				else // Preto
 				{
 					//O Peão não fez nemhum movimento
-					if (pecaOrigem.getQtd_movimentos() == 0)
+					if (mov.pecaOrigem.getQtd_movimentos() == 0)
 					{
-						if (	pecaOrigem.getPosicao_atual().getX() - 1 == pecaDestino.getPosicao_atual().getX() //Avançou um casa para baixo
-							||	pecaOrigem.getPosicao_atual().getX() - 2 == pecaDestino.getPosicao_atual().getX())//Avançou duas casas para baixo
+						if (	mov.pecaOrigem.getPosicao_atual().getX() - 1 == mov.pecaDestino.getPosicao_atual().getX() //Avançou um casa para baixo
+							||	mov.pecaOrigem.getPosicao_atual().getX() - 2 == mov.pecaDestino.getPosicao_atual().getX())//Avançou duas casas para baixo
 						{
 							return true;
 						}
@@ -302,11 +291,11 @@ public class Movimento
 					//O Peão já se movimentou
 					else
 					{
-						if (pecaOrigem.getPosicao_atual().getX() - 1 == pecaDestino.getPosicao_atual().getX()) //Avançou um casa para cima
+						if (mov.pecaOrigem.getPosicao_atual().getX() - 1 == mov.pecaDestino.getPosicao_atual().getX()) //Avançou um casa para cima
 						{
-							if (pecaDestino.getPosicao_atual().getY() == 1) //Está na primeira linha, ou seja pode ser promovido.
+							if (mov.pecaDestino.getPosicao_atual().getY() == 1) //Está na primeira linha, ou seja pode ser promovido.
 							{
-								promocaoPeao = true;
+								mov.promocaoPeao = true;
 							}
 							
 							return true;
@@ -320,28 +309,28 @@ public class Movimento
 		// capturando aquela peça.
 
 		//Verificando se a peça destino é capturável
-		else if (isPecaDestinoCapturavel())
+		else if (isPecaDestinoCapturavel(tabuleiro, mov))
 		{
 			//Verificanda se a peça destino está na coluna a esquerda ou a direita da peça origem.
-			if (	pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY()//Coluna esquerda
-				|| 	pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY())//Coluna direita
+			if (	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY()//Coluna esquerda
+				|| 	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY())//Coluna direita
 			{
-				if (numeroJogador == 1) //Branco 
+				if (mov.numeroJogador == 1) //Branco 
 				{
-					if (pecaOrigem.getPosicao_atual().getX()+1 == pecaDestino.getPosicao_atual().getX())//Avançou um casa para cima
+					if (mov.pecaOrigem.getPosicao_atual().getX()+1 == mov.pecaDestino.getPosicao_atual().getX())//Avançou um casa para cima
 					{
 						//Armazenando a peça capturada.
-						pecaCapturada = pecaDestino;
+						mov.pecaCapturada = mov.pecaDestino;
 						
 						return true;
 					}
 				}
 				else //Preto
 				{
-					if (pecaOrigem.getPosicao_atual().getX()-1 == pecaDestino.getPosicao_atual().getX())//Avançou um casa para baixo
+					if (mov.pecaOrigem.getPosicao_atual().getX()-1 == mov.pecaDestino.getPosicao_atual().getX())//Avançou um casa para baixo
 					{
 						//Armazenando a peça capturada.
-						pecaCapturada = pecaDestino;
+						mov.pecaCapturada = mov.pecaDestino;
 						
 						return true;
 					}
@@ -352,26 +341,25 @@ public class Movimento
 		// Movimento En Passant (Em passagem)
 		
 		// Verificando se a peça destino está vazia.
-		if (isPecaDestinoVazia())
+		if (isPecaDestinoVazia(mov))
 		{
 			// Verificanda se a peça destino está na coluna a esquerda ou a direita da peça origem.
-			if (	pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY()//Coluna esquerda
-				|| 	pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY())//Coluna direita
+			if (	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY()//Coluna esquerda
+				|| 	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY())//Coluna direita
 			{
-				if (numeroJogador == 1) //Branco 
+				if (mov.numeroJogador == 1) //Branco 
 				{
-					if (pecaOrigem.getPosicao_atual().getX()+1 == pecaDestino.getPosicao_atual().getX())//Avançou um casa para cima
+					if (mov.pecaOrigem.getPosicao_atual().getX()+1 == mov.pecaDestino.getPosicao_atual().getX())//Avançou um casa para cima
 					{
 						// Verifica se a posicao paralea a peça origem é preenchida por um Peão
 						// e esse Peão realizou o primeiro movimento.
 						
 						// Obtendo a peça da determinado posição no tabuleiro.
-						Tabuleiro tabuleiro = Tabuleiro.getInstance();
-						APeca pecaParalela = tabuleiro.getPecaByPosicao(pecaDestino.getPosicao_atual());
+						APeca pecaParalela = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual());
 						if (!pecaParalela.isVazia() && pecaParalela instanceof Peao && pecaParalela.getQtd_movimentos() == 1)
 						{
 							//Armazenando a peça capturada.
-							pecaCapturada = pecaDestino;
+							mov.pecaCapturada = mov.pecaDestino;
 							
 							return true;
 						}
@@ -379,18 +367,17 @@ public class Movimento
 				}
 				else //Preto
 				{
-					if (pecaOrigem.getPosicao_atual().getX()-1 == pecaDestino.getPosicao_atual().getX())//Avançou um casa para baixo
+					if (mov.pecaOrigem.getPosicao_atual().getX()-1 == mov.pecaDestino.getPosicao_atual().getX())//Avançou um casa para baixo
 					{
 						// Verifica se a posicao paralea a peça origem é preenchida por um Peão
 						// e esse Peão realizou o primeiro movimento.
 						
 						// Obtendo a peça da determinado posição no tabuleiro.
-						Tabuleiro tabuleiro = Tabuleiro.getInstance();
-						APeca pecaParalela = tabuleiro.getPecaByPosicao(pecaDestino.getPosicao_atual());
+						APeca pecaParalela = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual());
 						if (!pecaParalela.isVazia() && pecaParalela instanceof Peao && pecaParalela.getQtd_movimentos() == 1)
 						{
 							//Armazenando a peça capturada.
-							pecaCapturada = pecaDestino;
+							mov.pecaCapturada = mov.pecaDestino;
 							
 							return true;
 						}
@@ -405,24 +392,24 @@ public class Movimento
 	/*
 	 * Função que verifica se o movimento do Cavalo é válido.
 	 */
-	public boolean isValidoMovimentoCavalo()
+	public static boolean isValidoMovimentoCavalo(Tabuleiro tabuleiro, Movimento mov)
 	{
 		// O cavalo anda em um formato que reproduz
 		// a letra L, ou seja, duas casas, na direção horizontal ou
 		// vertical, e mais uma, em ângulo reto à direção anterior
 		
 		// Se a pecaDestino está vazia ou é capturável
-		if (isPecaDestinoVazia() || isPecaDestinoCapturavel())
+		if (isPecaDestinoVazia(mov) || isPecaDestinoCapturavel(tabuleiro, mov))
 		{		
-			int distanciaEntreLinhas = Math.abs(pecaOrigem.getPosicao_atual().getX() - pecaDestino.getPosicao_atual().getX());
-			int distanciaEntreColunas = Math.abs(pecaOrigem.getPosicao_atual().getY() - pecaDestino.getPosicao_atual().getY());
+			int distanciaEntreLinhas = Math.abs(mov.pecaOrigem.getPosicao_atual().getX() - mov.pecaDestino.getPosicao_atual().getX());
+			int distanciaEntreColunas = Math.abs(mov.pecaOrigem.getPosicao_atual().getY() - mov.pecaDestino.getPosicao_atual().getY());
 			if(		(distanciaEntreLinhas == 2 && distanciaEntreColunas == 1)
 				||	(distanciaEntreLinhas == 1 && distanciaEntreColunas == 2))
 			{
 				//Armazenando a peça capturada.
-				if (isPecaDestinoCapturavel())
+				if (isPecaDestinoCapturavel(tabuleiro, mov))
 				{
-					pecaCapturada = pecaDestino;
+					mov.pecaCapturada = mov.pecaDestino;
 				}
 				
 				return true;
@@ -435,26 +422,26 @@ public class Movimento
 	/*
 	 * Função que verifica se o movimento do Bispo é válido.
 	 */
-	public boolean isValidoMovimentoBispo()
+	public static boolean isValidoMovimentoBispo(Tabuleiro tabuleiro, Movimento mov)
 	{
 		// O bispo pode mover-se qualquer número de casas na diagonal,
 		// mas não pode saltar sobre outras peças.
 		
 		// Se a pecaDestino está vazia ou é capturável
-		if (isPecaDestinoVazia() || isPecaDestinoCapturavel())
+		if (isPecaDestinoVazia(mov) || isPecaDestinoCapturavel(tabuleiro, mov))
 		{				
-			int distanciaEntreLinhas = Math.abs(pecaOrigem.getPosicao_atual().getX() - pecaDestino.getPosicao_atual().getX());
-			int distanciaEntreColunas = Math.abs(pecaOrigem.getPosicao_atual().getY() - pecaDestino.getPosicao_atual().getY());
+			int distanciaEntreLinhas = Math.abs(mov.pecaOrigem.getPosicao_atual().getX() - mov.pecaDestino.getPosicao_atual().getX());
+			int distanciaEntreColunas = Math.abs(mov.pecaOrigem.getPosicao_atual().getY() - mov.pecaDestino.getPosicao_atual().getY());
 			
 			if( distanciaEntreLinhas == distanciaEntreColunas && distanciaEntreColunas > 0)
 			{
 				// Movimento diagonal up-right
-				if (!isPecaEntreOrigemDestino(+1,+1))
+				if (!isPecaEntreOrigemDestino(tabuleiro, mov, +1,+1))
 				{
 					//Armazenando a peça capturada.
-					if (isPecaDestinoCapturavel())
+					if (isPecaDestinoCapturavel(tabuleiro, mov))
 					{
-						pecaCapturada = pecaDestino;
+						mov.pecaCapturada = mov.pecaDestino;
 					}
 					
 					return true;
@@ -464,12 +451,12 @@ public class Movimento
 			else if( distanciaEntreLinhas == -distanciaEntreColunas && distanciaEntreColunas > 0)
 			{
 				// Movimento diagonal down-right
-				if (!isPecaEntreOrigemDestino(-1,+1))
+				if (!isPecaEntreOrigemDestino(tabuleiro, mov,-1,+1))
 				{
 					//Armazenando a peça capturada.
-					if (isPecaDestinoCapturavel())
+					if (isPecaDestinoCapturavel(tabuleiro, mov))
 					{
-						pecaCapturada = pecaDestino;
+						mov.pecaCapturada = mov.pecaDestino;
 					}
 					
 					return true;
@@ -479,12 +466,12 @@ public class Movimento
 			else if( distanciaEntreLinhas == distanciaEntreColunas && distanciaEntreColunas < 0)
 			{
 				// Movimento diagonal down-left
-				if (!isPecaEntreOrigemDestino(-1,-1))
+				if (!isPecaEntreOrigemDestino(tabuleiro, mov, -1,-1))
 				{
 					//Armazenando a peça capturada.
-					if (isPecaDestinoCapturavel())
+					if (isPecaDestinoCapturavel(tabuleiro, mov))
 					{
-						pecaCapturada = pecaDestino;
+						mov.pecaCapturada = mov.pecaDestino;
 					}
 					
 					return true;
@@ -494,12 +481,12 @@ public class Movimento
 			else if( distanciaEntreLinhas == -distanciaEntreColunas && distanciaEntreColunas < 0)
 			{
 				// Movimento diagonal up-left
-				if (!isPecaEntreOrigemDestino(+1,-1))
+				if (!isPecaEntreOrigemDestino(tabuleiro, mov, +1,-1))
 				{
 					//Armazenando a peça capturada.
-					if (isPecaDestinoCapturavel())
+					if (isPecaDestinoCapturavel(tabuleiro, mov))
 					{
-						pecaCapturada = pecaDestino;
+						mov.pecaCapturada = mov.pecaDestino;
 					}
 					
 					return true;
@@ -513,7 +500,7 @@ public class Movimento
 	/*
 	 * Função que verifica se o movimento da Torre é válido.
 	 */
-	public boolean isValidoMovimentoTorre()
+	public static boolean isValidoMovimentoTorre(Tabuleiro tabuleiro, Movimento mov)
 	{
 		// O movimento executado pelas torres é
 		// sempre em paralelas (linhas ou colunas), quantas
@@ -521,20 +508,20 @@ public class Movimento
 		// E não pode saltar sobre outra peça válida.
 		
 		// Se a pecaDestino está vazia ou é capturável
-		if (isPecaDestinoVazia() || isPecaDestinoCapturavel())
+		if (isPecaDestinoVazia(mov) || isPecaDestinoCapturavel(tabuleiro,mov))
 		{		
-			int distanciaEntreLinhas = Math.abs(pecaOrigem.getPosicao_atual().getX() - pecaDestino.getPosicao_atual().getX());
-			int distanciaEntreColunas = Math.abs(pecaOrigem.getPosicao_atual().getY() - pecaDestino.getPosicao_atual().getY());
+			int distanciaEntreLinhas = Math.abs(mov.pecaOrigem.getPosicao_atual().getX() - mov.pecaDestino.getPosicao_atual().getX());
+			int distanciaEntreColunas = Math.abs(mov.pecaOrigem.getPosicao_atual().getY() - mov.pecaDestino.getPosicao_atual().getY());
 			
 			if( distanciaEntreLinhas == 0 && distanciaEntreColunas > 0)
 			{
 				// Movimento right
-				if (!isPecaEntreOrigemDestino(0,+1))
+				if (!isPecaEntreOrigemDestino(tabuleiro,mov,0,+1))
 				{
 					//Armazenando a peça capturada.
-					if (isPecaDestinoCapturavel())
+					if (isPecaDestinoCapturavel(tabuleiro,mov))
 					{
-						pecaCapturada = pecaDestino;
+						mov.pecaCapturada = mov.pecaDestino;
 					}
 					
 					return true;
@@ -543,12 +530,12 @@ public class Movimento
 			else if( distanciaEntreLinhas == 0 && distanciaEntreColunas < 0)
 			{
 				// Movimento left
-				if (!isPecaEntreOrigemDestino(0,-1))
+				if (!isPecaEntreOrigemDestino(tabuleiro,mov, 0,-1))
 				{
 					//Armazenando a peça capturada.
-					if (isPecaDestinoCapturavel())
+					if (isPecaDestinoCapturavel(tabuleiro,mov))
 					{
-						pecaCapturada = pecaDestino;
+						mov.pecaCapturada = mov.pecaDestino;
 					}
 					
 					return true;
@@ -557,12 +544,12 @@ public class Movimento
 			else if( distanciaEntreLinhas > 0 && distanciaEntreColunas == 0)
 			{
 				// Movimento up
-				if (!isPecaEntreOrigemDestino(+1,0))
+				if (!isPecaEntreOrigemDestino(tabuleiro,mov,+1,0))
 				{
 					//Armazenando a peça capturada.
-					if (isPecaDestinoCapturavel())
+					if (isPecaDestinoCapturavel(tabuleiro,mov))
 					{
-						pecaCapturada = pecaDestino;
+						mov.pecaCapturada = mov.pecaDestino;
 					}
 					
 					return true;
@@ -571,12 +558,12 @@ public class Movimento
 			else if( distanciaEntreLinhas < 0 && distanciaEntreColunas == 0)
 			{
 				// Movimento down
-				if (!isPecaEntreOrigemDestino(-1,0))
+				if (!isPecaEntreOrigemDestino(tabuleiro,mov, -1,0))
 				{
 					//Armazenando a peça capturada.
-					if (isPecaDestinoCapturavel())
+					if (isPecaDestinoCapturavel(tabuleiro,mov))
 					{
-						pecaCapturada = pecaDestino;
+						mov.pecaCapturada = mov.pecaDestino;
 					}
 					
 					return true;
@@ -590,12 +577,12 @@ public class Movimento
 	/*
 	 * Função que verifica se o movimento da Rainha é válido.
 	 */
-	public boolean isValidoMovimentoRainha()
+	public static boolean isValidoMovimentoRainha(Tabuleiro tabuleiro, Movimento mov)
 	{
 		// A rainha combina o poder da torre e bispo e pode mover qualquer número
 		// De casas ao longo coluna, linha ou diagonal, mas não pode saltar sobre outras peças.
 		
-		if (isValidoMovimentoBispo() || isValidoMovimentoTorre())
+		if (isValidoMovimentoBispo(tabuleiro, mov) || isValidoMovimentoTorre(tabuleiro, mov))
 		{
 			return true;
 		}
@@ -606,7 +593,7 @@ public class Movimento
 	/*
 	 * Função que verifica se o movimento do Réi é válido.
 	 */
-	public boolean isValidoMovimentoRei()
+	public static boolean isValidoMovimentoRei(Tabuleiro tabuleiro, Movimento mov)
 	{
 		// O rei somente anda uma casa por lance em todas as direções. 
 		// Não pode situar-se em casa sob domínio de peça adversária, 
@@ -618,29 +605,444 @@ public class Movimento
 		// antecipadamente em XEQUE, o que também não é permitido. 
 		
 		// Se a pecaDestino está vazia ou é capturável
-		if (isPecaDestinoVazia() || isPecaDestinoCapturavel())
+		if (isPecaDestinoVazia(mov) || isPecaDestinoCapturavel(tabuleiro,mov))
 		{
-			if(		pecaOrigem.getPosicao_atual().getX() + 1 == pecaDestino.getPosicao_atual().getX() && pecaOrigem.getPosicao_atual().getY() == pecaDestino.getPosicao_atual().getY() //up
-				|| 	pecaOrigem.getPosicao_atual().getX() + 1 == pecaDestino.getPosicao_atual().getX() && pecaOrigem.getPosicao_atual().getY()+1 == pecaDestino.getPosicao_atual().getY() //up right
-				|| 	pecaOrigem.getPosicao_atual().getX() == pecaDestino.getPosicao_atual().getX() && pecaOrigem.getPosicao_atual().getY()+1 == pecaDestino.getPosicao_atual().getY() //right
-				|| 	pecaOrigem.getPosicao_atual().getX() - 1 == pecaDestino.getPosicao_atual().getX() && pecaOrigem.getPosicao_atual().getY()+1 == pecaDestino.getPosicao_atual().getY() //down right
-				|| 	pecaOrigem.getPosicao_atual().getX() - 1 == pecaDestino.getPosicao_atual().getX() && pecaOrigem.getPosicao_atual().getY() == pecaDestino.getPosicao_atual().getY() //down
-				||	pecaOrigem.getPosicao_atual().getX() - 1 == pecaDestino.getPosicao_atual().getX() && pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY() //down left
-				|| 	pecaOrigem.getPosicao_atual().getX()  == pecaDestino.getPosicao_atual().getX() && pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY() //left
-				|| pecaOrigem.getPosicao_atual().getX() + 1 == pecaDestino.getPosicao_atual().getX() && pecaOrigem.getPosicao_atual().getY()-1 == pecaDestino.getPosicao_atual().getY())//up left
-			{
+			if(		mov.pecaOrigem.getPosicao_atual().getX() + 1 == mov.pecaDestino.getPosicao_atual().getX() && mov.pecaOrigem.getPosicao_atual().getY() == mov.pecaDestino.getPosicao_atual().getY() //up
+				|| 	mov.pecaOrigem.getPosicao_atual().getX() + 1 == mov.pecaDestino.getPosicao_atual().getX() && mov.pecaOrigem.getPosicao_atual().getY()+1 == mov.pecaDestino.getPosicao_atual().getY() //up right
+				|| 	mov.pecaOrigem.getPosicao_atual().getX() == mov.pecaDestino.getPosicao_atual().getX() && mov.pecaOrigem.getPosicao_atual().getY()+1 == mov.pecaDestino.getPosicao_atual().getY() //right
+				|| 	mov.pecaOrigem.getPosicao_atual().getX() - 1 == mov.pecaDestino.getPosicao_atual().getX() && mov.pecaOrigem.getPosicao_atual().getY()+1 == mov.pecaDestino.getPosicao_atual().getY() //down right
+				|| 	mov.pecaOrigem.getPosicao_atual().getX() - 1 == mov.pecaDestino.getPosicao_atual().getX() && mov.pecaOrigem.getPosicao_atual().getY() == mov.pecaDestino.getPosicao_atual().getY() //down
+				||	mov.pecaOrigem.getPosicao_atual().getX() - 1 == mov.pecaDestino.getPosicao_atual().getX() && mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY() //down left
+				|| 	mov.pecaOrigem.getPosicao_atual().getX()  == mov.pecaDestino.getPosicao_atual().getX() && mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY() //left
+				||  mov.pecaOrigem.getPosicao_atual().getX() + 1 == mov.pecaDestino.getPosicao_atual().getX() && mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY())//up left
+			{				
 				//Verifica se o rei não vai entrar em XEQUE.
-				
-				//Armazenando a peça capturada.
-				if (isPecaDestinoCapturavel())
+				if (isReiSalvo(tabuleiro,mov, mov.pecaOrigem.getCor()))
+				{				
+					//Armazenando a peça capturada.
+					if (isPecaDestinoCapturavel(tabuleiro, mov))
+					{
+						mov.pecaCapturada = mov.pecaDestino;
+					}
+					
+					return true;
+				}
+			}
+			
+			//Movimento de Roque
+			//Se o rei ainda não realizou nenhum movimento
+			if (mov.pecaOrigem.getQtd_movimentos() == 0)
+			{
+				//Roque maior ou esquerdo				
+				//Se a peça torreEsquerda for válida ela pode ser usada no movimento Roque
+				if (!tabuleiro.getTorreEsquerda().isVazia()) //Vazio = Inválida
 				{
-					pecaCapturada = pecaDestino;
+					//Verificando se existe alguma peça entre o rei e a torre
+					if (	!isPecaEntreOrigemDestino(tabuleiro, mov, 0,-1) //Casas da posição inical do rei até sua posição final 
+						&& 	tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual().getX() , mov.pecaDestino.getPosicao_atual().getY()-1).isVazia()) //Casa depois da torre
+					{					
+						if(		mov.pecaOrigem.getPosicao_atual().getX() == mov.pecaDestino.getPosicao_atual().getX() 
+						   && 	mov.pecaOrigem.getPosicao_atual().getY() - 2 == mov.pecaDestino.getPosicao_atual().getY())//Duas casa a esquerda					
+						{
+							//Atribuido o Rei a posição da peça destino para verificar se ficará a salvo
+							APeca Rei = tabuleiro.getReiProprio();
+							Posicao posRei = Rei.getPosicao_atual();
+							Rei.setPosicao_atual(mov.pecaDestino.getPosicao_atual());
+							tabuleiro.setReiProprio(Rei);
+							
+							//Verifica se o rei não vai entrar em XEQUE.
+							if (isReiSalvo(tabuleiro,mov, mov.pecaOrigem.getCor()))
+							{	
+								return true;
+							}
+							
+							//Voltando a posição inicial do Rei
+							Rei.setPosicao_atual(posRei);
+							tabuleiro.setReiProprio(Rei);
+						}
+					}
 				}
 				
-				return true;
+				//Roque menor ou direito				
+				//Se a peça torreDireita for válida ela pode ser usada no movimento Roque
+				if (!tabuleiro.getTorreDireita().isVazia()) //Vazio = Inválida
+				{
+					//Verificando se existe alguma peça entre o rei e a torre
+					if (!isPecaEntreOrigemDestino(tabuleiro, mov, 0,+1))//Casas da posição inical do rei até sua posição final 
+					{					
+						if(		mov.pecaOrigem.getPosicao_atual().getX() == mov.pecaDestino.getPosicao_atual().getX() 
+						   && 	mov.pecaOrigem.getPosicao_atual().getY() + 2 == mov.pecaDestino.getPosicao_atual().getY())//Duas casa a direita				
+						{
+							//Atribuido o Rei a posição da peça destino para verificar se ficará a salvo
+							APeca Rei = tabuleiro.getReiProprio();
+							Posicao posRei = Rei.getPosicao_atual();
+							Rei.setPosicao_atual(mov.pecaDestino.getPosicao_atual());
+							tabuleiro.setReiProprio(Rei);
+							
+							//Verifica se o rei não vai entrar em XEQUE.
+							if (isReiSalvo(tabuleiro,mov, mov.pecaOrigem.getCor()))
+							{	
+								return true;
+							}
+							
+							//Voltando a posição inicial do Rei
+							Rei.setPosicao_atual(posRei);
+							tabuleiro.setReiProprio(Rei);
+						}
+					}
+				}
 			}
 		}
 		
 		return false;
+	}
+	
+	/*
+	 * Função que verifica se o rei ficará salvo após realizar o movimento.
+	 */
+	public static boolean isReiSalvo(Tabuleiro tabuleiro, Movimento mov, String cor)
+	{	
+		// Pegando a posição do Rei do Jogador. 
+		APeca rei = Tabuleiro.getInstance().getReiProprio(); 
+		
+		int linha = rei.getPosicao_atual().getX();
+		int coluna = rei.getPosicao_atual().getY();
+		
+		// Verificando se tem algum Peão ameçando o Rei
+		if(mov.numeroJogador == 1) // Branca 
+		{
+			if (	(	tabuleiro.getPecaByPosicao(linha-1, coluna-1).getCor() != cor
+				     &&	tabuleiro.getPecaByPosicao(linha-1, coluna-1) instanceof Peao)
+				||	(	tabuleiro.getPecaByPosicao(linha-1, coluna+1).getCor() != cor
+					 &&	tabuleiro.getPecaByPosicao(linha-1, coluna+1) instanceof Peao))
+			{
+				return false;
+			}
+		} 
+		else // Preta
+		{ 
+			if (	(	tabuleiro.getPecaByPosicao(linha+1, coluna-1).getCor() != cor
+				     &&	tabuleiro.getPecaByPosicao(linha+1, coluna-1) instanceof Peao)
+				||	(	tabuleiro.getPecaByPosicao(linha+1, coluna+1).getCor() != cor
+					 &&	tabuleiro.getPecaByPosicao(linha+1, coluna+1) instanceof Peao))
+			{
+				return false;
+			}
+		}
+		
+		// ADJACENT KING ILLEGALITY
+		for(int i=-1;i<2;i++)
+		{
+			for(int j=-1;j<2;j++)
+			{
+				if(i==0 && j==0) continue;
+				if (tabuleiro.getPecaByPosicao(linha+1, coluna+1) instanceof Rei)
+				{
+					return false;
+				}
+			}
+		}
+		
+		//Veridficando se tem algum Cavalo ameaçado o Rei
+		if (	(	tabuleiro.getPecaByPosicao(linha+1, coluna-2).getCor() != cor
+			     &&	tabuleiro.getPecaByPosicao(linha+1, coluna-2) instanceof Cavalo)
+			||	(	tabuleiro.getPecaByPosicao(linha+1, coluna+2).getCor() != cor
+				 &&	tabuleiro.getPecaByPosicao(linha+1, coluna+2) instanceof Cavalo)
+			||	(	tabuleiro.getPecaByPosicao(linha-1, coluna-2).getCor() != cor
+				 &&	tabuleiro.getPecaByPosicao(linha-1, coluna-2) instanceof Cavalo)
+			||	(	tabuleiro.getPecaByPosicao(linha-1, coluna+2).getCor() != cor
+				 &&	tabuleiro.getPecaByPosicao(linha-1, coluna+2) instanceof Cavalo)
+			||	(	tabuleiro.getPecaByPosicao(linha+2, coluna-1).getCor() != cor
+				 &&	tabuleiro.getPecaByPosicao(linha+2, coluna-1) instanceof Cavalo)
+			||	(	tabuleiro.getPecaByPosicao(linha+2, coluna+1).getCor() != cor
+				 &&	tabuleiro.getPecaByPosicao(linha+2, coluna+1) instanceof Cavalo)
+			||	(	tabuleiro.getPecaByPosicao(linha-2, coluna-1).getCor() != cor
+				 &&	tabuleiro.getPecaByPosicao(linha-2, coluna-1) instanceof Cavalo)
+			||	(	tabuleiro.getPecaByPosicao(linha-2, coluna+1).getCor() != cor
+				 &&	tabuleiro.getPecaByPosicao(linha-2, coluna+1) instanceof Cavalo))
+		{
+			return false;
+		}
+		
+		// Verificando se existem ameaças a esquerda na horizontal
+		if (tabuleiro.getPecaByPosicao(linha-1, coluna) instanceof Rei) return false;		
+		for(int i = linha-1; i>=0; i--) 
+		{
+			APeca p = tabuleiro.getPecaByPosicao(i,coluna);
+			if(p.getCor() != cor && (p instanceof Torre || p instanceof Rainha))return false;
+			else
+			{
+				if(!p.isVazia()) break;
+			}
+		}
+		
+		// Verificando se existem ameaças a direita na horizontal
+		if (tabuleiro.getPecaByPosicao(linha+1, coluna) instanceof Rei) return false;
+		for(int i = linha+1; i<=7; i++) 
+		{
+			APeca p = tabuleiro.getPecaByPosicao(i,coluna);
+			if(p.getCor() != cor && (p instanceof Torre || p instanceof Rainha))return false;
+			else
+			{
+				if(!p.isVazia()) break;
+			}
+		}
+		
+		// Verificando se existem ameaças acima na vertical
+		if (tabuleiro.getPecaByPosicao(linha, coluna-1) instanceof Rei) return false;
+		for(int i = coluna-1;i>=0;i--) 
+		{
+			APeca p = tabuleiro.getPecaByPosicao(linha,i);
+			if(p.getCor() != cor && (p instanceof Torre || p instanceof Rainha))return false;
+			else
+			{
+				if(!p.isVazia()) break;
+			}
+		}
+		
+		// Verificando se existem ameaças abaixo na vertical
+		//if(tabuleiro.getPecaByPosicao(row,col-1) instanceof Rei)return false; //TODO
+		if (tabuleiro.getPecaByPosicao(linha, coluna+1) instanceof Rei) return false;
+		for (int i = coluna+1;i<=7;i++) 
+		{
+			APeca p = tabuleiro.getPecaByPosicao(linha,i);
+			if(p.getCor() != cor && (p instanceof Torre || p instanceof Rainha))return false;
+			else
+			{
+				if(!p.isVazia()) break;
+			}
+		}
+		
+		// Verificando se existem ameaças na diagonal
+		for(int x=-1; x<2; x+=2)
+		{
+			for(int y=-1; y<2; y+=2)
+			{
+				if(!isReiSalvoPelaDiagonal(tabuleiro, cor, coluna, linha, x, y)) return false;
+			}
+		}		
+		
+		return true;
+	}
+	
+	
+	// Verifica se o próprio rei não sofre nenhuma ameça diagonalmente  
+	public static boolean isReiSalvoPelaDiagonal(Tabuleiro tabuleiro, String cor, int coluna, int linha, int linhaX, int colunaY) 
+	{
+		if(tabuleiro.getPecaByPosicao(linha+linhaX,coluna+colunaY) instanceof Rei) return false;
+		for(int i = 1; i <= 7; i++) 
+		{
+			APeca p = tabuleiro.getPecaByPosicao(linha + i * linhaX, coluna + i * colunaY);
+			if(p.getCor() != cor && (p instanceof Bispo || p instanceof Rainha))return false;
+			else 
+			{
+				if(!p.isVazia()) break;
+			}
+		}
+		return true;
+	}
+	
+	// Verifica se o movimento dado é válido no tabuleiro
+	public static boolean isMovimentoValido(Tabuleiro tabuleiro, Movimento mov) 
+	{
+		//Não realizou nenhum movimento.
+		if(		mov.pecaOrigem.getPosicao_atual().getX() == mov.pecaDestino.getPosicao_atual().getX() 
+			&& 	mov.pecaOrigem.getPosicao_atual().getY() == mov.pecaDestino.getPosicao_atual().getY())
+		{
+			return false;
+		}
+		
+		//Verifica se o movimento está dentro do tabuleiro
+		if(		mov.pecaDestino.getPosicao_atual().getX() < 0 || mov.pecaDestino.getPosicao_atual().getX() > 7
+		   ||	mov.pecaDestino.getPosicao_atual().getY() < 0 || mov.pecaDestino.getPosicao_atual().getY() > 7)
+		{
+			return false;
+		}
+		
+		boolean valido = false;
+		switch(mov.pecaOrigem.getNome()) 
+		{
+			case 'P':
+				valido = isValidoMovimentoPeao(tabuleiro, mov);
+				break;
+			case 'B':
+				valido = isValidoMovimentoBispo(tabuleiro, mov);
+				break;
+			case 'C':
+				valido = isValidoMovimentoCavalo(tabuleiro, mov);
+				break;
+			case 'T':
+				valido = isValidoMovimentoTorre(tabuleiro, mov);
+				break;
+			case 'D':
+				valido = isValidoMovimentoRainha(tabuleiro, mov);
+				break;
+			case 'R':
+				valido = isValidoMovimentoRei(tabuleiro, mov);
+		}
+		
+		if(!valido)return false;
+		
+		return true;
+	}
+		
+	// Retorna o conjunto de todos os movimentos válidos da dada peca do tabuleiro
+	public static ArrayList<Movimento> getTodosMovimentosPeca(Tabuleiro tabuleiro, int numeroJogador, int linha, int coluna)
+	{		
+		ArrayList<Movimento> movimentos = new ArrayList<Movimento>();
+		APeca peca = tabuleiro.getPecaByPosicao(linha,coluna);
+		if( 	(numeroJogador == 1 && peca.getCor() == "branca")
+		   ||	(numeroJogador == 2 && peca.getCor() == "preta"))
+		{
+			Movimento mov = null;
+			switch(peca.getNome()) 
+			{
+				case 'P': //Peão
+					if(numeroJogador == 1) 
+					{ // Branca
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-1,coluna));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-1,coluna+1));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-1,coluna-1));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						if(linha==6) 
+						{
+							mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-2,coluna));
+							if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						}
+					} 
+					else // Preta
+					{ 
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+1,coluna));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+1,coluna+1));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+1,coluna-1));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						if(linha==1) 
+						{
+							mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+2,coluna));
+							if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						}
+					}
+					break;
+				case 'B':
+					for(int i=1;i<8;i++) 
+					{
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+i,coluna+i));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						else break;
+					}
+					for(int i=1;i<8;i++) 
+					{
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-i,coluna+i));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						else break;
+					}
+					for(int i=1;i<8;i++) 
+					{
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+i,coluna-i));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						else break;
+					}
+					for(int i=1;i<8;i++) 
+					{
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-i,coluna-i));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						else break;
+					}
+					break;
+				case 'C':
+					int[] linhaOffsets = {2,-2,-2,2,-1,1,-1,1};
+					int[] colunaOffsets = {-1,1,-1,1,-2,2,2,-2};
+					for(int i=0;i<8;i++)
+					{
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+linhaOffsets[i],coluna+colunaOffsets[i]));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+					}
+					break;
+				case 'T':
+					for(int i=1;i<8;i++)
+					{
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+i,coluna));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						else break;
+					}
+					for(int i=1;i<8;i++)
+					{
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha-i,coluna));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						else break;
+					}
+					for(int i=1;i<8;i++) 
+					{
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha,coluna+i));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						else break;
+					}
+					for(int i=1;i<8;i++) 
+					{
+						mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha,coluna-i));
+						if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						else break;
+					}
+					break;
+				case 'D':
+					for(int ri=-1;ri<2;ri++) 
+					{
+						for(int ci=-1;ci<2;ci++) 
+						{
+							for(int i=1;i<8;i++)
+							{
+								mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+i*ri,coluna+i*ci));
+								if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+								else break;
+							}
+						}
+					}
+					break;
+				case 'R':
+					for(int r=-1;r<2;r++)
+					{
+						for(int c=-1;c<2;c++) 
+						{
+							mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha+r,coluna+c));
+							if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+						}
+					}
+					// Roque Maior ou esquerda
+					mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha,coluna-2));
+					if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+					
+					//Roque Menor ou direita
+					mov = new Movimento(numeroJogador, peca, tabuleiro.getPecaByPosicao(linha,coluna+2));
+					if(isMovimentoValido(tabuleiro,mov)) movimentos.add(mov);
+					break;
+			}
+		}
+		return movimentos;
+	}
+	
+	// Obtem todos movimentos possíveis do tabuleiro por jogador.
+	public static ArrayList<Movimento> getTodosMovimentos(Tabuleiro tabuleiro, int numeroJogador) 
+	{
+		ArrayList<Movimento> movimentos = new ArrayList<Movimento>();
+		
+		// Pecorre todo o tabuleiro [8][8]
+		for(int linha = 0; linha < 8; linha++)
+		{
+			for(int coluna = 0; coluna < 8; coluna++)
+			{
+				ArrayList<Movimento> movimentosPeca = getTodosMovimentosPeca(tabuleiro, numeroJogador, linha, coluna);	
+				
+				for(int i=0; i < movimentosPeca.size(); i++)
+				{
+					movimentos.add(movimentosPeca.get(i));
+				}
+			}
+		}
+		
+		return movimentos;
 	}
 }
