@@ -64,35 +64,35 @@ public class Jogo {
 
         this.tabuleiro = new Tabuleiro();
 
-        Mensagem.put(100, "N�o Inicializado");
+        Mensagem.put(100, "Nao Inicializado");
         Mensagem.put(101, "Esperando o Jogador 1");
         Mensagem.put(102, "Esperando o Jogador 2");
         Mensagem.put(103, "Esperando Sua Jogada");
         Mensagem.put(104, "Esperando Jogador 1 Realizar a Jogada!");
         Mensagem.put(105, "Esperando Jogador 2 Realizar a Jogada!");
-        Mensagem.put(106, "Esperando Sua Jogada! Seu Rei Est� Em Xeque!");
+        Mensagem.put(106, "Esperando Sua Jogada! Seu Rei Esta Em Xeque!");
         Mensagem.put(107, "Esperando Jogador 1 Realizar a Jogada!");
         Mensagem.put(108, "Esperando Jogador 2 Realizar a Jogada!");
-        Mensagem.put(200, "Jogo Encerrado � Xeque�mate! Jogador 1 venceu a partida!");
-        Mensagem.put(201, "Jogo Encerrado � Xeque�mate! Jogador 2 venceu a partida!");
-        Mensagem.put(202, "Jogo Encerrado � Empate: Insufici�ncia Material!");
-        Mensagem.put(203, "Jogo Encerrado � Empate: Rei Afogado");
-        Mensagem.put(204, "Jogo Encerrado � Acabou o Tempo do Jogador 1! Jogador 2 venceu a partida!");
-        Mensagem.put(205, "Jogo Encerrado � Acabou o Tempo do Jogador 2! Jogador 1 venceu a partida!");
-        Mensagem.put(300, "Movimento Inv�lido!");
-        Mensagem.put(301, "Espere sua vez. � a vez do Jogador 1!");
-        Mensagem.put(302, "Espere sua vez. � a vez do Jogador 2!");
-        Mensagem.put(303, "Movimento n�o permitido. Rei em Xeque, proteja�o!");
-        Mensagem.put(304, "Movimento n�o permitido. Seu Rei iria ficar em Xeque!");
-        Mensagem.put(305, "A posi��o escolhida do tabuleiro est� vazia!");
+        Mensagem.put(200, "Jogo Encerrado  Xequemate! Jogador 1 venceu a partida!");
+        Mensagem.put(201, "Jogo Encerrado  Xequemate! Jogador 2 venceu a partida!");
+        Mensagem.put(202, "Jogo Encerrado  Empate: Insuficiencia Material!");
+        Mensagem.put(203, "Jogo Encerrado  Empate: Rei Afogado");
+        Mensagem.put(204, "Jogo Encerrado  Acabou o Tempo do Jogador 1! Jogador 2 venceu a partida!");
+        Mensagem.put(205, "Jogo Encerrado  Acabou o Tempo do Jogador 2! Jogador 1 venceu a partida!");
+        Mensagem.put(300, "Movimento Invalido!");
+        Mensagem.put(301, "Espere sua vez. E a vez do Jogador 1!");
+        Mensagem.put(302, "Espere sua vez. E a vez do Jogador 2!");
+        Mensagem.put(303, "Movimento nao permitido. Rei em Xeque, protejaco!");
+        Mensagem.put(304, "Movimento nao permitido. Seu Rei iria ficar em Xeque!");
+        Mensagem.put(305, "A posicao escolhida do tabuleiro esta vazia!");
         Mensagem.put(306, "Jogador desconhecido!");
-        Mensagem.put(307, "A Pe�a de Promo��o N�o Foi Informada ou � Inv�lida!");
-        Mensagem.put(308, "Sala cheia! N�o h� slots dispon�veis Sala cheia! N�o h� slots dispon�veis");
-        Mensagem.put(309, "A Jogada Informada Est� com Formato Inv�lido!");
-        Mensagem.put(310, "Ops! A Pe�a informada n�o � sua!");
+        Mensagem.put(307, "A Peca de Promocao Nao Foi Informada ou e Invalida!");
+        Mensagem.put(308, "Sala cheia! Nao ha slots disponiveis Sala cheia! Nao ha slots disponiveis");
+        Mensagem.put(309, "A Jogada Informada Esta com Formato Invalido!");
+        Mensagem.put(310, "Ops! A Peca informada nao e sua!");
         Mensagem.put(311, "Ops! Jogo Finalizado!");
-        Mensagem.put(312, "Ops! N�o � Poss�vel Capturar o EnPassant!");
-        Mensagem.put(314, "Movimento Inv�lido! A Torre do Roque n�o foi encontrada");
+        Mensagem.put(312, "Ops! Nao e Possivel Capturar o EnPassant!");
+        Mensagem.put(314, "Movimento Invalido! A Torre do Roque nao foi encontrada");
     }
 
     public String getJsonServidor(String url) {
