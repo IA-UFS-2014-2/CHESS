@@ -1,7 +1,11 @@
 package principal;
 
+import com.sun.org.apache.regexp.internal.REProgram;
+
 import pecas.APeca;
 import pecas.Posicao;
+import pecas.Rei;
+import pecas.Torre;
 
 /**
  *
@@ -13,6 +17,16 @@ public class Tabuleiro {
     private String ultima_jogada_notacao;
     private Jogada ultima_jogada;
     private final APeca[][] posicoes;
+    
+    //Armazenando o rei do jagador e de seu oponente.
+    private APeca reiOponente;
+    private APeca reiProprio;
+    
+    //Armazenando as duas torres do jogador.
+    //Instaciando inicialmente com nula, pois ela só terá algum valor 
+    //se elas poderem ser utilizadas para o movimento do Roque.
+    private APeca torreEsquerda = new APeca() {};
+    private APeca torreDireita = new APeca() {};
 
 	private static Tabuleiro instance = null;
 	
@@ -35,6 +49,54 @@ public class Tabuleiro {
         //Subtrai 1 do x e y
         Posicao posicaoAtual = peca.getPosicao_atual();
         this.posicoes[posicaoAtual.getX()-1][posicaoAtual.getY()-1] = peca;
+    }
+    
+    public void incluirPeca(APeca peca, int numeroJogador)
+    {
+        //Subtrai 1 do x e y
+        Posicao posicaoAtual = peca.getPosicao_atual();
+        this.posicoes[posicaoAtual.getX()-1][posicaoAtual.getY()-1] = peca;
+        
+        // Se a peça é o Rei, armazena-o
+        if (peca instanceof Rei)
+        {
+        	//Se o rei for do jogador
+        	if (numeroJogador == 1 && peca.getCor() == "branca") // numeroJogador = 1 => branca
+        	{
+        		reiProprio = peca;
+        	}
+        	else if (numeroJogador == 2 && peca.getCor() == "preta") // numeroJogador = 2 => preto
+        	{
+        		reiProprio = peca;
+        	}
+        	//Se o rei for do oponente
+        	else if (numeroJogador == 1 && peca.getCor() == "preta") // numeroJogador = 1 => branca
+        	{
+        		reiOponente = peca;
+        	}
+        	else if (numeroJogador == 2 && peca.getCor() == "branca") // numeroJogador = 2 => preto
+        	{
+        		reiOponente = peca;
+        	}
+        }
+        
+        // Se a peça é a torre, armazena-a
+        if (peca instanceof Torre)
+        {
+        	//Se a torre for do jogador
+        	if (numeroJogador == 1 && peca.getCor() == "branca") // numeroJogador = 1 => branca
+        	{
+        		//Só armazena a torre se for possível utilizá-la para o movimento Roque
+        		if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 1) torreEsquerda = peca;
+        		else if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 8) torreDireita = peca;
+        	}
+        	else if (numeroJogador == 2 && peca.getCor() == "preta") // numeroJogador = 2 => preto
+        	{
+        		//Só armazena a torre se for possível utilizá-la para o movimento Roque
+        		if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 8) torreEsquerda = peca;
+        		else if (peca.getPosicao_atual().getX() == 8 && peca.getPosicao_atual().getY() == 8) torreDireita = peca;
+        	}
+        }
     }
 
     public APeca[][] getPosicoes() {
@@ -65,7 +127,38 @@ public class Tabuleiro {
         this.ultima_jogada = ultima_jogada;
     }
     
+	public APeca getReiOponente() {
+		return reiOponente;
+	}
+
+	public void setReiOponente(APeca reiOponente) {
+		this.reiOponente = reiOponente;
+	}
+	
+	public APeca getReiProprio() {
+		return reiProprio;
+	}
+
+	public void setReiProprio(APeca reiProprio) {
+		this.reiProprio = reiProprio;
+	}
     
+	public APeca getTorreEsquerda() {
+		return torreEsquerda;
+	}
+
+	public void setTorreEsquerda(APeca torreEsquerda) {
+		this.torreEsquerda = torreEsquerda;
+	}
+
+	public APeca getTorreDireita() {
+		return torreDireita;
+	}
+
+	public void setTorreDireita(APeca torreDireita) {
+		this.torreDireita = torreDireita;
+	}
+	
     public String toString(){
         String strTabuleiro = "";
         byte x,y;
@@ -97,7 +190,27 @@ public class Tabuleiro {
 	//Obtendo a peça a partir da posição informada
 	public APeca getPecaByPosicao(Posicao posicao)
 	{
-		return posicoes[posicao.getX()-1][posicao.getY()-1];
+		//Verificando se está dentro do tabuleiro
+		if (posicao.getX() < 0 || posicao.getX() > 7 || posicao.getY() < 0 || posicao.getY() > 7)
+		{
+			// Devolvendo uma peça nula
+			return new APeca(){};
+		}
+		else
+		{
+			return this.posicoes[posicao.getX()-1][posicao.getY()-1];
+		}
 	}
-    
+	
+	//Obtendo a peça a partir da posição informada
+	public APeca getPecaByPosicao(byte x, byte y)
+	{
+		return getPecaByPosicao(new Posicao(x, y));
+	}
+	
+	//Obtendo a peça a partir da posição informada
+	public APeca getPecaByPosicao(int x, int y)
+	{
+		return getPecaByPosicao(new Posicao((byte)x, (byte)y));
+	}  
 }
