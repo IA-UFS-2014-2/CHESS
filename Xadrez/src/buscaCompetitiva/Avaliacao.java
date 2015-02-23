@@ -34,22 +34,22 @@ public class Avaliacao {
     }
     public static int rateMaterial(Tabuleiro tabuleiro) {
         int counter=0;
-        for(int row=0;row<8;row++)
-            for(int col=0;col<8;col++) {
+        for(byte row=0;row<8;row++)
+            for(byte col=0;col<8;col++) {
                 Posicao posicao = new Posicao(row, col);
                 APeca peca = tabuleiro.getPecaByPosicao(posicao);
-                swicth (peca.getNome()){
-                    case "P": counter+=100;
+                switch (peca.getNome()){
+                    case 'P': counter+=100;
                     break;
-                    case "B": counter+=300;
+                    case 'B': counter+=300;
                     break;
-                    case "C": counter+=300;
+                    case 'C': counter+=300;
                     break;
-                    case "T": counter+=500;
+                    case 'T': counter+=500;
                     break;
-                    case "D": counter+=900;
+                    case 'D': counter+=900;
                     break;
-                    case "R": counter+=9999999;
+                    case 'R': counter+=9999999;
                     break;
                 }
             }
