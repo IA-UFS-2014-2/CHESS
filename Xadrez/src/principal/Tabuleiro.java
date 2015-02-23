@@ -53,9 +53,7 @@ public class Tabuleiro {
     
     public void incluirPeca(APeca peca, int numeroJogador)
     {
-        //Subtrai 1 do x e y
-        Posicao posicaoAtual = peca.getPosicao_atual();
-        this.posicoes[posicaoAtual.getX()-1][posicaoAtual.getY()-1] = peca;
+    	this.incluirPeca(peca);
         
         // Se a peça é o Rei, armazena-o
         if (peca instanceof Rei)
@@ -70,11 +68,7 @@ public class Tabuleiro {
         		reiProprio = peca;
         	}
         	//Se o rei for do oponente
-        	else if (numeroJogador == 1 && peca.getCor() == "preta") // numeroJogador = 1 => branca
-        	{
-        		reiOponente = peca;
-        	}
-        	else if (numeroJogador == 2 && peca.getCor() == "branca") // numeroJogador = 2 => preto
+        	else
         	{
         		reiOponente = peca;
         	}
