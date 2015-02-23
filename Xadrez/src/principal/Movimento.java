@@ -78,59 +78,7 @@ public class Movimento
 		this.pecaOrigem = pecaOrigem;
 		this.pecaDestino = pecaDestino;
 	}
-	
-	/// <summary>
-    /// Tipos de Movimentos.
-    /// </summary>
-    public enum TiposDeMovimento
-    {
-        /// <summary>
-        /// Movimento Padrão
-        /// </summary>
-        Padrao, 
-
-        /// <summary>
-        /// Roque longo.
-        /// </summary>
-        RoqueLongo, 
-
-        /// <summary>
-        /// Roque curto.
-        /// </summary>
-        RoqueCurto, 
-
-        /// <summary>
-        /// Peãopromovido a Rainha.
-        /// </summary>
-        PeaoParaRainha, 
-
-        /// <summary>
-        /// Peão promovido a Torre.
-        /// </summary>
-        PeaoParaTorre, 
-
-        /// <summary>
-        /// Peão promovido a Cavalo.
-        /// </summary>
-        PeaoParaCavalo, 
-
-        /// <summary>
-        /// Peão promovido a Bispo.
-        /// </summary>
-        PeaoParaBispo, 
-
-        /// <summary>
-        /// Movimento En passent.
-        /// </summary>
-        EnPassent, 
-
-        /// <summary>
-        /// Movimento Nulo.
-        /// </summary>
-        MovimentoNulo
-    }
-
-		
+			
 	/*
 	 * Função que verifica se a peça destino está vazia.
 	 */
