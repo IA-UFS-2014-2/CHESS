@@ -15,7 +15,7 @@ public class Rei extends APeca{
         // O rei considerando apenas sua capacidade de batalha, é de cerca de 4 pontos
     private final short apenasCapacidadeDeBatalha;
     public Rei(String cor, Posicao posicaoAtual) {
-        super(9999999,'R', cor, posicaoAtual);
+        super(999999,'R', cor, posicaoAtual);
         this.apenasCapacidadeDeBatalha = 4;
     }
 

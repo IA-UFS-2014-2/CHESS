@@ -6,6 +6,8 @@
 
 package Brain;
 
+import principal.Tabuleiro;
+
 
 /**
  * 
@@ -17,8 +19,6 @@ public class Jogador
     // Profundidade da arvore
     private int limiteProfundidade;
 
-    // A avaliacao para o jogador
-    private Avaliacao aval;
 
     public Jogador(){}
     
@@ -27,19 +27,12 @@ public class Jogador
         this.aval = av;
     }    
     
-    public long calcularHeuristica(Jogador jogador){
-        long pontuacao=0;
-      //  pontuacao=jogador.aval.Avaliacao();
+    public int calcularHeuristica(Tabuleiro tabuleiro){
+        int pontuacao=0;
+        pontuacao=jogador.aval.Avaliacao();
         return pontuacao; 
     }
-    
-    public Avaliacao getAval() {
-        return aval;
-    }
-
-    public void setAval(Avaliacao aval) {
-        this.aval = aval;
-    }
+  
 
     public int getLimiteProfundidade() {
         return limiteProfundidade;
