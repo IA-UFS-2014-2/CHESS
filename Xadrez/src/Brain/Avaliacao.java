@@ -37,6 +37,8 @@ public class Avaliacao {
     
     public static int rateMaterial(Tabuleiro tabuleiro) {
         int counter=0;
+        int countBispo=0;
+        
         for(byte row=0;row<8;row++)
             for(byte col=0;col<8;col++) {
                 Posicao posicao = new Posicao(row, col);
@@ -44,7 +46,7 @@ public class Avaliacao {
                 switch (peca.getNome()){
                     case 'P': counter+=100;
                     break;
-                    case 'B': counter+=300;
+                    case 'B': counter+=1;
                     break;
                     case 'C': counter+=300;
                     break;
@@ -54,6 +56,13 @@ public class Avaliacao {
                     break;
                     case 'R': counter+=9999999;
                     break;
+                }
+            }
+            if (countBispo>=2){
+                counter+=300*countBispo;
+            } else {
+                if (countBispo==1){
+                    counter+=250;
                 }
             }
         return counter;

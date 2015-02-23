@@ -21,21 +21,32 @@ public class Jogador
     
     //Define o jogador
     String cor;
+    
+    // A avaliacao para o jogador
+    Avaliacao aval;
 
     public Jogador(){}
     
-    public Jogador(int idJogador, String cor, int ply) {
+    public Jogador(int idJogador, String cor, int ply, Avaliacao av) {
         this.idJogador=idJogador;
         this.cor=cor;
         this.ply=ply;
+        this.aval = av;
     }    
     
-    public int calcularHeuristica(){
+    public long calcularHeuristica(Jogador jogador){
         long pontuacao=0;
-        
         return pontuacao; 
     }
+    
+    public Avaliacao getAval() {
+        return aval;
+    }
 
+    public void setAval(Avaliacao aval) {
+        this.aval = aval;
+    }
+    
     public int getIdJogador() {
         return idJogador;
     }
