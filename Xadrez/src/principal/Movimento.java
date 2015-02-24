@@ -8,6 +8,7 @@ import pecas.APeca;
 import pecas.Bispo;
 import pecas.Cavalo;
 import pecas.Peao;
+import pecas.PontoVazio;
 import pecas.Posicao;
 import pecas.Rainha;
 import pecas.Rei;
@@ -21,7 +22,7 @@ public class Movimento {
 
     //Pontuação calculado para o movimento a patir da função de avaliação.
 
-    private int pontuacao;
+    private int utilidade;
 
     //Posição atual e nova posição do movimento.
     private APeca pecaOrigem;
@@ -33,12 +34,12 @@ public class Movimento {
     //Indica se o movimento gera uma promoção do peão.
     private boolean promocaoPeao = false;
 
-    public int getPontuacao() {
-        return pontuacao;
+    public int getUtilidade() {
+        return utilidade;
     }
 
-    public void setPontuacao(int pontuacao) {
-        this.pontuacao = pontuacao;
+    public void setUtilidade(int utilidade) {
+        this.utilidade = utilidade;
     }
 
     public APeca getPecaOrigem() {
@@ -74,6 +75,11 @@ public class Movimento {
     }
 
     public Movimento(APeca pecaOrigem, APeca pecaDestino) {
+        this.pecaOrigem = pecaOrigem;
+        this.pecaDestino = pecaDestino;
+    }
+    
+    public Movimento(int utilidade) {
         this.pecaOrigem = pecaOrigem;
         this.pecaDestino = pecaDestino;
     }
@@ -962,4 +968,24 @@ public class Movimento {
 
         return true;
     }
+    
+    
+    public Jogada getJogada(){
+     return new Jogada(this.pecaOrigem.getPosicao_atual(), this.pecaDestino.getPosicao_atual());
+    }
+    
+    
+    public static APeca[][] realizarJogadanoClonePosicoes(Jogada jogada, APeca[][] clonePosicoes){
+        Posicao posicaoAtual = jogada.getPosicao_atual();
+        Posicao novaPosicao  = jogada.getNova_posicao();
+        
+       APeca pecaPosicaoAtual = clonePosicoes[posicaoAtual.getX()][posicaoAtual.getY()];
+       clonePosicoes[posicaoAtual.getX()][posicaoAtual.getY()] = new PontoVazio(posicaoAtual);
+       
+       pecaPosicaoAtual.setPosicao_atual(novaPosicao);
+       clonePosicoes[novaPosicao.getX()][novaPosicao.getY()] = pecaPosicaoAtual;
+       
+       return clonePosicoes; 
+    }
+    
 }
