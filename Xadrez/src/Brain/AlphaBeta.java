@@ -1,6 +1,9 @@
 package Brain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import pecas.APeca;
 import principal.Jogada;
 import principal.Jogo;
 import principal.Movimento;
@@ -13,6 +16,7 @@ import principal.Tabuleiro;
 public class AlphaBeta {
 
     public static int profundidadeAtual = -1;
+    private static Map<Integer, Movimento> utilidadeMovimentos = new HashMap<Integer, Movimento>();
 
     public static Jogada melhorJogada(Tabuleiro tabuleiroRaiz) {
         ArrayList<Movimento> todosMovimentos
@@ -24,13 +28,14 @@ public class AlphaBeta {
         int alpha = -99999999;
         int beta = 99999999;
 
-        int utilidade = this.valorMax(tabuleiroRaiz, alpha, beta);
+        int melhorUtilidade = AlphaBeta.valorMax(tabuleiroRaiz, alpha, beta, true);
         
-        
+        Movimento melhorMovimento = AlphaBeta.utilidadeMovimentos.get(melhorUtilidade);
+       
         return melhorMovimento.getJogada();
     }
 
-    private int valorMax(Tabuleiro tabuleiro, int alpha, int beta) {
+    private static int valorMax(Tabuleiro tabuleiro, int alpha, int beta, boolean isPrimeiraRecursao) {
         //Incremento do Nível atual
         AlphaBeta.profundidadeAtual++;
         if (AlphaBeta.profundidadeAtual == Jogador.limiteProfundidade) {
@@ -45,16 +50,18 @@ public class AlphaBeta {
 
         for (int cont = 0; cont < todosMovimentos.size(); cont++) {
             Movimento mov = todosMovimentos.get(cont);
-            APecas[][] clonePosicoes = tabuleiro.clonePosicoes();
+            APeca[][] clonePosicoes = tabuleiro.clonePosicoes();
 
             Jogada jogada = mov.getJogada();
             // O estado filho, é o clone do Pai(tabuleiro), aplicado um movimento legal
             clonePosicoes = Movimento.realizarJogadanoClonePosicoes(jogada, clonePosicoes);
             Tabuleiro novoEstadoTabuleiro = new Tabuleiro(clonePosicoes);
-            utilidade = Math.max(utilidade, valorMin(novoEstadoTabuleiro, alpha, beta));
+            utilidade = Math.max(utilidade, AlphaBeta.valorMin(novoEstadoTabuleiro, alpha, beta));
             
             // FAZER: Mapear o Movimento e a utilidade atual, quando a recursão for a Primeira Chamada
-            
+            if(isPrimeiraRecursao){
+                AlphaBeta.utilidadeMovimentos.put(utilidade, mov);
+            }
             
             if (utilidade >= beta) {
                 return utilidade;
@@ -67,7 +74,7 @@ public class AlphaBeta {
 
     }
 
-    private int valorMin(Tabuleiro tabuleiro, int alpha, int beta) {
+    private static int valorMin(Tabuleiro tabuleiro, int alpha, int beta) {
         //Incremento do Nível atual
         AlphaBeta.profundidadeAtual++;
         if (AlphaBeta.profundidadeAtual == Jogador.limiteProfundidade) {
@@ -82,12 +89,12 @@ public class AlphaBeta {
 
         for (int cont = 0; cont < todosMovimentos.size(); cont++) {
             Movimento mov = todosMovimentos.get(cont);
-            APecas[][] clonePosicoes = tabuleiro.clonePosicoes();
+            APeca[][] clonePosicoes = tabuleiro.clonePosicoes();
 
             Jogada jogada = mov.getJogada();
             clonePosicoes = Movimento.realizarJogadanoClonePosicoes(jogada, clonePosicoes);
             Tabuleiro novoEstadoTabuleiro = new Tabuleiro(clonePosicoes);
-            utilidade = Math.min(utilidade, valorMax(novoEstadoTabuleiro, alpha, beta));
+            utilidade = Math.min(utilidade, AlphaBeta.valorMax(novoEstadoTabuleiro, alpha, beta, false));
             
             if (utilidade <= alpha) {
                 return utilidade;
