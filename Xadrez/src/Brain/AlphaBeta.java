@@ -18,7 +18,7 @@ public class AlphaBeta {
     	Movimento melhorMovimento = new Movimento(null, tabuleiro, 0, 0);
 		Movimento movResposta;
 	
-	    if (/*Tabuleiro.isGameOver(tabuleiro) || */profundidade == limiteProfundidade) 
+	    if (profundidade == limiteProfundidade) 
 	    {
 	    	Movimento falsoMelhorMovimento = new Movimento(null, tabuleiro,0,0);
 	        falsoMelhorMovimento.setUtilidade(Avaliacao.avaliarTabuleiro(tabuleiro));

@@ -45,15 +45,19 @@ public class Jogar {
                // System.out.println(jogo.getTabuleiro());
                 //DEFINIR A JOGADA AQUI
                // int utilidadeTabuleiro = superBrain.calcularUtilidade(jogo.getTabuleiro());
+                
                 //System.out.println(utilidadeTabuleiro); 
                 
+                //Definir Jogada Dinâmica
                Movimento mMelhorJogada = superBrain.melhorJogada();
                 
                Posicao posicao_inicial =  mMelhorJogada.getPecaOrigem().getPosicao_atual();
+             
                Posicao nova_posicao = mMelhorJogada.getPecaDestino().getPosicao_atual(); 
                 
-                jogo.jogar(posicao_inicial.getX(), posicao_inicial.getY(), nova_posicao.getX(), nova_posicao.getY());
-                /*
+               jogo.jogar(posicao_inicial.getX(), posicao_inicial.getY(), nova_posicao.getX(), nova_posicao.getY());
+              
+                /*  Definir Jogada Estática - Teste
                 byte x1=7;
                 byte y1=2;
                 byte x2=6;
