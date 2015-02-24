@@ -26,5 +26,7 @@ public class Posicao
 	}
 	public void setY(byte y) {
 		this.y = y;
-	}	
+	}
+        
+      
 }

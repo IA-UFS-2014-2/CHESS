@@ -1,4 +1,3 @@
-
 package Brain;
 
 import java.util.ArrayList;
@@ -12,9 +11,12 @@ import principal.Tabuleiro;
  * @author fabio
  */
 public class AlphaBeta {
-    
-      public static Jogada melhorJogada()
-      {
-    	
-    
-      }
+
+    public static Jogada melhorJogada(Tabuleiro tabuleiroRaiz) {
+        ArrayList<Movimento> todosMovimentos
+                = Movimento.getTodosMovimentos(tabuleiroRaiz, Jogo.jogador.getNumeroJogador());
+        System.out.println("Todos movimentos : " + todosMovimentos.size());
+        return null;
+    }
+
+}

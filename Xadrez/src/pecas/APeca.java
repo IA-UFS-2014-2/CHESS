@@ -105,5 +105,15 @@ public abstract class APeca
 	public void movimento()
 	{
 	}
+        
+        
+          public String toString(){
+              String str = ""; 
+              if(!this.isVazia()){
+                   str += this.getCor() + "-" + this.getNome();
+              }
+              str += " ("+this.posicao_atual.getX() + ", "+this.posicao_atual.getY() + ")" ;
+            return str;
+        }
 	
 }

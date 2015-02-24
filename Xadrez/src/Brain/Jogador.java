@@ -1,4 +1,3 @@
-
 package Brain;
 
 import pecas.Posicao;
@@ -7,41 +6,64 @@ import principal.Jogo;
 import principal.Movimento;
 import principal.Tabuleiro;
 
-
 /**
- * 
+ *
  * @author Anne
  */
-public class Jogador 
-{    
-    // Profundidade da arvore
+public class Jogador {
+
+    // Profundidade da arvore que o jogador pode verificar
+
     private static int limiteProfundidade;
+    public static int idJogador;
+    public static byte numeroJogador;
 
-    
-    public Jogador(int limiteProfundidade) {
-        this.limiteProfundidade=limiteProfundidade;
-    }    
-    
-    public int calcularUtilidade(Tabuleiro tabuleiro){
-        int pontuacao=0;
-        pontuacao=Avaliacao.avaliarTabuleiro(tabuleiro);
-        return pontuacao; 
+    public Jogador(int idJogador, byte numeroJogador, int limiteProfundidade) {
+        this(limiteProfundidade);
+        Jogador.idJogador = idJogador;
+        Jogador.numeroJogador = numeroJogador;
     }
-  
+    
+     public Jogador(int limiteProfundidade) {
+        Jogador.limiteProfundidade = limiteProfundidade;
+    }
+
+    public int calcularUtilidade(Tabuleiro tabuleiro) {
+        int pontuacao = 0;
+        pontuacao = Avaliacao.avaliarTabuleiro(tabuleiro);
+        return pontuacao;
+    }
+
     public Movimento melhorJogada() {
-        int alpha = -9999999;
-        int beta = 9999999;
-        return AlphaBeta.melhorJogada(Jogo.numeroJogador , Jogo.tabuleiro, alpha, beta, 0 , Jogador.limiteProfundidade);
+//        int alpha = -9999999;
+//        int beta = 9999999;
+        AlphaBeta.melhorJogada(Jogo.tabuleiro);
+        return null;
     }
     
-
+    
     public int getLimiteProfundidade() {
         return limiteProfundidade;
     }
 
     public void setLimiteProfundidade(int limiteProfundidade) {
-        this.limiteProfundidade = limiteProfundidade;
+        Jogador.limiteProfundidade = limiteProfundidade;
     }
 
-   
+    public int getIdJogador() {
+        return idJogador;
+    }
+
+    public void setIdJogador(int idJogador) {
+        Jogador.idJogador = idJogador;
+    }
+
+    public byte getNumeroJogador() {
+        return numeroJogador;
+    }
+
+    public void setNumeroJogador(byte numeroJogador) {
+        Jogador.numeroJogador = numeroJogador;
+    }
+
 }

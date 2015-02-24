@@ -1,5 +1,6 @@
 package principal;
 
+import Brain.Jogador;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -41,8 +42,8 @@ public class Jogo {
     public static Tabuleiro tabuleiro;
     private Map<Integer, String> Mensagem = new HashMap<Integer, String>();
     private final String urlServidor;
-    public static int idJogador;
-    public static byte numeroJogador;
+    public static Jogador jogador;
+    
     private int ultimoCodigoMensagem;
 
     //Opções do Json mais utilizadas
@@ -53,7 +54,9 @@ public class Jogo {
     private final String opCodigo = "codigo";
     private final String opMensagem = "mensagem";
 
-    public Jogo() {
+    public Jogo(int limiteProfundidade) {
+        Jogo.jogador = new Jogador(limiteProfundidade);
+        
         this.urlServidor = "http://xadrez.tigersoft.com.br:8109/datasnap/rest/"
                 + "TXadrez/";
 
@@ -128,8 +131,9 @@ public class Jogo {
                 //Retornou o id do Jogador obs: E um JsonArray com 1 posicao
                 JSONArray jsonArrayResult = new JSONArray(respostaJson.get(opResult).toString());
                 JSONObject jsonObjResult = new JSONObject(jsonArrayResult.get(0).toString());
-                this.setIdJogador(Integer.parseInt(jsonObjResult.get("id_jogador").toString()));
-                this.setNumeroJogador(Byte.parseByte(jsonObjResult.get("numero_jogador").toString()));
+                
+                Jogo.jogador.setIdJogador(Integer.parseInt(jsonObjResult.get("id_jogador").toString()));
+                Jogo.jogador.setNumeroJogador(Byte.parseByte(jsonObjResult.get("numero_jogador").toString()));
 
             } else if (respostaJson.has(opError)) {
                 //Tratar Error
@@ -143,7 +147,7 @@ public class Jogo {
             Logger.getLogger(Jogo.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return this.getIdJogador();
+        return Jogo.jogador.getIdJogador();
     }
 
     public void reiniciarPartida() {
@@ -151,7 +155,7 @@ public class Jogo {
     }
 
     public String jogar(byte x_atual, byte y_atual, byte x_novo, byte y_novo) {
-        String url = "Jogar/{\"id_jogador\":\"" + this.getIdJogador()
+        String url = "Jogar/{\"id_jogador\":\"" + Jogo.jogador.getIdJogador()
                 + "\",\"posicao_atual\":{\"x\":\"" + x_atual + "\",\"y\":\""
                 + y_atual + "\"},\"nova_posicao\":{\"x\":\"" + x_novo + "\",\"y\":\""
                 + y_novo + "\"}}";
@@ -159,7 +163,7 @@ public class Jogo {
     }
 
     public String jogar(byte x_atual, byte y_atual, byte x_novo, byte y_novo, char nomePecaPromocao) {
-        String url = "Jogar/{\"id_jogador\":\"" + this.getIdJogador()
+        String url = "Jogar/{\"id_jogador\":\"" + Jogo.jogador.getIdJogador()
                 + "\",\"posicao_atual\":{\"x\":\"" + x_atual + "\",\"y\":\""
                 + y_atual + "\"},\"nova_posicao\":{\"x\":\"" + x_novo + "\",\"y\":\""
                 + y_novo + "\"},\"peca_promocao\":\"" + nomePecaPromocao + "\"}";
@@ -176,7 +180,7 @@ public class Jogo {
     }
 
     public void solicitarSituacaoAtualTabuleiro() {
-        String url = "SituacaoAtual/" + this.getIdJogador();
+        String url = "SituacaoAtual/" + Jogo.jogador.getIdJogador();
 
         try {
 
@@ -303,14 +307,7 @@ public class Jogo {
     }
 
     //Getts e Setts   
-    public int getIdJogador() {
-        return idJogador;
-    }
-
-    public void setIdJogador(int idJogador) {
-        this.idJogador = idJogador;
-    }
-
+   
     public int getVez() {
         return vez;
     }
@@ -349,12 +346,5 @@ public class Jogo {
                 +" "+ this.Mensagem.get(this.ultimoCodigoMensagem));
     }
 
-    public byte getNumeroJogador() {
-        return numeroJogador;
-    }
-
-    public void setNumeroJogador(byte numeroJogador) {
-        this.numeroJogador = numeroJogador;
-    }
 
 }

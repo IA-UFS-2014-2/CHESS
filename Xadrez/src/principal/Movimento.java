@@ -194,7 +194,7 @@ public class Movimento
 			//Verificando se a coluna da peça origem é a mesma da peça destino.
 			if(mov.pecaOrigem.getPosicao_atual().getY() == mov.pecaDestino.getPosicao_atual().getY())
 			{
-				if (Jogo.numeroJogador == 1) //Branco 
+				if (Jogo.jogador.getNumeroJogador() == 1) //Branco 
 				{
 					//O Peão não fez nemhum movimento
 					if (mov.pecaOrigem.getQtd_movimentos() == 0)
@@ -250,7 +250,7 @@ public class Movimento
 			else if (	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY()//Coluna esquerda
 					|| 	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY())//Coluna direita
 			{
-				if (Jogo.numeroJogador == 1) //Branco 
+				if (Jogo.jogador.getNumeroJogador() == 1) //Branco 
 				{
 					if (mov.pecaOrigem.getPosicao_atual().getX()+1 == mov.pecaDestino.getPosicao_atual().getX())//Avançou um casa para cima
 					{
@@ -299,7 +299,7 @@ public class Movimento
 			if (	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY()//Coluna esquerda
 				|| 	mov.pecaOrigem.getPosicao_atual().getY()-1 == mov.pecaDestino.getPosicao_atual().getY())//Coluna direita
 			{
-				if (Jogo.numeroJogador == 1) //Branco 
+				if (Jogo.jogador.getNumeroJogador() == 1) //Branco 
 				{
 					if (mov.pecaOrigem.getPosicao_atual().getX()+1 == mov.pecaDestino.getPosicao_atual().getX())//Avançou um casa para cima
 					{
@@ -646,7 +646,7 @@ public class Movimento
 		int coluna = rei.getPosicao_atual().getY();
 		
 		// Verificando se tem algum Peão ameçando o Rei
-		if(Jogo.numeroJogador == 1) // Branca 
+		if(Jogo.jogador.getNumeroJogador() == 1) // Branca 
 		{
 			if (	(	tabuleiro.getPecaByPosicao(linha-1, coluna-1).getCor() != cor
 				     &&	tabuleiro.getPecaByPosicao(linha-1, coluna-1) instanceof Peao)
