@@ -97,12 +97,13 @@ public class Movimento {
     private static boolean isPecaDestinoCapturavel(Tabuleiro tabuleiro, Movimento mov) {
         //Verificando se a peça destino está dentro do tabuleiro
         if (isPecaNoTabuleiro(mov.pecaDestino.getPosicao_atual().getX(), mov.pecaDestino.getPosicao_atual().getY())) {
-			//Obtendo a peça localizada nas coordenadas da peça destino
+            //Obtendo a peça localizada nas coordenadas da peça destino
             //mov.pecaDestino = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual()); //TODO
 
-            //Verificando se a peça destino está vazia, sem sim não pode ser capturada.
+            //Verificando se a peça destino está vazia, se sim não pode ser capturada.
+            // Se ela nao pode ser capturada entao o retorno deve ser false
             if (mov.pecaDestino.isVazia()) {
-                return true;
+                return false;
             } //Verificando se a cor da peça destino é diferente da peça origem 
             else if (mov.pecaOrigem.getCor() != mov.pecaDestino.getCor()) {
                 return true;
@@ -126,7 +127,8 @@ public class Movimento {
      * @return True se existir alguma peça e False se o caminho estiver limpo.
      */
     private static boolean isPecaEntreOrigemDestino(Tabuleiro tabuleiro, Movimento mov, int incrementoPorLinha, int incrementoPorColuna) {
-
+        
+        // Se linhaAtual e colunaAtual sao coordenadas de uma posicao, eles nao deveriam ser declarados como byte? 
         int linhaAtual = mov.pecaOrigem.getPosicao_atual().getX() + incrementoPorLinha;
         int colunaAtual = mov.pecaOrigem.getPosicao_atual().getY() + incrementoPorColuna;
         while (true) {
@@ -160,7 +162,7 @@ public class Movimento {
     public static boolean isPecaValida(Tabuleiro tabuleiro, int x, int y) {
         //Obtendo a peça de acordo com as coordenadas.
         APeca peca = tabuleiro.getPecaByPosicao(new Posicao((byte) x, (byte) y));
-
+        
         // Se não estiver vazia é uma peça válida.
         if (!peca.isVazia()) {
             return true;
@@ -172,7 +174,7 @@ public class Movimento {
      * Função que verifica se o movimento do Peão é válido.
      */
     public static boolean isValidoMovimentoPeao(Tabuleiro tabuleiro, Movimento mov) {
-		// O peão pode avançar para a casa vazia, imediatamente à frente,
+	// O peão pode avançar para a casa vazia, imediatamente à frente,
         // ou em seu primeiro lance ele pode avançar duas casas.
         // Desde que ambas estejam desocupadas.
 
@@ -193,7 +195,8 @@ public class Movimento {
                     else {
                         if (mov.pecaOrigem.getPosicao_atual().getX() + 1 == mov.pecaDestino.getPosicao_atual().getX()) //Avançou um casa para cima
                         {
-                            if (mov.pecaDestino.getPosicao_atual().getY() == 8) //Está na última linha, ou seja pode ser promovido.
+                            // alterei getY() por getX()
+                            if (mov.pecaDestino.getPosicao_atual().getX() == 8) //Está na última linha, ou seja pode ser promovido.
                             {
                                 mov.promocaoPeao = true;
                             }
@@ -214,7 +217,7 @@ public class Movimento {
                     else {
                         if (mov.pecaOrigem.getPosicao_atual().getX() - 1 == mov.pecaDestino.getPosicao_atual().getX()) //Avançou um casa para cima
                         {
-                            if (mov.pecaDestino.getPosicao_atual().getY() == 1) //Está na primeira linha, ou seja pode ser promovido.
+                            if (mov.pecaDestino.getPosicao_atual().getX() == 1) //Está na primeira linha, ou seja pode ser promovido.
                             {
                                 mov.promocaoPeao = true;
                             }
@@ -226,7 +229,7 @@ public class Movimento {
             } // Movimento En Passant (Em passagem)
             // Verificanda se a peça destino está na coluna a esquerda ou a direita da peça origem.
             else if (mov.pecaOrigem.getPosicao_atual().getY() - 1 == mov.pecaDestino.getPosicao_atual().getY()//Coluna esquerda
-                    || mov.pecaOrigem.getPosicao_atual().getY() - 1 == mov.pecaDestino.getPosicao_atual().getY())//Coluna direita
+                    || mov.pecaOrigem.getPosicao_atual().getY() + 1 == mov.pecaDestino.getPosicao_atual().getY())//Coluna direita Obs. coloquei +1 no lugar do -1
             {
                 if (Jogo.jogador.getNumeroJogador() == 1) //Branco 
                 {
@@ -331,8 +334,8 @@ public class Movimento {
 
         // Se a pecaDestino está vazia ou é capturável
         if (isPecaDestinoVazia(mov) || isPecaDestinoCapturavel(tabuleiro, mov)) {
-            int distanciaEntreLinhas = Math.abs(mov.pecaOrigem.getPosicao_atual().getX() - mov.pecaDestino.getPosicao_atual().getX());
-            int distanciaEntreColunas = Math.abs(mov.pecaOrigem.getPosicao_atual().getY() - mov.pecaDestino.getPosicao_atual().getY());
+            int distanciaEntreLinhas = mov.pecaOrigem.getPosicao_atual().getX() - mov.pecaDestino.getPosicao_atual().getX();
+            int distanciaEntreColunas = mov.pecaOrigem.getPosicao_atual().getY() - mov.pecaDestino.getPosicao_atual().getY();
 
             if (distanciaEntreLinhas == distanciaEntreColunas && distanciaEntreColunas > 0) {
                 // Movimento diagonal up-right
@@ -347,7 +350,7 @@ public class Movimento {
 
             } else if (distanciaEntreLinhas == -distanciaEntreColunas && distanciaEntreColunas > 0) {
                 // Movimento diagonal down-right
-                if (!isPecaEntreOrigemDestino(tabuleiro, mov, -1, +1)) {
+                if (!isPecaEntreOrigemDestino(tabuleiro, mov, -1, +1)) { 
                     //Armazenando a peça capturada.
                     if (isPecaDestinoCapturavel(tabuleiro, mov)) {
                         mov.pecaCapturada = mov.pecaDestino;
@@ -387,15 +390,15 @@ public class Movimento {
      * Função que verifica se o movimento da Torre é válido.
      */
     public static boolean isValidoMovimentoTorre(Tabuleiro tabuleiro, Movimento mov) {
-		// O movimento executado pelas torres é
+	// O movimento executado pelas torres é
         // sempre em paralelas (linhas ou colunas), quantas
         // casas desejar desde que haja espaço livre. 
         // E não pode saltar sobre outra peça válida.
 
         // Se a pecaDestino está vazia ou é capturável
         if (isPecaDestinoVazia(mov) || isPecaDestinoCapturavel(tabuleiro, mov)) {
-            int distanciaEntreLinhas = Math.abs(mov.pecaOrigem.getPosicao_atual().getX() - mov.pecaDestino.getPosicao_atual().getX());
-            int distanciaEntreColunas = Math.abs(mov.pecaOrigem.getPosicao_atual().getY() - mov.pecaDestino.getPosicao_atual().getY());
+            int distanciaEntreLinhas = mov.pecaOrigem.getPosicao_atual().getX() - mov.pecaDestino.getPosicao_atual().getX();
+            int distanciaEntreColunas = mov.pecaOrigem.getPosicao_atual().getY() - mov.pecaDestino.getPosicao_atual().getY();
 
             if (distanciaEntreLinhas == 0 && distanciaEntreColunas > 0) {
                 // Movimento right
@@ -569,6 +572,7 @@ public class Movimento {
         // Verificando se tem algum Peão ameçando o Rei
         if (Jogo.jogador.getNumeroJogador() == 1) // Branca 
         {
+            // aqui nao deveria retornar true? Pois exsite um peao ameacando?
             if ((tabuleiro.getPecaByPosicao(linha - 1, coluna - 1).getCor() != cor
                     && tabuleiro.getPecaByPosicao(linha - 1, coluna - 1) instanceof Peao)
                     || (tabuleiro.getPecaByPosicao(linha - 1, coluna + 1).getCor() != cor
@@ -585,7 +589,8 @@ public class Movimento {
             }
         }
 
-        // ADJACENT KING ILLEGALITY
+        
+    // ADJACENT KING ILLEGALITY
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 if (i == 0 && j == 0) {
@@ -947,9 +952,9 @@ public class Movimento {
      * Função que verifica se a peça está dentro do tabuleiro
      */
     
-    //Dando Stack Over Flow... corrigir
+    //Usei o type cast pra resolver a exceção
     public static boolean isPecaNoTabuleiro(int x, int y) {
-        return isPecaNoTabuleiro(x, y);
+        return isPecaNoTabuleiro((byte)x, (byte)y);
     }
 
     /*

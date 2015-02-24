@@ -192,6 +192,7 @@ public class Tabuleiro {
     }
     
 	//Obtendo a peça a partir da posição informada
+        // O retorno desse metodo nao deveria ser uma peca do tipo APeca?
 	public APeca getPecaByPosicao(Posicao posicao)
 	{
 		//Verificando se está dentro do tabuleiro
