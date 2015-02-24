@@ -1,6 +1,5 @@
 package principal;
 
-import Brain.NoJogada;
 import java.util.ArrayList;
 
 import com.sun.org.apache.bcel.internal.generic.TABLESWITCH;
