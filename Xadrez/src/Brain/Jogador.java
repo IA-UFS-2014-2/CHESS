@@ -14,7 +14,7 @@ public class Jogador {
 
     // Profundidade da arvore que o jogador pode verificar
 
-    private static int limiteProfundidade;
+    public static int limiteProfundidade;
     public static int idJogador;
     public static byte numeroJogador;
 

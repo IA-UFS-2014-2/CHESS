@@ -16,7 +16,7 @@ public class Tabuleiro {
     private int turno;
     private String ultima_jogada_notacao;
     private Jogada ultima_jogada;
-    private final APeca[][] posicoes;
+    private APeca[][] posicoes;
     
     //Armazenando o rei do jagador e de seu oponente.
     private APeca reiOponente;
@@ -33,6 +33,11 @@ public class Tabuleiro {
 	protected Tabuleiro()
 	{
 		this.posicoes = new APeca[8][8];
+	}
+        
+        protected Tabuleiro(APeca[][] posicoes)
+	{
+		 this.posicoes = posicoes;
 	}
 	
 	public static Tabuleiro getInstance() 
@@ -87,10 +92,20 @@ public class Tabuleiro {
         	}
         }
     }
+    
+    public APeca[][] clonePosicoes(){
+        return this.posicoes.clone();
+    }
+    
 
     public APeca[][] getPosicoes() {
         return posicoes;
     }
+
+    public void setPosicoes(APeca[][] posicoes) {
+        this.posicoes = posicoes;
+    }
+    
 
     public int getTurno() {
         return turno;
