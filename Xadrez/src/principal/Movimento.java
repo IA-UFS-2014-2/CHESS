@@ -8,6 +8,7 @@ import pecas.APeca;
 import pecas.Bispo;
 import pecas.Cavalo;
 import pecas.Peao;
+import pecas.PontoVazio;
 import pecas.Posicao;
 import pecas.Rainha;
 import pecas.Rei;
@@ -969,8 +970,8 @@ public class Movimento {
     }
     
     
-    public static APecas[][] realizarJogadanoClonePosicoes(Jogada jogada, APecas[][] clonePosicoes){
-        Posicao posicaoAtual = jogada.getPosicao_atual()
+    public static APeca[][] realizarJogadanoClonePosicoes(Jogada jogada, APeca[][] clonePosicoes){
+        Posicao posicaoAtual = jogada.getPosicao_atual();
         Posicao novaPosicao  = jogada.getNova_posicao();
         
        APeca pecaPosicaoAtual = clonePosicoes[posicaoAtual.getX()][posicaoAtual.getY()];
@@ -979,7 +980,7 @@ public class Movimento {
        pecaPosicaoAtual.setPosicao_atual(novaPosicao);
        clonePosicoes[novaPosicao.getX()][novaPosicao.getY()] = pecaPosicaoAtual;
        
-       return clonePosicoes 
+       return clonePosicoes; 
     }
     
 }

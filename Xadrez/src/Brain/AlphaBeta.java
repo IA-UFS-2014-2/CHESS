@@ -20,15 +20,11 @@ public class AlphaBeta {
 //        System.out.println("TabuleiroRaiz" + tabuleiroRaiz);
 //        System.out.println("Todos movimentos : " + todosMovimentos.size());
 
-        //Criar o novo Tabuleiro com as posições clonadas
-        Tabuleiro tabuleiroRaizClone = new Tabuleiro(tabuleiroRaiz.clonePosicoes());
-
         //Chama o método que implementa o MiniMax e o Alpha Beta
         int alpha = -99999999;
         int beta = 99999999;
 
-        int utilidade = this.valorMax(tabuleiroRaizClone, alpha, beta);
-        
+        int utilidade = this.valorMax(tabuleiroRaiz, alpha, beta);
         
         
         return melhorMovimento.getJogada();
@@ -52,15 +48,19 @@ public class AlphaBeta {
             APecas[][] clonePosicoes = tabuleiro.clonePosicoes();
 
             Jogada jogada = mov.getJogada();
-            clonePosicoes = Movimento.realizarJogadanoClonePosicoes(jogada, clonePosicoes)
+            // O estado filho, é o clone do Pai(tabuleiro), aplicado um movimento legal
+            clonePosicoes = Movimento.realizarJogadanoClonePosicoes(jogada, clonePosicoes);
             Tabuleiro novoEstadoTabuleiro = new Tabuleiro(clonePosicoes);
-            utilidade = Math.max(utilidade, valorMin(novoEstadoTabuleiro, alpha, beta))
+            utilidade = Math.max(utilidade, valorMin(novoEstadoTabuleiro, alpha, beta));
+            
+            // FAZER: Mapear o Movimento e a utilidade atual, quando a recursão for a Primeira Chamada
+            
             
             if (utilidade >= beta) {
                 return utilidade;
             }
 
-            alpha = Math.max(utilidade, alpha)
+            alpha = Math.max(utilidade, alpha);
         }
 
         return utilidade;
@@ -85,9 +85,9 @@ public class AlphaBeta {
             APecas[][] clonePosicoes = tabuleiro.clonePosicoes();
 
             Jogada jogada = mov.getJogada();
-            clonePosicoes = Movimento.realizarJogadanoClonePosicoes(jogada, clonePosicoes)
+            clonePosicoes = Movimento.realizarJogadanoClonePosicoes(jogada, clonePosicoes);
             Tabuleiro novoEstadoTabuleiro = new Tabuleiro(clonePosicoes);
-            utilidade = Math.min(utilidade, valorMax(novoEstadoTabuleiro, alpha, beta))
+            utilidade = Math.min(utilidade, valorMax(novoEstadoTabuleiro, alpha, beta));
             
             if (utilidade <= alpha) {
                 return utilidade;
