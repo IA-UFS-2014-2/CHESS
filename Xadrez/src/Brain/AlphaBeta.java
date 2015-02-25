@@ -33,7 +33,6 @@ public class AlphaBeta {
         
         Movimento melhorMovimento = AlphaBeta.utilidadeMovimentos.get(melhorUtilidade);
         
-          
         return melhorMovimento.getJogada();
     }
 
