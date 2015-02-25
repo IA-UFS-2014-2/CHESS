@@ -27,6 +27,10 @@ public class Posicao
 	public void setY(byte y) {
 		this.y = y;
 	}
+       
         
+        public String toString(){
+            return "("+this.getX()+", " +this.getY()+")";
+        }
       
 }

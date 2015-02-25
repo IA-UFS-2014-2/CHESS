@@ -12,7 +12,7 @@ import pecas.Posicao;
 public class Jogar {
 
     public static void main(String args[]) {
-        int profundidadePensamento = 4;
+        int profundidadePensamento = 5;
         Jogo jogo = new Jogo(profundidadePensamento);
         //jogo.reiniciarPartida();
         //E o jogador
@@ -53,10 +53,12 @@ public class Jogar {
                Posicao nova_posicao = mMelhorJogada.getNova_posicao();
                
                 
-               jogo.jogar(posicao_inicial.getX(), posicao_inicial.getY(), nova_posicao.getX(), nova_posicao.getY());
+            String jsonRetorno =  jogo.jogar(posicao_inicial.getX(), posicao_inicial.getY(), nova_posicao.getX(), nova_posicao.getY());
               
                 contNumJogadas++;
-                System.out.println("Número de Jogada do Jogador Atual: "+contNumJogadas);
+                
+               // System.out.println("PInicial"+ posicao_inicial + "  PNova" +nova_posicao);
+                
                 jogo.solicitarSituacaoAtualTabuleiro();
                 
                 //Situacao Depois de Jogar
