@@ -28,28 +28,16 @@ public class Tabuleiro {
     private APeca torreEsquerda = new APeca() {};
     private APeca torreDireita = new APeca() {};
 
-	private static Tabuleiro instance = null;
-	
 	public Tabuleiro()
 	{
 		this.posicoes = new APeca[8][8];
 	}
         
-        public Tabuleiro(APeca[][] posicoes)
+    public Tabuleiro(APeca[][] posicoes)
 	{
 		 this.posicoes = posicoes;
 	}
-	
-	public static Tabuleiro getInstance() 
-	{
-		if(instance == null) 
-		{
-			instance = new Tabuleiro();
-		}
-		
-		return instance;
-	}
-    
+	    
     public void incluirPeca(APeca peca){
         //Subtrai 1 do x e y
         Posicao posicaoAtual = peca.getPosicao_atual();
@@ -59,11 +47,11 @@ public class Tabuleiro {
         if (peca instanceof Rei)
         {
         	//Se o rei for do jogador
-        	if (Jogo.jogador.getNumeroJogador() == 1 && peca.getCor() == "branca") // numeroJogador = 1 => branca
+        	if (Jogo.jogador.getNumeroJogador() == 1 && peca.getCor().equals("branca")) // numeroJogador = 1 => branca
         	{
         		reiProprio = peca;
         	}
-        	else if (Jogo.jogador.getNumeroJogador() == 2 && peca.getCor() == "preta") // numeroJogador = 2 => preto
+        	else if (Jogo.jogador.getNumeroJogador() == 2 && peca.getCor().equals("preta")) // numeroJogador = 2 => preto
         	{
         		reiProprio = peca;
         	}
@@ -78,13 +66,13 @@ public class Tabuleiro {
         if (peca instanceof Torre)
         {
         	//Se a torre for do jogador
-        	if (Jogo.jogador.getNumeroJogador() == 1 && peca.getCor() == "branca") // numeroJogador = 1 => branca
+        	if (Jogo.jogador.getNumeroJogador() == 1 && peca.getCor().equals("branca")) // numeroJogador = 1 => branca
         	{
         		//Só armazena a torre se for possível utilizá-la para o movimento Roque
         		if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 1) torreEsquerda = peca;
         		else if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 8) torreDireita = peca;
         	}
-        	else if (Jogo.jogador.getNumeroJogador() == 2 && peca.getCor() == "preta") // numeroJogador = 2 => preto
+        	else if (Jogo.jogador.getNumeroJogador() == 2 && peca.getCor().equals("preta")) // numeroJogador = 2 => preto
         	{
         		//Só armazena a torre se for possível utilizá-la para o movimento Roque
         		if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 8) torreEsquerda = peca;

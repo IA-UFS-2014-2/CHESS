@@ -105,7 +105,7 @@ public class Movimento {
             if (mov.pecaDestino.isVazia()) {
                 return false;
             } //Verificando se a cor da peça destino é diferente da peça origem 
-            else if (mov.pecaOrigem.getCor() != mov.pecaDestino.getCor()) {
+            else if (!mov.pecaOrigem.getCor().equals(mov.pecaDestino.getCor())) {
                 return true;
             } //Verificando se a peça destino é o Rei, que não pode ser capturado
             else if (mov.pecaDestino instanceof Rei) {
@@ -565,7 +565,7 @@ public class Movimento {
     public static boolean isReiSalvo(Tabuleiro tabuleiro, Movimento mov, String cor) 
     {
         // Pegando a posição do Rei do Jogador. 
-        APeca rei = Tabuleiro.getInstance().getReiProprio();
+        APeca rei = tabuleiro.getReiProprio();
 
         System.out.println("aa "+rei);
         
@@ -575,16 +575,16 @@ public class Movimento {
         // Verificando se tem algum Peão ameçando o Rei
         if (Jogo.jogador.getNumeroJogador() == 2) // Preta 
         {
-            if (	(tabuleiro.getPecaByPosicao(linha - 1, coluna - 1).getCor() != cor && tabuleiro.getPecaByPosicao(linha - 1, coluna - 1) instanceof Peao) //Linha abaixo e coluna à esquerda
-                 || (tabuleiro.getPecaByPosicao(linha - 1, coluna + 1).getCor() != cor && tabuleiro.getPecaByPosicao(linha - 1, coluna + 1) instanceof Peao))//Linha abaixo e coluna à direita
+            if (	(!tabuleiro.getPecaByPosicao(linha - 1, coluna - 1).getCor().equals(cor) && tabuleiro.getPecaByPosicao(linha - 1, coluna - 1) instanceof Peao) //Linha abaixo e coluna à esquerda
+                 || (!tabuleiro.getPecaByPosicao(linha - 1, coluna + 1).getCor().equals(cor) && tabuleiro.getPecaByPosicao(linha - 1, coluna + 1) instanceof Peao))//Linha abaixo e coluna à direita
             {
                 return false;
             }
         } 
         else // Branca
         {
-            if (	(tabuleiro.getPecaByPosicao(linha + 1, coluna - 1).getCor() != cor && tabuleiro.getPecaByPosicao(linha + 1, coluna - 1) instanceof Peao) //Linha acima e coluna à esqueda
-                 || (tabuleiro.getPecaByPosicao(linha + 1, coluna + 1).getCor() != cor && tabuleiro.getPecaByPosicao(linha + 1, coluna + 1) instanceof Peao))//Linha abaixo e coluna à direita
+            if (	(!tabuleiro.getPecaByPosicao(linha + 1, coluna - 1).getCor().equals(cor) && tabuleiro.getPecaByPosicao(linha + 1, coluna - 1) instanceof Peao) //Linha acima e coluna à esqueda
+                 || (!tabuleiro.getPecaByPosicao(linha + 1, coluna + 1).getCor().equals(cor) && tabuleiro.getPecaByPosicao(linha + 1, coluna + 1) instanceof Peao))//Linha abaixo e coluna à direita
             {
                 return false;
             }
@@ -596,7 +596,7 @@ public class Movimento {
         {
             for (int j = -1; j < 2; j++) //Coluna esqueda, mesma coluna, e direita
             {
-                if (i == 0 && j == 0) 
+                if (i == 0 && j == 0) //Ignorando a própria casa
                 {
                     continue;
                 }
@@ -608,21 +608,21 @@ public class Movimento {
         }
 
         //Veridficando se tem algum Cavalo ameaçado o Rei
-        if ((tabuleiro.getPecaByPosicao(linha + 1, coluna - 2).getCor() != cor
+        if (       (!tabuleiro.getPecaByPosicao(linha + 1, coluna - 2).getCor().equals(cor)
                 && tabuleiro.getPecaByPosicao(linha + 1, coluna - 2) instanceof Cavalo)
-                || (tabuleiro.getPecaByPosicao(linha + 1, coluna + 2).getCor() != cor
+                || (!tabuleiro.getPecaByPosicao(linha + 1, coluna + 2).getCor().equals(cor)
                 && tabuleiro.getPecaByPosicao(linha + 1, coluna + 2) instanceof Cavalo)
-                || (tabuleiro.getPecaByPosicao(linha - 1, coluna - 2).getCor() != cor
+                || (!tabuleiro.getPecaByPosicao(linha - 1, coluna - 2).getCor().equals(cor)
                 && tabuleiro.getPecaByPosicao(linha - 1, coluna - 2) instanceof Cavalo)
-                || (tabuleiro.getPecaByPosicao(linha - 1, coluna + 2).getCor() != cor
+                || (!tabuleiro.getPecaByPosicao(linha - 1, coluna + 2).getCor().equals(cor)
                 && tabuleiro.getPecaByPosicao(linha - 1, coluna + 2) instanceof Cavalo)
-                || (tabuleiro.getPecaByPosicao(linha + 2, coluna - 1).getCor() != cor
+                || (!tabuleiro.getPecaByPosicao(linha + 2, coluna - 1).getCor().equals(cor)
                 && tabuleiro.getPecaByPosicao(linha + 2, coluna - 1) instanceof Cavalo)
-                || (tabuleiro.getPecaByPosicao(linha + 2, coluna + 1).getCor() != cor
+                || (!tabuleiro.getPecaByPosicao(linha + 2, coluna + 1).getCor().equals(cor)
                 && tabuleiro.getPecaByPosicao(linha + 2, coluna + 1) instanceof Cavalo)
-                || (tabuleiro.getPecaByPosicao(linha - 2, coluna - 1).getCor() != cor
+                || (!tabuleiro.getPecaByPosicao(linha - 2, coluna - 1).getCor().equals(cor)
                 && tabuleiro.getPecaByPosicao(linha - 2, coluna - 1) instanceof Cavalo)
-                || (tabuleiro.getPecaByPosicao(linha - 2, coluna + 1).getCor() != cor
+                || (!tabuleiro.getPecaByPosicao(linha - 2, coluna + 1).getCor().equals(cor)
                 && tabuleiro.getPecaByPosicao(linha - 2, coluna + 1) instanceof Cavalo)) 
         {
             return false;
@@ -639,7 +639,7 @@ public class Movimento {
         for (int i = linha - 1; i >= 1; i--) 
         {
             APeca p = tabuleiro.getPecaByPosicao(i, coluna);
-            if (p.getCor() != cor && (p instanceof Torre || p instanceof Rainha))
+            if (!p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
             {
                 return false;
             } 
@@ -663,7 +663,7 @@ public class Movimento {
         for (int i = linha + 1; i <= 7; i++)
         {
             APeca p = tabuleiro.getPecaByPosicao(i, coluna);
-            if (p.getCor() != cor && (p instanceof Torre || p instanceof Rainha)) 
+            if (!p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha)) 
             {
                 return false;
             } 
@@ -687,7 +687,7 @@ public class Movimento {
         for (int i = coluna - 1; i >= 1; i--) 
         {
             APeca p = tabuleiro.getPecaByPosicao(linha, i);
-            if (p.getCor() != cor && (p instanceof Torre || p instanceof Rainha))
+            if (!p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
             {
                 return false;
             } 
@@ -710,7 +710,7 @@ public class Movimento {
         for (int i = coluna + 1; i <= 7; i++) 
         {
             APeca p = tabuleiro.getPecaByPosicao(linha, i);
-            if (p.getCor() != cor && (p instanceof Torre || p instanceof Rainha))
+            if (!p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
             {
                 return false;
             }
@@ -750,7 +750,7 @@ public class Movimento {
         for (int i = 1; i <= 8; i++) 
         {
             APeca p = tabuleiro.getPecaByPosicao(linha + i * linhaX, coluna + i * colunaY);
-            if (p.getCor() != cor && (p instanceof Bispo || p instanceof Rainha)) 
+            if (!p.getCor().equals(cor) && (p instanceof Bispo || p instanceof Rainha)) 
             {
                 return false;
             }
