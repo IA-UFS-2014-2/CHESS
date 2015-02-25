@@ -30,12 +30,12 @@ public class Tabuleiro {
 
 	private static Tabuleiro instance = null;
 	
-	protected Tabuleiro()
+	public Tabuleiro()
 	{
 		this.posicoes = new APeca[8][8];
 	}
         
-        protected Tabuleiro(APeca[][] posicoes)
+        public Tabuleiro(APeca[][] posicoes)
 	{
 		 this.posicoes = posicoes;
 	}
