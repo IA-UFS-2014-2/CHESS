@@ -503,7 +503,7 @@ public class Movimento {
             if (mov.pecaOrigem.getQtd_movimentos() == 0) {
 				//Roque maior ou esquerdo				
                 //Se a peça torreEsquerda for válida ela pode ser usada no movimento Roque
-                if (!tabuleiro.getTorreEsquerda().isVazia()) //Vazio = Inválida
+                if (tabuleiro.getTorreEsquerda() != null && !tabuleiro.getTorreEsquerda().isVazia()) //Vazio = Inválida
                 {
                     //Verificando se existe alguma peça entre o rei e a torre
                 	APeca casa = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual().getX(), mov.pecaDestino.getPosicao_atual().getY() - 1); 
@@ -533,7 +533,7 @@ public class Movimento {
 
 				//Roque menor ou direito				
                 //Se a peça torreDireita for válida ela pode ser usada no movimento Roque
-                if (!tabuleiro.getTorreDireita().isVazia()) //Vazio = Inválida
+                if (tabuleiro.getTorreDireita() != null && !tabuleiro.getTorreDireita().isVazia()) //Vazio = Inválida
                 {
                     //Verificando se existe alguma peça entre o rei e a torre
                     if (!isPecaEntreOrigemDestino(tabuleiro, mov, 0, +1))//Casas da posição inical do rei até sua posição final 

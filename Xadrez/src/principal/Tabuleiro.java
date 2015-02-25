@@ -25,8 +25,8 @@ public class Tabuleiro {
     //Armazenando as duas torres do jogador.
     //Instaciando inicialmente com nula, pois ela só terá algum valor 
     //se elas poderem ser utilizadas para o movimento do Roque.
-    private Torre torreEsquerda = new Torre() {};
-    private Torre torreDireita = new Torre() {};
+    private Torre torreEsquerda = null;
+    private Torre torreDireita = null;
 
 	public Tabuleiro()
 	{
@@ -51,16 +51,16 @@ public class Tabuleiro {
         	//Se o rei for do jogador
         	if (Jogo.jogador.getNumeroJogador() == 1 && peca.getCor().equals("branca")) // numeroJogador = 1 => branca
         	{
-        		this.reiProprio = peca;
+        		this.reiProprio = (Rei) peca;
         	}
         	else if (Jogo.jogador.getNumeroJogador() == 2 && peca.getCor().equals("preta")) // numeroJogador = 2 => preto
         	{
-        		this.reiProprio = peca;
+        		this.reiProprio = (Rei) peca;
         	}
         	//Se o rei for do oponente
         	else
         	{
-        		this.reiOponente = peca;
+        		this.reiOponente = (Rei) peca;
         	}
         }
         
@@ -71,14 +71,14 @@ public class Tabuleiro {
         	if (Jogo.jogador.getNumeroJogador() == 1 && peca.getCor().equals("branca")) // numeroJogador = 1 => branca
         	{
         		//Só armazena a torre se for possível utilizá-la para o movimento Roque
-        		if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 1) torreEsquerda = peca;
-        		else if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 8) torreDireita = peca;
+        		if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 1) torreEsquerda = (Torre) peca;
+        		else if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 8) torreDireita = (Torre) peca;
         	}
         	else if (Jogo.jogador.getNumeroJogador() == 2 && peca.getCor().equals("preta")) // numeroJogador = 2 => preto
         	{
         		//Só armazena a torre se for possível utilizá-la para o movimento Roque
-        		if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 8) torreEsquerda = peca;
-        		else if (peca.getPosicao_atual().getX() == 8 && peca.getPosicao_atual().getY() == 8) torreDireita = peca;
+        		if (peca.getPosicao_atual().getX() == 1 && peca.getPosicao_atual().getY() == 8) torreEsquerda = (Torre) peca;
+        		else if (peca.getPosicao_atual().getX() == 8 && peca.getPosicao_atual().getY() == 8) torreDireita = (Torre) peca;
         	}
         }
     }
