@@ -744,7 +744,7 @@ public class Movimento {
         {
             return false;
         }
-        //Bispo e Rainha em todas as peças da diagonais possíveis
+        //Bispo e Rainha em todas as casas das diagonais possíveis
         for (int i = 1; i <= 8; i++) 
         {
             APeca p = tabuleiro.getPecaByPosicao(linha + i * linhaX, coluna + i * colunaY);
