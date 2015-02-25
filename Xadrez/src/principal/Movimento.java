@@ -514,7 +514,7 @@ public class Movimento {
                                 && mov.pecaOrigem.getPosicao_atual().getY() - 2 == mov.pecaDestino.getPosicao_atual().getY())//Duas casa a esquerda					
                         {
                             //Atribuido o Rei a posição da peça destino para verificar se ficará a salvo
-                            APeca Rei = tabuleiro.getReiProprio();
+                            Rei Rei = tabuleiro.getReiProprio();
                             Posicao posRei = Rei.getPosicao_atual();
                             Rei.setPosicao_atual(mov.pecaDestino.getPosicao_atual());
                             tabuleiro.setReiProprio(Rei);
@@ -542,7 +542,7 @@ public class Movimento {
                                 && mov.pecaOrigem.getPosicao_atual().getY() + 2 == mov.pecaDestino.getPosicao_atual().getY())//Duas casa a direita				
                         {
                             //Atribuido o Rei a posição da peça destino para verificar se ficará a salvo
-                            APeca Rei = tabuleiro.getReiProprio();
+                            Rei Rei = tabuleiro.getReiProprio();
                             Posicao posRei = Rei.getPosicao_atual();
                             Rei.setPosicao_atual(mov.pecaDestino.getPosicao_atual());
                             tabuleiro.setReiProprio(Rei);
@@ -572,7 +572,7 @@ public class Movimento {
         // Pegando a posição do Rei do Jogador. 
         APeca rei = tabuleiro.getReiProprio();
 
-        System.out.println("aa "+rei);
+        //System.out.println("aa "+tabuleiro);
         
         int linha = rei.getPosicao_atual().getX();
         int coluna = rei.getPosicao_atual().getY();

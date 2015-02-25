@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import pecas.APeca;
+import pecas.Rei;
 import principal.Jogada;
 import principal.Jogo;
 import principal.Movimento;
@@ -55,7 +56,7 @@ public class AlphaBeta {
             Jogada jogada = mov.getJogada();
             // O estado filho, é o clone do Pai(tabuleiro), aplicado um movimento legal
             clonePosicoes = Movimento.realizarJogadanoClonePosicoes(jogada, clonePosicoes);
-            Tabuleiro novoEstadoTabuleiro = new Tabuleiro(clonePosicoes);
+            Tabuleiro novoEstadoTabuleiro = new Tabuleiro(clonePosicoes, tabuleiro.getReiOponente(), tabuleiro.getReiProprio());
             utilidade = Math.max(utilidade, AlphaBeta.valorMin(novoEstadoTabuleiro, alpha, beta));
             
             // FAZER: Mapear o Movimento e a utilidade atual, quando a recursão for a Primeira Chamada

@@ -19,23 +19,25 @@ public class Tabuleiro {
     private APeca[][] posicoes;
     
     //Armazenando o rei do jagador e de seu oponente.
-    private APeca reiOponente;
-    private APeca reiProprio;
+    private Rei reiOponente;
+    private Rei reiProprio;
     
     //Armazenando as duas torres do jogador.
     //Instaciando inicialmente com nula, pois ela só terá algum valor 
     //se elas poderem ser utilizadas para o movimento do Roque.
-    private APeca torreEsquerda = new APeca() {};
-    private APeca torreDireita = new APeca() {};
+    private Torre torreEsquerda = new Torre() {};
+    private Torre torreDireita = new Torre() {};
 
 	public Tabuleiro()
 	{
 		this.posicoes = new APeca[8][8];
 	}
         
-    public Tabuleiro(APeca[][] posicoes)
+    public Tabuleiro(APeca[][] posicoes, Rei reiOponente, Rei reiProprio)
 	{
 		 this.posicoes = posicoes;
+                 this.reiOponente = reiOponente;
+                 this.reiProprio = reiProprio;
 	}
 	    
     public void incluirPeca(APeca peca){
@@ -119,35 +121,35 @@ public class Tabuleiro {
         this.ultima_jogada = ultima_jogada;
     }
     
-	public APeca getReiOponente() {
+	public Rei getReiOponente() {
 		return reiOponente;
 	}
 
-	public void setReiOponente(APeca reiOponente) {
+	public void setReiOponente(Rei reiOponente) {
 		this.reiOponente = reiOponente;
 	}
 	
-	public APeca getReiProprio() {
+	public Rei getReiProprio() {
 		return reiProprio;
 	}
 
-	public void setReiProprio(APeca reiProprio) {
+	public void setReiProprio(Rei reiProprio) {
 		this.reiProprio = reiProprio;
 	}
     
-	public APeca getTorreEsquerda() {
+	public Torre getTorreEsquerda() {
 		return torreEsquerda;
 	}
 
-	public void setTorreEsquerda(APeca torreEsquerda) {
+	public void setTorreEsquerda(Torre torreEsquerda) {
 		this.torreEsquerda = torreEsquerda;
 	}
 
-	public APeca getTorreDireita() {
+	public Torre getTorreDireita() {
 		return torreDireita;
 	}
 
-	public void setTorreDireita(APeca torreDireita) {
+	public void setTorreDireita(Torre torreDireita) {
 		this.torreDireita = torreDireita;
 	}
 	
