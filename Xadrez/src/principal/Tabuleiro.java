@@ -187,7 +187,8 @@ public class Tabuleiro {
 		if (posicao.getX() < 1 || posicao.getX() > 8 || posicao.getY() < 1 || posicao.getY() > 8)
 		{
 			// Devolvendo uma peça nula
-			return null;
+			APeca pecaNula = new APeca(){};
+			return pecaNula;
 		}
 		else
 		{

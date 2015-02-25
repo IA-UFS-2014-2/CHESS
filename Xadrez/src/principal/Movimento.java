@@ -94,23 +94,27 @@ public class Movimento {
     /*
      * Função que verifica se a peça destino pode ser capturada.
      */
-    private static boolean isPecaDestinoCapturavel(Tabuleiro tabuleiro, Movimento mov) {
+    private static boolean isPecaDestinoCapturavel(Tabuleiro tabuleiro, Movimento mov) 
+    {
         //Verificando se a peça destino está dentro do tabuleiro
-        if (isPecaNoTabuleiro(mov.pecaDestino.getPosicao_atual().getX(), mov.pecaDestino.getPosicao_atual().getY())) {
-            //Obtendo a peça localizada nas coordenadas da peça destino
-            //mov.pecaDestino = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual()); //TODO
-
+        if (isPecaNoTabuleiro(mov.pecaDestino.getPosicao_atual().getX(), mov.pecaDestino.getPosicao_atual().getY())) 
+        {
             //Verificando se a peça destino está vazia, se sim não pode ser capturada.
             // Se ela nao pode ser capturada entao o retorno deve ser false
-            if (mov.pecaDestino.isVazia()) {
+            if (mov.pecaDestino.isVazia()) 
+            {
                 return false;
             } //Verificando se a cor da peça destino é diferente da peça origem 
-            else if (!mov.pecaOrigem.getCor().equals(mov.pecaDestino.getCor())) {
+            else if (!mov.pecaOrigem.getCor().equals(mov.pecaDestino.getCor())) 
+            {
                 return true;
             } //Verificando se a peça destino é o Rei, que não pode ser capturado
-            else if (mov.pecaDestino instanceof Rei) {
+            else if (mov.pecaDestino instanceof Rei)
+            {
                 return false;
-            } else {
+            }             
+            else 
+            {
                 return false;
             }
         }
