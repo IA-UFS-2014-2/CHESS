@@ -12,7 +12,7 @@ import pecas.Posicao;
 public class Jogar {
 
     public static void main(String args[]) {
-        int profundidadePensamento = 3;
+        int profundidadePensamento = 4;
         Jogo jogo = new Jogo(profundidadePensamento);
         //jogo.reiniciarPartida();
         //E o jogador
@@ -20,6 +20,9 @@ public class Jogar {
 
         int idJogador = jogo.solicitarIdJogador("SuperBrain");
         int numeroJogador = Jogo.jogador.getNumeroJogador();
+        
+        long contNumJogadas = 0;
+                
         while (true) {
             try {
                 //Aguarda um intervalo de 0,5 segundos
@@ -49,23 +52,11 @@ public class Jogar {
                Posicao posicao_inicial =  mMelhorJogada.getPosicao_atual();
                Posicao nova_posicao = mMelhorJogada.getNova_posicao();
                
-               
                 
                jogo.jogar(posicao_inicial.getX(), posicao_inicial.getY(), nova_posicao.getX(), nova_posicao.getY());
               
-               
-                System.out.println("JOGOUUUUUU !! x1:" +posicao_inicial.getX() +" y1"+posicao_inicial.getY()
-                        + " x2"+ nova_posicao.getX()+ " y2" + nova_posicao.getY() );
-                
-                
-                /*  Definir Jogada Estática - Teste
-                byte x1=7;
-                byte y1=2;
-                byte x2=6;
-                byte y2=2;
-               jogo.jogar(x1, y1, x2, y2);
-                */
-                
+                contNumJogadas++;
+                System.out.println("Número de Jogada do Jogador Atual: "+contNumJogadas);
                 jogo.solicitarSituacaoAtualTabuleiro();
                 
                 //Situacao Depois de Jogar

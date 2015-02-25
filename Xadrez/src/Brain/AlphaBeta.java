@@ -16,30 +16,28 @@ import principal.Tabuleiro;
  */
 public class AlphaBeta {
 
-    public static int profundidadeAtual ;
+    public static int profundidadeAtual;
     private static Map<Integer, Movimento> utilidadeMovimentos;
 
     public static Jogada melhorJogada(Tabuleiro tabuleiroRaiz) {
-        
+
         AlphaBeta.profundidadeAtual = -1;
         AlphaBeta.utilidadeMovimentos = new HashMap<Integer, Movimento>();
-        
+
+        int alpha = -99999999;
+        int beta = 99999999;
+
         ArrayList<Movimento> todosMovimentos
                 = Movimento.getTodosMovimentos(tabuleiroRaiz, Jogo.jogador.getNumeroJogador());
 
 //        System.out.println("TabuleiroRaiz" + tabuleiroRaiz);
 //        System.out.println("Todos movimentos : " + todosMovimentos.size());
         //Chama o método que implementa o MiniMax e o Alpha Beta
-        int alpha = -99999999;
-        int beta = 99999999;
-        
         //Busca a Melhor Utilidade para nosso Jogador
         int melhorUtilidade = AlphaBeta.valorMax(tabuleiroRaiz, alpha, beta, true);
 
         Movimento melhorMovimento = AlphaBeta.utilidadeMovimentos.get(melhorUtilidade);
-        
-        System.out.println("Bestutilidade "+ melhorUtilidade +"  "+AlphaBeta.utilidadeMovimentos);
-        
+
         return melhorMovimento.getJogada();
     }
 
@@ -57,7 +55,7 @@ public class AlphaBeta {
                 = Movimento.getTodosMovimentos(tabuleiro, Jogo.jogador.getNumeroJogador());
 
         for (int cont = 0; cont < todosMovimentos.size(); cont++) {
-            
+
             Movimento mov = todosMovimentos.get(cont);
             APeca[][] clonePosicoes = tabuleiro.clonePosicoes();
 
@@ -74,6 +72,8 @@ public class AlphaBeta {
             }
 
             if (utilidade >= beta) {
+                //Decremento do Nível atual
+                AlphaBeta.profundidadeAtual--;
                 return utilidade;
             }
 
@@ -81,6 +81,8 @@ public class AlphaBeta {
 
         }
 
+        //Decremento do Nível atual
+        AlphaBeta.profundidadeAtual--;
         return utilidade;
 
     }
@@ -108,11 +110,16 @@ public class AlphaBeta {
             utilidade = Math.min(utilidade, AlphaBeta.valorMax(novoEstadoTabuleiro, alpha, beta, false));
 
             if (utilidade <= alpha) {
+                //Decremento do Nível atual
+                AlphaBeta.profundidadeAtual--;
                 return utilidade;
             }
 
             beta = Math.min(utilidade, beta);
         }
+
+        //Decremento do Nível atual
+        AlphaBeta.profundidadeAtual--;
 
         return utilidade;
     }
