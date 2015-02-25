@@ -49,6 +49,8 @@ public class AlphaBeta {
         ArrayList<Movimento> todosMovimentos
                 = Movimento.getTodosMovimentos(tabuleiro, Jogo.jogador.getNumeroJogador());
 
+        System.out.println(todosMovimentos.size());
+        
         for (int cont = 0; cont < todosMovimentos.size(); cont++) {
             Movimento mov = todosMovimentos.get(cont);
             APeca[][] clonePosicoes = tabuleiro.clonePosicoes();
@@ -71,6 +73,7 @@ public class AlphaBeta {
             alpha = Math.max(utilidade, alpha);
         }
 
+        
         return utilidade;
 
     }
@@ -94,7 +97,7 @@ public class AlphaBeta {
 
             Jogada jogada = mov.getJogada();
             clonePosicoes = Movimento.realizarJogadanoClonePosicoes(jogada, clonePosicoes);
-            Tabuleiro novoEstadoTabuleiro = new Tabuleiro(clonePosicoes);
+            Tabuleiro novoEstadoTabuleiro = new Tabuleiro(clonePosicoes, tabuleiro.getReiOponente(), tabuleiro.getReiProprio());
             utilidade = Math.min(utilidade, AlphaBeta.valorMax(novoEstadoTabuleiro, alpha, beta, false));
             
             if (utilidade <= alpha) {
