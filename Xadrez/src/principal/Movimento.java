@@ -168,7 +168,7 @@ public class Movimento {
         APeca peca = tabuleiro.getPecaByPosicao(new Posicao((byte) x, (byte) y));
         
         // Se não estiver vazia é uma peça válida.
-        if (!peca.isVazia()) {
+        if (peca != null && !peca.isVazia()) {
             return true;
         }
         return false;
@@ -244,7 +244,7 @@ public class Movimento {
 
                         // Obtendo a peça da determinado posição no tabuleiro.
                         APeca pecaParalela = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual());
-                        if (!pecaParalela.isVazia() && pecaParalela instanceof Peao && pecaParalela.getQtd_movimentos() == 1) {
+                        if (pecaParalela != null && !pecaParalela.isVazia() && pecaParalela instanceof Peao && pecaParalela.getQtd_movimentos() == 1) {
                             //Armazenando a peça capturada.
                             mov.pecaCapturada = mov.pecaDestino;
 
@@ -260,7 +260,7 @@ public class Movimento {
 
                         // Obtendo a peça da determinado posição no tabuleiro.
                         APeca pecaParalela = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual());
-                        if (!pecaParalela.isVazia() && pecaParalela instanceof Peao && pecaParalela.getQtd_movimentos() == 1) {
+                        if (pecaParalela != null && !pecaParalela.isVazia() && pecaParalela instanceof Peao && pecaParalela.getQtd_movimentos() == 1) {
                             //Armazenando a peça capturada.
                             mov.pecaCapturada = mov.pecaDestino;
 
@@ -506,8 +506,9 @@ public class Movimento {
                 if (!tabuleiro.getTorreEsquerda().isVazia()) //Vazio = Inválida
                 {
                     //Verificando se existe alguma peça entre o rei e a torre
+                	APeca casa = tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual().getX(), mov.pecaDestino.getPosicao_atual().getY() - 1); 
                     if (!isPecaEntreOrigemDestino(tabuleiro, mov, 0, -1) //Casas da posição inical do rei até sua posição final 
-                            && tabuleiro.getPecaByPosicao(mov.pecaDestino.getPosicao_atual().getX(), mov.pecaDestino.getPosicao_atual().getY() - 1).isVazia()) //Casa depois da torre
+                            && casa.isVazia()) //Casa depois da torre
                     {
                         if (mov.pecaOrigem.getPosicao_atual().getX() == mov.pecaDestino.getPosicao_atual().getX()
                                 && mov.pecaOrigem.getPosicao_atual().getY() - 2 == mov.pecaDestino.getPosicao_atual().getY())//Duas casa a esquerda					
@@ -579,16 +580,16 @@ public class Movimento {
         // Verificando se tem algum Peão ameçando o Rei
         if (Jogo.jogador.getNumeroJogador() == 2) // Preta 
         {
-            if (	(!tabuleiro.getPecaByPosicao(linha - 1, coluna - 1).getCor().equals(cor) && tabuleiro.getPecaByPosicao(linha - 1, coluna - 1) instanceof Peao) //Linha abaixo e coluna à esquerda
-                 || (!tabuleiro.getPecaByPosicao(linha - 1, coluna + 1).getCor().equals(cor) && tabuleiro.getPecaByPosicao(linha - 1, coluna + 1) instanceof Peao))//Linha abaixo e coluna à direita
+            if (	(tabuleiro.getPecaByPosicao(linha - 1, coluna - 1) instanceof Peao && !tabuleiro.getPecaByPosicao(linha - 1, coluna - 1).getCor().equals(cor)) //Linha abaixo e coluna à esquerda
+                 || (tabuleiro.getPecaByPosicao(linha - 1, coluna + 1) instanceof Peao && !tabuleiro.getPecaByPosicao(linha - 1, coluna + 1).getCor().equals(cor)))//Linha abaixo e coluna à direita
             {
                 return false;
             }
         } 
         else // Branca
         {
-            if (	(!tabuleiro.getPecaByPosicao(linha + 1, coluna - 1).getCor().equals(cor) && tabuleiro.getPecaByPosicao(linha + 1, coluna - 1) instanceof Peao) //Linha acima e coluna à esqueda
-                 || (!tabuleiro.getPecaByPosicao(linha + 1, coluna + 1).getCor().equals(cor) && tabuleiro.getPecaByPosicao(linha + 1, coluna + 1) instanceof Peao))//Linha abaixo e coluna à direita
+            if (	(tabuleiro.getPecaByPosicao(linha + 1, coluna - 1) instanceof Peao && !tabuleiro.getPecaByPosicao(linha + 1, coluna - 1).getCor().equals(cor)) //Linha acima e coluna à esqueda
+                 || (tabuleiro.getPecaByPosicao(linha + 1, coluna + 1) instanceof Peao && !tabuleiro.getPecaByPosicao(linha + 1, coluna + 1).getCor().equals(cor)))//Linha abaixo e coluna à direita
             {
                 return false;
             }
@@ -612,22 +613,14 @@ public class Movimento {
         }
 
         //Veridficando se tem algum Cavalo ameaçado o Rei
-        if (       (!tabuleiro.getPecaByPosicao(linha + 1, coluna - 2).getCor().equals(cor)
-                && tabuleiro.getPecaByPosicao(linha + 1, coluna - 2) instanceof Cavalo)
-                || (!tabuleiro.getPecaByPosicao(linha + 1, coluna + 2).getCor().equals(cor)
-                && tabuleiro.getPecaByPosicao(linha + 1, coluna + 2) instanceof Cavalo)
-                || (!tabuleiro.getPecaByPosicao(linha - 1, coluna - 2).getCor().equals(cor)
-                && tabuleiro.getPecaByPosicao(linha - 1, coluna - 2) instanceof Cavalo)
-                || (!tabuleiro.getPecaByPosicao(linha - 1, coluna + 2).getCor().equals(cor)
-                && tabuleiro.getPecaByPosicao(linha - 1, coluna + 2) instanceof Cavalo)
-                || (!tabuleiro.getPecaByPosicao(linha + 2, coluna - 1).getCor().equals(cor)
-                && tabuleiro.getPecaByPosicao(linha + 2, coluna - 1) instanceof Cavalo)
-                || (!tabuleiro.getPecaByPosicao(linha + 2, coluna + 1).getCor().equals(cor)
-                && tabuleiro.getPecaByPosicao(linha + 2, coluna + 1) instanceof Cavalo)
-                || (!tabuleiro.getPecaByPosicao(linha - 2, coluna - 1).getCor().equals(cor)
-                && tabuleiro.getPecaByPosicao(linha - 2, coluna - 1) instanceof Cavalo)
-                || (!tabuleiro.getPecaByPosicao(linha - 2, coluna + 1).getCor().equals(cor)
-                && tabuleiro.getPecaByPosicao(linha - 2, coluna + 1) instanceof Cavalo)) 
+        if (       (tabuleiro.getPecaByPosicao(linha + 1, coluna - 2) instanceof Cavalo && !tabuleiro.getPecaByPosicao(linha + 1, coluna - 2).getCor().equals(cor))                
+                || (tabuleiro.getPecaByPosicao(linha + 1, coluna + 2) instanceof Cavalo && !tabuleiro.getPecaByPosicao(linha + 1, coluna + 2).getCor().equals(cor))                
+                || (tabuleiro.getPecaByPosicao(linha - 1, coluna - 2) instanceof Cavalo && !tabuleiro.getPecaByPosicao(linha - 1, coluna - 2).getCor().equals(cor))                
+                || (tabuleiro.getPecaByPosicao(linha - 1, coluna + 2) instanceof Cavalo && !tabuleiro.getPecaByPosicao(linha - 1, coluna + 2).getCor().equals(cor))                
+                || (tabuleiro.getPecaByPosicao(linha + 2, coluna - 1) instanceof Cavalo && !tabuleiro.getPecaByPosicao(linha + 2, coluna - 1).getCor().equals(cor))                
+                || (tabuleiro.getPecaByPosicao(linha + 2, coluna + 1) instanceof Cavalo && !tabuleiro.getPecaByPosicao(linha + 2, coluna + 1).getCor().equals(cor))                
+                || (tabuleiro.getPecaByPosicao(linha - 2, coluna - 1) instanceof Cavalo && !tabuleiro.getPecaByPosicao(linha - 2, coluna - 1).getCor().equals(cor))                
+                || (tabuleiro.getPecaByPosicao(linha - 2, coluna + 1) instanceof Cavalo && !tabuleiro.getPecaByPosicao(linha - 2, coluna + 1).getCor().equals(cor))) 
         {
             return false;
         }
@@ -643,7 +636,7 @@ public class Movimento {
         for (int i = linha - 1; i >= 1; i--) 
         {
             APeca p = tabuleiro.getPecaByPosicao(i, coluna);
-            if (!p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
+            if (p != null && !p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
             {
                 return false;
             } 
@@ -667,7 +660,7 @@ public class Movimento {
         for (int i = linha + 1; i <= 7; i++)
         {
             APeca p = tabuleiro.getPecaByPosicao(i, coluna);
-            if (!p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha)) 
+            if (p != null && !p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha)) 
             {
                 return false;
             } 
@@ -691,7 +684,7 @@ public class Movimento {
         for (int i = coluna - 1; i >= 1; i--) 
         {
             APeca p = tabuleiro.getPecaByPosicao(linha, i);
-            if (!p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
+            if (p != null && !p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
             {
                 return false;
             } 
@@ -714,7 +707,7 @@ public class Movimento {
         for (int i = coluna + 1; i <= 7; i++) 
         {
             APeca p = tabuleiro.getPecaByPosicao(linha, i);
-            if (!p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
+            if (p != null && !p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
             {
                 return false;
             }
@@ -754,7 +747,7 @@ public class Movimento {
         for (int i = 1; i <= 8; i++) 
         {
             APeca p = tabuleiro.getPecaByPosicao(linha + i * linhaX, coluna + i * colunaY);
-            if (!p.getCor().equals(cor) && (p instanceof Bispo || p instanceof Rainha)) 
+            if (p != null && !p.getCor().equals(cor) && (p instanceof Bispo || p instanceof Rainha)) 
             {
                 return false;
             }
@@ -770,13 +763,13 @@ public class Movimento {
     }
 
     // Verifica se o movimento dado é válido no tabuleiro
-    public static boolean isMovimentoValido(Tabuleiro tabuleiro, Movimento mov) {
-        //Não realizou nenhum movimento.
-        
+    public static boolean isMovimentoValido(Tabuleiro tabuleiro, Movimento mov) 
+    {   
         if(mov.pecaDestino == null){
             return false;
         }
         
+        //Não realizou nenhum movimento.     
         if (mov.pecaOrigem.getPosicao_atual().getX() == mov.pecaDestino.getPosicao_atual().getX()
                 && mov.pecaOrigem.getPosicao_atual().getY() == mov.pecaDestino.getPosicao_atual().getY()) {
             return false;
