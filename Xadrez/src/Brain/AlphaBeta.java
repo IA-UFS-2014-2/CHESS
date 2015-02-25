@@ -39,17 +39,18 @@ public class AlphaBeta {
     private static int valorMax(Tabuleiro tabuleiro, int alpha, int beta, boolean isPrimeiraRecursao) {
         //Incremento do Nível atual
         AlphaBeta.profundidadeAtual++;
-        if (AlphaBeta.profundidadeAtual == Jogador.limiteProfundidade) {
+        if (AlphaBeta.profundidadeAtual >= Jogador.limiteProfundidade) {
             //Agora aplica a função de Utilidade 
             return Avaliacao.avaliarTabuleiro(tabuleiro);
         }
+        
+        System.out.println(AlphaBeta.profundidadeAtual);
 
         int utilidade = -99999999;
 
         ArrayList<Movimento> todosMovimentos
                 = Movimento.getTodosMovimentos(tabuleiro, Jogo.jogador.getNumeroJogador());
 
-        System.out.println(todosMovimentos.size());
         
         for (int cont = 0; cont < todosMovimentos.size(); cont++) {
             Movimento mov = todosMovimentos.get(cont);
@@ -81,11 +82,13 @@ public class AlphaBeta {
     private static int valorMin(Tabuleiro tabuleiro, int alpha, int beta) {
         //Incremento do Nível atual
         AlphaBeta.profundidadeAtual++;
-        if (AlphaBeta.profundidadeAtual == Jogador.limiteProfundidade) {
+        if (AlphaBeta.profundidadeAtual >= Jogador.limiteProfundidade) {
             //Agora aplica a função de Utilidade 
             return Avaliacao.avaliarTabuleiro(tabuleiro);
         }
 
+        System.out.println(AlphaBeta.profundidadeAtual);
+        
         int utilidade = 99999999;
 
         ArrayList<Movimento> todosMovimentos
