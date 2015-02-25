@@ -991,7 +991,6 @@ public class Movimento {
         for (int linha = 1; linha <= 8; linha++) {
             for (int coluna = 1; coluna <= 8; coluna++) {
                 ArrayList<Movimento> movimentosPeca = getTodosMovimentosPeca(tabuleiro, numeroJogador, linha, coluna);
-                System.out.println("Movimentos PEcas: "+ movimentosPeca.size());
                 
                 for (int i = 0; i < movimentosPeca.size(); i++) {
                     movimentos.add(movimentosPeca.get(i));

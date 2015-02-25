@@ -56,6 +56,7 @@ public class Avaliacao {
                         ( (peca.getCor().equals("branca") && numJogador == 1)
                         || ( peca.getCor().equals("preta") && numJogador == 2) ) ) {
                     
+                    
                     int numMovimentosPeca = Movimento.getTodosMovimentosPeca(tabuleiro, numJogador, x, y ).size();
 
                     if (peca instanceof Rei) {
