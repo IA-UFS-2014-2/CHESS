@@ -565,7 +565,7 @@ public class Movimento {
     public static boolean isReiSalvo(Tabuleiro tabuleiro, Movimento mov, String cor) 
     {
         // Pegando a posição do Rei do Jogador. 
-        APeca rei = Tabuleiro.getInstance().getReiProprio();
+        APeca rei = tabuleiro.getReiProprio();
 
         int linha = rei.getPosicao_atual().getX();
         int coluna = rei.getPosicao_atual().getY();
@@ -594,7 +594,7 @@ public class Movimento {
         {
             for (int j = -1; j < 2; j++) //Coluna esqueda, mesma coluna, e direita
             {
-                if (i == 0 && j == 0) 
+                if (i == 0 && j == 0) //Ignorando a própria casa
                 {
                     continue;
                 }

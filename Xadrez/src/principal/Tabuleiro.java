@@ -28,28 +28,16 @@ public class Tabuleiro {
     private APeca torreEsquerda = new APeca() {};
     private APeca torreDireita = new APeca() {};
 
-	private static Tabuleiro instance = null;
-	
 	public Tabuleiro()
 	{
 		this.posicoes = new APeca[8][8];
 	}
         
-        public Tabuleiro(APeca[][] posicoes)
+    public Tabuleiro(APeca[][] posicoes)
 	{
 		 this.posicoes = posicoes;
 	}
-	
-	public static Tabuleiro getInstance() 
-	{
-		if(instance == null) 
-		{
-			instance = new Tabuleiro();
-		}
-		
-		return instance;
-	}
-    
+	    
     public void incluirPeca(APeca peca){
         //Subtrai 1 do x e y
         Posicao posicaoAtual = peca.getPosicao_atual();
