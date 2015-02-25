@@ -1031,10 +1031,35 @@ public class Movimento {
         Posicao novaPosicao  = jogada.getNova_posicao();
         
        APeca pecaPosicaoAtual = clonePosicoes[posicaoAtual.getX()-1][posicaoAtual.getY()-1];
+       
+       //Instanciar uma nova Peca
+       
+         Posicao posicaoPecaAtual = new Posicao(posicaoAtual.getX(), posicaoAtual.getY());
+                String color = pecaPosicaoAtual.getCor();
+                APeca clonePecaAtual = null;
+                if (pecaPosicaoAtual instanceof PontoVazio) {
+                    clonePecaAtual = new PontoVazio(posicaoPecaAtual);
+                } else if (pecaPosicaoAtual instanceof Peao) {
+                    clonePecaAtual = new Peao(color, posicaoPecaAtual);
+                } else if (pecaPosicaoAtual instanceof Bispo) {
+                    clonePecaAtual = new Bispo(color, posicaoPecaAtual);
+                } else if (pecaPosicaoAtual instanceof Cavalo) {
+                    clonePecaAtual = new Cavalo(color, posicaoPecaAtual);
+                } else if (pecaPosicaoAtual instanceof Rainha) {
+                    clonePecaAtual = new Rainha(color, posicaoPecaAtual);
+                } else if (pecaPosicaoAtual instanceof Rei) {
+                    clonePecaAtual = new Rei(color, posicaoPecaAtual);
+                } else if (pecaPosicaoAtual instanceof Torre) {
+                     clonePecaAtual = new Torre(color, posicaoPecaAtual);
+                }
+
+                 
+       
+       
        clonePosicoes[posicaoAtual.getX()-1][posicaoAtual.getY()-1] = new PontoVazio(posicaoAtual);
        
-       pecaPosicaoAtual.setPosicao_atual(novaPosicao);
-       clonePosicoes[novaPosicao.getX()-1][novaPosicao.getY()-1] = pecaPosicaoAtual;
+       clonePecaAtual.setPosicao_atual(novaPosicao);
+       clonePosicoes[novaPosicao.getX()-1][novaPosicao.getY()-1] = clonePecaAtual;
        
        return clonePosicoes; 
     }

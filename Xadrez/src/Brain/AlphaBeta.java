@@ -93,8 +93,6 @@ public class AlphaBeta {
             return Avaliacao.avaliarTabuleiro(tabuleiro);
         }
 
-        System.out.println(AlphaBeta.profundidadeAtual);
-
         int utilidade = 99999999;
 
         ArrayList<Movimento> todosMovimentos

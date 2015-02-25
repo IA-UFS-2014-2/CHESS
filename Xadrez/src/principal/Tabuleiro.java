@@ -92,7 +92,7 @@ public class Tabuleiro {
 
         for (byte l = 0; l < 8; l++) {
             for (byte c = 0; c < 8; c++) {
-                Posicao posicaoPeca = new Posicao(l, c);
+                Posicao posicaoPeca = new Posicao( (byte)(l+1), (byte)(c+1) );
                 String color = this.posicoes[l][c].getCor();
                 APeca peca = null;
                 if (this.posicoes[l][c] instanceof PontoVazio) {
