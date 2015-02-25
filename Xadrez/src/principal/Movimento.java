@@ -787,8 +787,9 @@ public class Movimento {
             return false;
         }
 
-        boolean valido = false;
-        switch (mov.pecaOrigem.getNome()) {
+        boolean valido = true;
+        switch (mov.pecaOrigem.getNome()) 
+        {
             case 'P':
                 valido = isValidoMovimentoPeao(tabuleiro, mov);
                 break;
@@ -807,12 +808,8 @@ public class Movimento {
             case 'R':
                 valido = isValidoMovimentoRei(tabuleiro, mov);
         }
-        // Aqui nao deveria retornar true?
-        if (!valido) {
-            return false;
-        }
-
-        return true;
+        
+        return valido;
     }
 
     // Retorna o conjunto de todos os movimentos válidos da dada peca do tabuleiro
