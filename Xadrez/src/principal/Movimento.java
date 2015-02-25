@@ -573,20 +573,16 @@ public class Movimento {
         // Verificando se tem algum Peão ameçando o Rei
         if (Jogo.jogador.getNumeroJogador() == 2) // Preta 
         {
-            if ((tabuleiro.getPecaByPosicao(linha - 1, coluna - 1).getCor() != cor
-                    && tabuleiro.getPecaByPosicao(linha - 1, coluna - 1) instanceof Peao)
-                    || (tabuleiro.getPecaByPosicao(linha - 1, coluna + 1).getCor() != cor
-                    && tabuleiro.getPecaByPosicao(linha - 1, coluna + 1) instanceof Peao)) 
+            if (	(tabuleiro.getPecaByPosicao(linha - 1, coluna - 1).getCor() != cor && tabuleiro.getPecaByPosicao(linha - 1, coluna - 1) instanceof Peao) //Linha abaixo e coluna à esquerda
+                 || (tabuleiro.getPecaByPosicao(linha - 1, coluna + 1).getCor() != cor && tabuleiro.getPecaByPosicao(linha - 1, coluna + 1) instanceof Peao))//Linha abaixo e coluna à direita
             {
                 return false;
             }
         } 
         else // Branca
         {
-            if ((tabuleiro.getPecaByPosicao(linha + 1, coluna - 1).getCor() != cor
-                    && tabuleiro.getPecaByPosicao(linha + 1, coluna - 1) instanceof Peao)
-                    || (tabuleiro.getPecaByPosicao(linha + 1, coluna + 1).getCor() != cor
-                    && tabuleiro.getPecaByPosicao(linha + 1, coluna + 1) instanceof Peao)) 
+            if (	(tabuleiro.getPecaByPosicao(linha + 1, coluna - 1).getCor() != cor && tabuleiro.getPecaByPosicao(linha + 1, coluna - 1) instanceof Peao) //Linha acima e coluna à esqueda
+                 || (tabuleiro.getPecaByPosicao(linha + 1, coluna + 1).getCor() != cor && tabuleiro.getPecaByPosicao(linha + 1, coluna + 1) instanceof Peao))//Linha abaixo e coluna à direita
             {
                 return false;
             }
