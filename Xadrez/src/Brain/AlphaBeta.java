@@ -23,12 +23,6 @@ public class AlphaBeta {
         ArrayList<Movimento> todosMovimentos
                 = Movimento.getTodosMovimentos(tabuleiroRaiz, Jogo.jogador.getNumeroJogador());
 
-        for (int cont = 0; cont < todosMovimentos.size(); cont++) {
-            Movimento mov = todosMovimentos.get(cont);
-//            System.out.println("Os " + mov.getPecaOrigem());
-//            System.out.println("Ds " + mov.getPecaDestino());
-        }
-
 //        System.out.println("TabuleiroRaiz" + tabuleiroRaiz);
 //        System.out.println("Todos movimentos : " + todosMovimentos.size());
         //Chama o método que implementa o MiniMax e o Alpha Beta
@@ -56,9 +50,19 @@ public class AlphaBeta {
                 = Movimento.getTodosMovimentos(tabuleiro, Jogo.jogador.getNumeroJogador());
 
         for (int cont = 0; cont < todosMovimentos.size(); cont++) {
+            
+              if (isPrimeiraRecursao) {
+            
+                Movimento mov = todosMovimentos.get(cont);
+                System.out.println("Os1 " + mov.getPecaOrigem());
+                System.out.println("Ds1 " + mov.getPecaDestino());
+                System.out.println("s1 " + todosMovimentos.size());
+            
+        }
+            
             Movimento mov = todosMovimentos.get(cont);
             APeca[][] clonePosicoes = tabuleiro.clonePosicoes();
-            
+
             Jogada jogada = mov.getJogada();
             // O estado filho, é o clone do Pai(tabuleiro), aplicado um movimento legal
             clonePosicoes = Movimento.realizarJogadanoClonePosicoes(jogada, clonePosicoes);
@@ -68,10 +72,12 @@ public class AlphaBeta {
             // FAZER: Mapear o Movimento e a utilidade atual, quando a recursão for a Primeira Chamada
             if (isPrimeiraRecursao) {
                 AlphaBeta.utilidadeMovimentos.put(utilidade, mov);
-                 System.out.println("O " + mov.getPecaOrigem());
-                 System.out.println("D " + mov.getPecaDestino());
-                System.out.println(utilidade);
-              
+                System.out.println("O2 " + mov.getPecaOrigem());
+                System.out.println("D2 " + mov.getPecaDestino());
+//                System.out.println(utilidade);
+//
+                System.out.println("s2 " + todosMovimentos.size());
+
             }
 
             if (utilidade >= beta) {
