@@ -35,13 +35,13 @@ public class Avaliacao {
     public static int rateMaterial(Tabuleiro tabuleiro, boolean isAdversario) {
         int numJogador = 0;
         if(isAdversario){
-            if(Jogo.numeroJogador == 1){
+            if(Jogador.numeroJogador == 1){
                 numJogador = 2;
             }else{
                 numJogador = 1;
             }
         }else{
-            numJogador = Jogo.numeroJogador;
+            numJogador = Jogador.numeroJogador;
         }
         
         int counter = 0;
@@ -55,9 +55,8 @@ public class Avaliacao {
                 if (!peca.isVazia() && 
                         ( (peca.getCor().equals("branca") && numJogador == 1)
                         || ( peca.getCor().equals("preta") && numJogador == 2) ) ) {
-                    Movimento m1 = new Movimento(null, tabuleiro, 0 ,0 );
                     
-                    int numMovimentosPeca = m1.getTodosMovimentosPeca( numJogador, x, y ).size();
+                    int numMovimentosPeca = Movimento.getTodosMovimentosPeca(tabuleiro, numJogador, x, y ).size();
 
                     if (peca instanceof Rei) {
                         Rei pecaRei = (Rei) peca;
