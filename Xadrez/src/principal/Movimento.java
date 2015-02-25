@@ -636,7 +636,7 @@ public class Movimento {
         for (int i = linha - 1; i >= 1; i--) 
         {
             APeca p = tabuleiro.getPecaByPosicao(i, coluna);
-            if (p != null && !p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
+            if (p != null && !p.isVazia() && !p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
             {
                 return false;
             } 
@@ -660,7 +660,7 @@ public class Movimento {
         for (int i = linha + 1; i <= 7; i++)
         {
             APeca p = tabuleiro.getPecaByPosicao(i, coluna);
-            if (p != null && !p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha)) 
+            if (p != null && !p.isVazia() &&  !p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha)) 
             {
                 return false;
             } 
@@ -684,7 +684,7 @@ public class Movimento {
         for (int i = coluna - 1; i >= 1; i--) 
         {
             APeca p = tabuleiro.getPecaByPosicao(linha, i);
-            if (p != null && !p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
+            if (p != null && !p.isVazia() &&  !p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
             {
                 return false;
             } 
@@ -707,7 +707,7 @@ public class Movimento {
         for (int i = coluna + 1; i <= 7; i++) 
         {
             APeca p = tabuleiro.getPecaByPosicao(linha, i);
-            if (p != null && !p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
+            if (p != null && !p.isVazia() &&  !p.getCor().equals(cor) && (p instanceof Torre || p instanceof Rainha))
             {
                 return false;
             }
@@ -747,7 +747,7 @@ public class Movimento {
         for (int i = 1; i <= 8; i++) 
         {
             APeca p = tabuleiro.getPecaByPosicao(linha + i * linhaX, coluna + i * colunaY);
-            if (p != null && !p.getCor().equals(cor) && (p instanceof Bispo || p instanceof Rainha)) 
+            if (p != null && !p.isVazia() &&  !p.getCor().equals(cor) && (p instanceof Bispo || p instanceof Rainha)) 
             {
                 return false;
             }
