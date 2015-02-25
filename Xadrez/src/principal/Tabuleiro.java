@@ -3,7 +3,12 @@ package principal;
 import com.sun.org.apache.regexp.internal.REProgram;
 
 import pecas.APeca;
+import pecas.Bispo;
+import pecas.Cavalo;
+import pecas.Peao;
+import pecas.PontoVazio;
 import pecas.Posicao;
+import pecas.Rainha;
 import pecas.Rei;
 import pecas.Torre;
 
@@ -82,11 +87,31 @@ public class Tabuleiro {
     }
 
     public APeca[][] clonePosicoes() {
+        
         APeca[][] clonePosicao = new APeca[8][8];
 
-        for (int l = 0; l < 8; l++) {
-            for (int c = 0; c < 8; c++) {
-                clonePosicao[l][c] = this.posicoes[l][c];
+        for (byte l = 0; l < 8; l++) {
+            for (byte c = 0; c < 8; c++) {
+                Posicao posicaoPeca = new Posicao(l, c);
+                String color = this.posicoes[l][c].getCor();
+                APeca peca = null;
+                if (this.posicoes[l][c] instanceof PontoVazio) {
+                    peca = new PontoVazio(posicaoPeca);
+                } else if (this.posicoes[l][c] instanceof Peao) {
+                    peca = new Peao(color, posicaoPeca);
+                } else if (this.posicoes[l][c] instanceof Bispo) {
+                    peca = new Bispo(color, posicaoPeca);
+                } else if (this.posicoes[l][c] instanceof Cavalo) {
+                    peca = new Cavalo(color, posicaoPeca);
+                } else if (this.posicoes[l][c] instanceof Rainha) {
+                    peca = new Rainha(color, posicaoPeca);
+                } else if (this.posicoes[l][c] instanceof Rei) {
+                    peca = new Rei(color, posicaoPeca);
+                } else if (this.posicoes[l][c] instanceof Torre) {
+                     peca = new Torre(color, posicaoPeca);
+                }
+
+                clonePosicao[l][c] = peca;
             }
         }
 
@@ -185,7 +210,7 @@ public class Tabuleiro {
         return strTabuleiro;
     }
 
-	//Obtendo a peça a partir da posição informada
+    //Obtendo a peça a partir da posição informada
     // O retorno desse metodo nao deveria ser uma peca do tipo APeca?
     public APeca getPecaByPosicao(Posicao posicao) {
         //Verificando se está dentro do tabuleiro

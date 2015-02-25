@@ -16,10 +16,14 @@ import principal.Tabuleiro;
  */
 public class AlphaBeta {
 
-    public static int profundidadeAtual = -1;
-    private static Map<Integer, Movimento> utilidadeMovimentos = new HashMap<Integer, Movimento>();
+    public static int profundidadeAtual ;
+    private static Map<Integer, Movimento> utilidadeMovimentos;
 
     public static Jogada melhorJogada(Tabuleiro tabuleiroRaiz) {
+        
+        AlphaBeta.profundidadeAtual = -1;
+        AlphaBeta.utilidadeMovimentos = new HashMap<Integer, Movimento>();
+        
         ArrayList<Movimento> todosMovimentos
                 = Movimento.getTodosMovimentos(tabuleiroRaiz, Jogo.jogador.getNumeroJogador());
 
@@ -28,11 +32,14 @@ public class AlphaBeta {
         //Chama o método que implementa o MiniMax e o Alpha Beta
         int alpha = -99999999;
         int beta = 99999999;
-
+        
+        //Busca a Melhor Utilidade para nosso Jogador
         int melhorUtilidade = AlphaBeta.valorMax(tabuleiroRaiz, alpha, beta, true);
 
         Movimento melhorMovimento = AlphaBeta.utilidadeMovimentos.get(melhorUtilidade);
-
+        
+        System.out.println("Bestutilidade "+ melhorUtilidade +"  "+AlphaBeta.utilidadeMovimentos);
+        
         return melhorMovimento.getJogada();
     }
 
@@ -51,15 +58,6 @@ public class AlphaBeta {
 
         for (int cont = 0; cont < todosMovimentos.size(); cont++) {
             
-              if (isPrimeiraRecursao) {
-            
-                Movimento mov = todosMovimentos.get(cont);
-                System.out.println("Os1 " + mov.getPecaOrigem());
-                System.out.println("Ds1 " + mov.getPecaDestino());
-                System.out.println("s1 " + todosMovimentos.size());
-            
-        }
-            
             Movimento mov = todosMovimentos.get(cont);
             APeca[][] clonePosicoes = tabuleiro.clonePosicoes();
 
@@ -69,14 +67,9 @@ public class AlphaBeta {
             Tabuleiro novoEstadoTabuleiro = new Tabuleiro(clonePosicoes, tabuleiro.getReiOponente(), tabuleiro.getReiProprio());
             utilidade = Math.max(utilidade, AlphaBeta.valorMin(novoEstadoTabuleiro, alpha, beta));
 
-            // FAZER: Mapear o Movimento e a utilidade atual, quando a recursão for a Primeira Chamada
+            // Mapear o Movimento e a utilidade atual, quando a recursão for a Primeira Chamada
             if (isPrimeiraRecursao) {
                 AlphaBeta.utilidadeMovimentos.put(utilidade, mov);
-                System.out.println("O2 " + mov.getPecaOrigem());
-                System.out.println("D2 " + mov.getPecaDestino());
-//                System.out.println(utilidade);
-//
-                System.out.println("s2 " + todosMovimentos.size());
 
             }
 

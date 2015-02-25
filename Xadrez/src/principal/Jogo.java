@@ -59,7 +59,7 @@ public class Jogo {
         
 //        this.urlServidor = "http://xadrez.tigersoft.com.br:8109/datasnap/rest/"
 //                + "TXadrez/";
-        this.urlServidor = "http://192.168.1.104:8080/datasnap/rest/"
+        this.urlServidor = "http://10.5.0.47:8080/datasnap/rest/"
                + "TXadrez/";
 
         Jogo.tabuleiro = new Tabuleiro();
