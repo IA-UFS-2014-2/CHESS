@@ -801,7 +801,7 @@ public class Movimento {
             case 'R':
                 valido = isValidoMovimentoRei(tabuleiro, mov);
         }
-
+        // Aqui nao deveria retornar true?
         if (!valido) {
             return false;
         }
@@ -853,7 +853,8 @@ public class Movimento {
                         if (isMovimentoValido(tabuleiro, mov)) {
                             movimentos.add(mov);
                         }
-                        if (linha == 1) {
+                        //Linha estava como 1, substituir por 2
+                        if (linha == 2) {
                             mov = new Movimento(peca, tabuleiro.getPecaByPosicao(linha + 2, coluna));
                             if (isMovimentoValido(tabuleiro, mov)) {
                                 movimentos.add(mov);
