@@ -753,7 +753,7 @@ public class Movimento {
             }
             else
             {
-                if (!p.isVazia())
+                if (p != null && !p.isVazia())
                 {
                     break;
                 }
