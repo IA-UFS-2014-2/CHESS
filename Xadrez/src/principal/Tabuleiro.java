@@ -51,16 +51,16 @@ public class Tabuleiro {
         	//Se o rei for do jogador
         	if (Jogo.jogador.getNumeroJogador() == 1 && peca.getCor().equals("branca")) // numeroJogador = 1 => branca
         	{
-        		reiProprio = peca;
+        		this.reiProprio = peca;
         	}
         	else if (Jogo.jogador.getNumeroJogador() == 2 && peca.getCor().equals("preta")) // numeroJogador = 2 => preto
         	{
-        		reiProprio = peca;
+        		this.reiProprio = peca;
         	}
         	//Se o rei for do oponente
         	else
         	{
-        		reiOponente = peca;
+        		this.reiOponente = peca;
         	}
         }
         
