@@ -57,10 +57,12 @@ public class Jogo {
     public Jogo(int limiteProfundidade) {
         Jogo.jogador = new Jogador(limiteProfundidade);
         
-        this.urlServidor = "http://xadrez.tigersoft.com.br:8109/datasnap/rest/"
-                + "TXadrez/";
+//        this.urlServidor = "http://xadrez.tigersoft.com.br:8109/datasnap/rest/"
+//                + "TXadrez/";
+        this.urlServidor = "http://192.168.1.108:8080/datasnap/rest/"
+               + "TXadrez/";
 
-        this.tabuleiro = new Tabuleiro();
+        Jogo.tabuleiro = new Tabuleiro();
 
         Mensagem.put(100, "Nao Inicializado");
         Mensagem.put(101, "Esperando o Jogador 1");
@@ -210,7 +212,7 @@ public class Jogo {
                             //Esperando a sua Jogada
                                 //Entao o adversario ja fez sua jogada. Atualizamos assim nossa observaçao do tabuleiro
 
-                                this.tabuleiro.setTurno(Integer.parseInt(jsonObjCorrente.get("turno").toString()));
+                                Jogo.tabuleiro.setTurno(Integer.parseInt(jsonObjCorrente.get("turno").toString()));
 
                                 JSONArray jsonArrayPosicoes = (JSONArray) jsonObjCorrente.get("posicoes");
                                 
@@ -268,7 +270,7 @@ public class Jogo {
                                         }
                                         
                                         // ADD ao Tabuleiro
-                                        this.tabuleiro.incluirPeca(pecaCorrente);
+                                        Jogo.tabuleiro.incluirPeca(pecaCorrente);
 
                                     } else if (jsonObjPosicaoCorrente.has("ponto")) {
                                         JSONObject pontoCorrente = (JSONObject) jsonObjPosicaoCorrente.get("ponto");
@@ -277,7 +279,7 @@ public class Jogo {
                                         Posicao posicaoPontoVazio = new Posicao(x, y);
                                         APeca pontoVazioCorrente = new PontoVazio(posicaoPontoVazio);
                                         //ADD ao Tabuleiro
-                                        this.tabuleiro.incluirPeca(pontoVazioCorrente);
+                                        Jogo.tabuleiro.incluirPeca(pontoVazioCorrente);
                                     }
 
                                     // jsonObjCorrente.get("pecas_capturadas");
@@ -321,7 +323,7 @@ public class Jogo {
     }
 
     public void setTabuleiro(Tabuleiro tabuleiro) {
-        this.tabuleiro = tabuleiro;
+        Jogo.tabuleiro = tabuleiro;
     }
 
     public Map<Integer, String> getMensagem() {

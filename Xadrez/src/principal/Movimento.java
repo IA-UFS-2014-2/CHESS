@@ -567,6 +567,8 @@ public class Movimento {
         // Pegando a posição do Rei do Jogador. 
         APeca rei = Tabuleiro.getInstance().getReiProprio();
 
+        System.out.println("aa "+rei);
+        
         int linha = rei.getPosicao_atual().getX();
         int coluna = rei.getPosicao_atual().getY();
 
