@@ -34,11 +34,9 @@ public class Jogador {
         return pontuacao;
     }
 
-    public Movimento melhorJogada() {
-//        int alpha = -9999999;
-//        int beta = 9999999;
-        AlphaBeta.melhorJogada(Jogo.tabuleiro);
-        return null;
+    public Jogada melhorJogada() {
+        
+        return AlphaBeta.melhorJogada(Jogo.tabuleiro);
     }
     
     

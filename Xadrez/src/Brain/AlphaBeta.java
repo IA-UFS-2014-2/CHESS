@@ -32,7 +32,8 @@ public class AlphaBeta {
         int melhorUtilidade = AlphaBeta.valorMax(tabuleiroRaiz, alpha, beta, true);
         
         Movimento melhorMovimento = AlphaBeta.utilidadeMovimentos.get(melhorUtilidade);
-       
+        
+          
         return melhorMovimento.getJogada();
     }
 
@@ -72,6 +73,8 @@ public class AlphaBeta {
             }
 
             alpha = Math.max(utilidade, alpha);
+            
+            
         }
 
         

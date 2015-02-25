@@ -1015,8 +1015,11 @@ public class Movimento {
         return true;
     }
     
-    
+    // VERIFICAR PQ POSSUI JOGADAS INVÁLIDAS
     public Jogada getJogada(){
+        System.out.println("JOGADASSS " + this.pecaOrigem.getPosicao_atual().getX() +
+                "  " +this.pecaDestino.getPosicao_atual().getX());
+        
      return new Jogada(this.pecaOrigem.getPosicao_atual(), this.pecaDestino.getPosicao_atual());
     }
     
