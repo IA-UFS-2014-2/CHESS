@@ -1017,10 +1017,10 @@ public class Movimento {
     
     // VERIFICAR PQ POSSUI JOGADAS INVÁLIDAS
     public Jogada getJogada(){
-        System.out.println("JOGADASSS O: X1: " + this.pecaOrigem.getPosicao_atual().getX() +
-                "  Y1: " +this.pecaOrigem.getPosicao_atual().getY()
-                + " | D: X2 "+this.pecaDestino.getPosicao_atual().getX()
-        + " Y2:"+this.pecaDestino.getPosicao_atual().getY());
+//        System.out.println("JOGADASSS O: X1: " + this.pecaOrigem.getPosicao_atual().getX() +
+//                "  Y1: " +this.pecaOrigem.getPosicao_atual().getY()
+//                + " | D: X2 "+this.pecaDestino.getPosicao_atual().getX()
+//        + " Y2:"+this.pecaDestino.getPosicao_atual().getY());
         
      return new Jogada(this.pecaOrigem.getPosicao_atual(), this.pecaDestino.getPosicao_atual());
     }

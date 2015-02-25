@@ -12,7 +12,7 @@ import pecas.Posicao;
 public class Jogar {
 
     public static void main(String args[]) {
-        int profundidadePensamento = 3;
+        int profundidadePensamento = 1;
         Jogo jogo = new Jogo(profundidadePensamento);
         //jogo.reiniciarPartida();
         //E o jogador
