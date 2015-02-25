@@ -1025,11 +1025,11 @@ public class Movimento {
         Posicao posicaoAtual = jogada.getPosicao_atual();
         Posicao novaPosicao  = jogada.getNova_posicao();
         
-       APeca pecaPosicaoAtual = clonePosicoes[posicaoAtual.getX()][posicaoAtual.getY()];
-       clonePosicoes[posicaoAtual.getX()][posicaoAtual.getY()] = new PontoVazio(posicaoAtual);
+       APeca pecaPosicaoAtual = clonePosicoes[posicaoAtual.getX()-1][posicaoAtual.getY()-1];
+       clonePosicoes[posicaoAtual.getX()-1][posicaoAtual.getY()-1] = new PontoVazio(posicaoAtual);
        
        pecaPosicaoAtual.setPosicao_atual(novaPosicao);
-       clonePosicoes[novaPosicao.getX()][novaPosicao.getY()] = pecaPosicaoAtual;
+       clonePosicoes[novaPosicao.getX()-1][novaPosicao.getY()-1] = pecaPosicaoAtual;
        
        return clonePosicoes; 
     }
