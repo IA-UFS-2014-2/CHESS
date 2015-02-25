@@ -276,7 +276,7 @@ public class Movimento {
         else if (isPecaDestinoCapturavel(tabuleiro, mov)) {
             //Verificanda se a peça destino está na coluna a esquerda ou a direita da peça origem.
             if (mov.pecaOrigem.getPosicao_atual().getY() - 1 == mov.pecaDestino.getPosicao_atual().getY()//Coluna esquerda
-                    || mov.pecaOrigem.getPosicao_atual().getY() - 1 == mov.pecaDestino.getPosicao_atual().getY())//Coluna direita
+                    || mov.pecaOrigem.getPosicao_atual().getY() + 1 == mov.pecaDestino.getPosicao_atual().getY())//Coluna direita
             {
                 if (Jogo.jogador.getNumeroJogador() == 1) //Branco 
                 {

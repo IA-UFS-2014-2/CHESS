@@ -32,12 +32,12 @@ public class Tabuleiro {
 	{
 		this.posicoes = new APeca[8][8];
 	}
-        
+	
     public Tabuleiro(APeca[][] posicoes, Rei reiOponente, Rei reiProprio)
 	{
 		 this.posicoes = posicoes;
-                 this.reiOponente = reiOponente;
-                 this.reiProprio = reiProprio;
+         this.reiOponente = reiOponente;
+         this.reiProprio = reiProprio;
 	}
 	    
     public void incluirPeca(APeca peca){
