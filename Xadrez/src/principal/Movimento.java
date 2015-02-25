@@ -562,7 +562,8 @@ public class Movimento {
     /*
      * Função que verifica se o rei ficará salvo após realizar o movimento.
      */
-    public static boolean isReiSalvo(Tabuleiro tabuleiro, Movimento mov, String cor) {
+    public static boolean isReiSalvo(Tabuleiro tabuleiro, Movimento mov, String cor) 
+    {
         // Pegando a posição do Rei do Jogador. 
         APeca rei = Tabuleiro.getInstance().getReiProprio();
 
@@ -570,33 +571,39 @@ public class Movimento {
         int coluna = rei.getPosicao_atual().getY();
 
         // Verificando se tem algum Peão ameçando o Rei
-        if (Jogo.jogador.getNumeroJogador() == 1) // Branca 
+        if (Jogo.jogador.getNumeroJogador() == 2) // Preta 
         {
-            // aqui nao deveria retornar true? Pois exsite um peao ameacando?
             if ((tabuleiro.getPecaByPosicao(linha - 1, coluna - 1).getCor() != cor
                     && tabuleiro.getPecaByPosicao(linha - 1, coluna - 1) instanceof Peao)
                     || (tabuleiro.getPecaByPosicao(linha - 1, coluna + 1).getCor() != cor
-                    && tabuleiro.getPecaByPosicao(linha - 1, coluna + 1) instanceof Peao)) {
+                    && tabuleiro.getPecaByPosicao(linha - 1, coluna + 1) instanceof Peao)) 
+            {
                 return false;
             }
-        } else // Preta
+        } 
+        else // Branca
         {
             if ((tabuleiro.getPecaByPosicao(linha + 1, coluna - 1).getCor() != cor
                     && tabuleiro.getPecaByPosicao(linha + 1, coluna - 1) instanceof Peao)
                     || (tabuleiro.getPecaByPosicao(linha + 1, coluna + 1).getCor() != cor
-                    && tabuleiro.getPecaByPosicao(linha + 1, coluna + 1) instanceof Peao)) {
+                    && tabuleiro.getPecaByPosicao(linha + 1, coluna + 1) instanceof Peao)) 
+            {
                 return false;
             }
         }
-
         
-    // ADJACENT KING ILLEGALITY
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                if (i == 0 && j == 0) {
+        // Movimentos adjacente inválidos
+        // Rei do oponente ao redor
+        for (int i = -1; i < 2; i++) //Linha abaixo, mesma linha, e acima
+        {
+            for (int j = -1; j < 2; j++) //Coluna esqueda, mesma coluna, e direita
+            {
+                if (i == 0 && j == 0) 
+                {
                     continue;
                 }
-                if (tabuleiro.getPecaByPosicao(linha + 1, coluna + 1) instanceof Rei) {
+                if (tabuleiro.getPecaByPosicao(linha + i, coluna + j) instanceof Rei) 
+                {
                     return false;
                 }
             }
@@ -618,75 +625,113 @@ public class Movimento {
                 || (tabuleiro.getPecaByPosicao(linha - 2, coluna - 1).getCor() != cor
                 && tabuleiro.getPecaByPosicao(linha - 2, coluna - 1) instanceof Cavalo)
                 || (tabuleiro.getPecaByPosicao(linha - 2, coluna + 1).getCor() != cor
-                && tabuleiro.getPecaByPosicao(linha - 2, coluna + 1) instanceof Cavalo)) {
+                && tabuleiro.getPecaByPosicao(linha - 2, coluna + 1) instanceof Cavalo)) 
+        {
             return false;
         }
 
-        // Verificando se existem ameaças a esquerda na horizontal
-        if (tabuleiro.getPecaByPosicao(linha - 1, coluna) instanceof Rei) {
+        // Verificando se existem ameaças abaixo na vertical
+        // Rei
+        if (tabuleiro.getPecaByPosicao(linha - 1, coluna) instanceof Rei) 
+        {
             return false;
         }
-        for (int i = linha - 1; i >= 0; i--) {
+        // Torre e Rainha
+        // Percorre as linhas abaixo
+        for (int i = linha - 1; i >= 1; i--) 
+        {
             APeca p = tabuleiro.getPecaByPosicao(i, coluna);
-            if (p.getCor() != cor && (p instanceof Torre || p instanceof Rainha)) {
+            if (p.getCor() != cor && (p instanceof Torre || p instanceof Rainha))
+            {
                 return false;
-            } else {
-                if (!p.isVazia()) {
-                    break;
-                }
-            }
-        }
-
-        // Verificando se existem ameaças a direita na horizontal
-        if (tabuleiro.getPecaByPosicao(linha + 1, coluna) instanceof Rei) {
-            return false;
-        }
-        for (int i = linha + 1; i <= 7; i++) {
-            APeca p = tabuleiro.getPecaByPosicao(i, coluna);
-            if (p.getCor() != cor && (p instanceof Torre || p instanceof Rainha)) {
-                return false;
-            } else {
-                if (!p.isVazia()) {
+            } 
+            else 
+            {
+                if (!p.isVazia()) 
+                {
                     break;
                 }
             }
         }
 
         // Verificando se existem ameaças acima na vertical
-        if (tabuleiro.getPecaByPosicao(linha, coluna - 1) instanceof Rei) {
+        // Rei
+        // Percorre as linhas acima
+        if (tabuleiro.getPecaByPosicao(linha + 1, coluna) instanceof Rei) 
+        {
             return false;
         }
-        for (int i = coluna - 1; i >= 0; i--) {
-            APeca p = tabuleiro.getPecaByPosicao(linha, i);
-            if (p.getCor() != cor && (p instanceof Torre || p instanceof Rainha)) {
+        //Torre e Rainha
+        for (int i = linha + 1; i <= 7; i++)
+        {
+            APeca p = tabuleiro.getPecaByPosicao(i, coluna);
+            if (p.getCor() != cor && (p instanceof Torre || p instanceof Rainha)) 
+            {
                 return false;
-            } else {
-                if (!p.isVazia()) {
+            } 
+            else 
+            {
+                if (!p.isVazia()) 
+                {
                     break;
                 }
             }
         }
 
-		// Verificando se existem ameaças abaixo na vertical
-        //if(tabuleiro.getPecaByPosicao(row,col-1) instanceof Rei)return false; //TODO
-        if (tabuleiro.getPecaByPosicao(linha, coluna + 1) instanceof Rei) {
+        // Verificando se existem ameaças esquerda horizonal
+        // Rei
+        if (tabuleiro.getPecaByPosicao(linha, coluna - 1) instanceof Rei) 
+        {
             return false;
         }
-        for (int i = coluna + 1; i <= 7; i++) {
+        // Torre e Rainha
+        // Percorre as colunas a esqueda
+        for (int i = coluna - 1; i >= 1; i--) 
+        {
             APeca p = tabuleiro.getPecaByPosicao(linha, i);
-            if (p.getCor() != cor && (p instanceof Torre || p instanceof Rainha)) {
+            if (p.getCor() != cor && (p instanceof Torre || p instanceof Rainha))
+            {
                 return false;
-            } else {
-                if (!p.isVazia()) {
+            } 
+            else
+            {
+                if (!p.isVazia()) 
+                {
+                    break;
+                }
+            }
+        }
+
+		// Verificando se existem ameaças direita horizonatal        
+        if (tabuleiro.getPecaByPosicao(linha, coluna + 1) instanceof Rei) 
+        {
+            return false;
+        }
+     	// Torre e Rainha
+        // Percorre as colunas a esqueda
+        for (int i = coluna + 1; i <= 7; i++) 
+        {
+            APeca p = tabuleiro.getPecaByPosicao(linha, i);
+            if (p.getCor() != cor && (p instanceof Torre || p instanceof Rainha))
+            {
+                return false;
+            }
+            else 
+            {
+                if (!p.isVazia()) 
+                {
                     break;
                 }
             }
         }
 
         // Verificando se existem ameaças na diagonal
-        for (int x = -1; x < 2; x += 2) {
-            for (int y = -1; y < 2; y += 2) {
-                if (!isReiSalvoPelaDiagonal(tabuleiro, cor, coluna, linha, x, y)) {
+        for (int x = -1; x < 2; x += 2) //Linha abaixo, mesma linha, e acima
+        {
+            for (int y = -1; y < 2; y += 2) //Coluna esqueda, mesma coluna, e direita
+            {
+                if (!isReiSalvoPelaDiagonal(tabuleiro, cor, linha, coluna, x, y))
+                {
                     return false;
                 }
             }
@@ -696,16 +741,25 @@ public class Movimento {
     }
 
     // Verifica se o próprio rei não sofre nenhuma ameça diagonalmente  
-    public static boolean isReiSalvoPelaDiagonal(Tabuleiro tabuleiro, String cor, int coluna, int linha, int linhaX, int colunaY) {
-        if (tabuleiro.getPecaByPosicao(linha + linhaX, coluna + colunaY) instanceof Rei) {
+    public static boolean isReiSalvoPelaDiagonal(Tabuleiro tabuleiro, String cor, int linha,int coluna, int linhaX, int colunaY) 
+    {
+    	//Rei na diagonal
+        if (tabuleiro.getPecaByPosicao(linha + linhaX, coluna + colunaY) instanceof Rei) 
+        {
             return false;
         }
-        for (int i = 1; i <= 7; i++) {
+        //Bispo e Rainha em todas as peças da diagonais possíveis
+        for (int i = 1; i <= 8; i++) 
+        {
             APeca p = tabuleiro.getPecaByPosicao(linha + i * linhaX, coluna + i * colunaY);
-            if (p.getCor() != cor && (p instanceof Bispo || p instanceof Rainha)) {
+            if (p.getCor() != cor && (p instanceof Bispo || p instanceof Rainha)) 
+            {
                 return false;
-            } else {
-                if (!p.isVazia()) {
+            }
+            else
+            {
+                if (!p.isVazia())
+                {
                     break;
                 }
             }
